@@ -1,0 +1,151 @@
+{
+  "version": "2026-05-29",
+  "groups": [
+    {
+      "name": "IHH Healthcare",
+      "description": "亚洲最大医疗集团，总部新加坡",
+      "markets": [
+        {
+          "region": "新加坡",
+          "entities": [
+            {"name": "IHH Healthcare", "keywords": ["IHH Healthcare"], "website": "https://www.ihhhealthcare.com/"},
+            {"name": "Mount Elizabeth Hospital", "keywords": ["Mount Elizabeth Hospital Singapore"], "website": "https://www.mountelizabeth.com.sg/"},
+            {"name": "Parkway East Hospital", "keywords": ["Parkway East Hospital Singapore"], "website": "https://www.parkwayeast.com.sg/"}
+          ]
+        },
+        {
+          "region": "马来西亚",
+          "entities": [
+            {"name": "Pantai Hospitals", "keywords": ["Pantai Hospital Malaysia"], "website": "https://www.pantai.com.my/"},
+            {"name": "Gleneagles Kuala Lumpur", "keywords": ["Gleneagles Hospital Kuala Lumpur"], "website": "https://www.gleneagles.com.my/kuala-lumpur"},
+            {"name": "Subang Jaya Medical Centre", "keywords": ["Subang Jaya Medical Centre"], "website": "https://www.subangjayamedicalcentre.com/"},
+            {"name": "Island Hospital", "keywords": ["Island Hospital Malaysia"], "website": "https://www.islandhospital.com/", "newsweek_rank": "马来西亚 #7 (2026)", "note": "2024年被IHH收购"},
+            {"name": "Prince Court Medical Centre", "keywords": ["Prince Court Medical Centre"], "website": "https://www.princecourt.com/", "newsweek_rank": "马来西亚 #4 (2026)", "note": "IHH旗下"}
+          ]
+        },
+        {
+          "region": "印度",
+          "entities": [
+            {"name": "Fortis Healthcare", "keywords": ["Fortis Healthcare India"], "website": "https://www.fortishealthcare.com/"}
+          ]
+        },
+        {
+          "region": "土耳其",
+          "entities": [
+            {"name": "Acibadem Healthcare Group", "keywords": ["Acibadem Healthcare"], "website": "https://www.acibadem.com.tr/"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "泰国 Top 医疗集团",
+      "entities": [
+        {"name": "Bumrungrad International Hospital", "keywords": ["Bumrungrad Hospital"], "website": "https://www.bumrungrad.com/", "newsweek_rank": "泰国 #1 (2025)", "note": "独立上市"},
+        {"name": "Samitivej Hospitals", "keywords": ["Samitivej Hospital Thailand"], "website": "https://www.samitivejhospitals.com/", "newsweek_rank": "泰国 #2 (2025)"},
+        {"name": "Bangkok Hospital Group", "keywords": ["Bangkok Hospital Thailand"], "website": "https://www.bangkokhospital.com/", "newsweek_rank": "泰国 #5 (2025)", "group": "BDMS"},
+        {"name": "MedPark Hospital", "keywords": ["MedPark Hospital Bangkok"], "website": "https://www.medparkhospital.com/", "newsweek_rank": "泰国 #6 (2025)", "group": "BDMS"},
+        {"name": "BDMS (Bangkok Dusit Medical Services)", "keywords": ["BDMS Bangkok Dusit"], "website": "https://www.bdms.co.th/"},
+        {"name": "Thonburi Hospital", "keywords": ["Thonburi Hospital Bangkok"], "website": "https://www.thonburihospital.com/", "newsweek_rank": "泰国 #8 (2025)", "group": "Thonburi Healthcare Group"},
+        {"name": "Praram 9 Hospital", "keywords": ["Praram 9 Hospital"], "website": "https://www.praram9.com/", "newsweek_rank": "泰国 #9 (2025)", "note": "独立上市"},
+        {"name": "Phyathai Hospital Group", "keywords": ["Phyathai Hospital Bangkok"], "website": "https://www.phyathai.com/", "newsweek_rank": "泰国 #18, #20 (2025)", "group": "Phyathai-Paolo Hospital Group"}
+      ]
+    },
+    {
+      "name": "马来西亚其他 Top 医疗集团",
+      "entities": [
+        {"name": "Sunway Medical Centre", "keywords": ["Sunway Medical Centre Malaysia"], "website": "https://www.sunwaymedical.com/", "newsweek_rank": "马来西亚 #1 (2026)", "group": "Sunway Healthcare Group"},
+        {"name": "KPJ Healthcare", "keywords": ["KPJ Healthcare Malaysia"], "website": "https://www.kpjhealth.com.my/"},
+        {"name": "Mahkota Medical Centre", "keywords": ["Mahkota Medical Centre Malaysia"], "website": "https://www.mahkotamedical.com/", "newsweek_rank": "马来西亚 #12 (2026)", "group": "HMI Medical"}
+      ]
+    },
+    {
+      "name": "新加坡其他 Top 医疗集团",
+      "entities": [
+        {"name": "Raffles Medical Group", "keywords": ["Raffles Medical Singapore"], "website": "https://www.rafflesmedicalgroup.com/"},
+        {"name": "Singapore General Hospital", "keywords": ["Singapore General Hospital SGH"], "website": "https://www.sgh.com.sg/"}
+      ]
+    },
+    {
+      "name": "印度其他 Top 医疗集团",
+      "entities": [
+        {"name": "Apollo Hospitals", "keywords": ["Apollo Hospitals India"], "website": "https://www.apollohospitals.com/", "newsweek_rank": "印度 #5 (2025)"},
+        {"name": "Aster DM Healthcare", "keywords": ["Aster DM Healthcare"], "website": "https://www.asterdmhealthcare.com/"}
+      ]
+    }
+  ],
+  "news_sources": [
+    {
+      "name": "Healthcare Asia News",
+      "url": "https://www.healthcareasia.asia/",
+      "keywords": ["hospital", "healthcare", "medical tourism"]
+    },
+    {
+      "name": "Medical Tourism Association",
+      "url": "https://www.medicaltourismassociation.com/",
+      "keywords": ["medical tourism", "international patient"]
+    },
+    {
+      "name": "Hospital Management",
+      "url": "https://www.hospitalmanagement.net/",
+      "keywords": ["hospital", "healthcare management"]
+    },
+    {
+      "name": "Healthcare Global",
+      "url": "https://www.healthcareglobal.com/",
+      "keywords": ["healthcare", "hospital", "medical"]
+    }
+  ],
+  "search_config": {
+    "default_time_range": "1d",
+    "max_results_per_entity": 10,
+    "max_results_per_source": 5,
+    "search_provider": "firecrawl"
+  },
+  "sea_health_news": {
+    "description": "东南亚卫生健康动态",
+    "countries": [
+      {
+        "name": "新加坡",
+        "official_sources": ["MOH Singapore", "Channel NewsAsia", "Straits Times"],
+        "search_sites": ["moh.gov.sg", "channelnewsasia.com", "straitstimes.com"]
+      },
+      {
+        "name": "马来西亚",
+        "official_sources": ["KKM", "The Star", "Malay Mail"],
+        "search_sites": ["moh.gov.my", "thestar.com.my", "malaymail.com"]
+      },
+      {
+        "name": "泰国",
+        "official_sources": ["MOPH Thailand", "Bangkok Post", "The Nation"],
+        "search_sites": ["moph.go.th", "bangkokpost.com", "nationthailand.com"]
+      },
+      {
+        "name": "印尼",
+        "official_sources": ["Kemenkes RI", "Jakarta Post", "Kompas"],
+        "search_sites": ["kemkes.go.id", "thejakartapost.com", "kompas.com"]
+      },
+      {
+        "name": "越南",
+        "official_sources": ["MOH Vietnam", "VNExpress", "Tuoi Tre"],
+        "search_sites": ["moh.gov.vn", "vnexpress.net", "tuoitrenews.vn"]
+      },
+      {
+        "name": "菲律宾",
+        "official_sources": ["DOH Philippines", "Inquirer", "Rappler"],
+        "search_sites": ["doh.gov.ph", "inquirer.net", "rappler.com"]
+      },
+      {
+        "name": "印度",
+        "official_sources": ["MoHFW India", "ET HealthWorld", "Hindustan Times"],
+        "search_sites": ["mohfw.gov.in", "health.economictimes.indiatimes.com", "hindustantimes.com"]
+      }
+    ],
+    "keywords": [
+      "healthcare policy",
+      "health ministry",
+      "medical regulation",
+      "health insurance",
+      "hospital regulation"
+    ]
+  }
+}

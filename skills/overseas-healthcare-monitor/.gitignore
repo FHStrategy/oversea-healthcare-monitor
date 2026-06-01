@@ -1,0 +1,7 @@
+data/raw/
+data/parsed/
+.DS_Store
+deploy/gh-pages/
+__pycache__/
+*.pyc
+cron_*.log

@@ -1,0 +1,9 @@
+{
+  "app_id": "cli_a95f0946c5b95bde",
+  "app_secret": "mK3CksMJrl1GnB12CNcrrcsxeriIK7qY",
+  "spreadsheet_token": "CTnpsgOI4h5DmztzKIRcbW3Znc8",
+  "sheets": {
+    "info": "0wzUzh",
+    "hospitals": "a9e923"
+  }
+}
