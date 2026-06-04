@@ -483,7 +483,7 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-label">更新时间</span>
-                <span class="stat-value">2026年06月02日 09:57</span>
+                <span class="stat-value">2026年06月02日 14:30</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">监测范围</span>
@@ -523,7 +523,7 @@
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
                         </div>
-                        <span class="bar-count">2 条</span>
+                        <span class="bar-count">1 条</span>
                     </div>
 
                 </div>
@@ -545,15 +545,6 @@
 
                     <div class="ranking-item">
                         <span class="rank">2</span>
-                        <span class="entity-name">Subang Jaya Medical Centre</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">3</span>
                         <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
@@ -562,7 +553,7 @@
                     </div>
 
                     <div class="ranking-item">
-                        <span class="rank">4</span>
+                        <span class="rank">3</span>
                         <span class="entity-name">Apollo Hospitals</span>
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
@@ -571,12 +562,21 @@
                     </div>
 
                     <div class="ranking-item">
-                        <span class="rank">5</span>
+                        <span class="rank">4</span>
                         <span class="entity-name">Aster DM Healthcare</span>
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
                         </div>
                         <span class="bar-count">2 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">Mount Elizabeth Hospital</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
                     </div>
 
                 </div>
@@ -596,13 +596,13 @@
         <!-- 地图内的时间选择 -->
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMapTime('today', this)">
-                📅 今天 <span class="count">0</span>
+                📅 今天 <span class="count">1</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('last3days', this)">
                 📆 近3天 <span class="count">2</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('lastweek', this)">
-                📋 近1周 <span class="count">13</span>
+                📋 近1周 <span class="count">15</span>
             </button>
         </div>
         
@@ -614,10 +614,10 @@
                 <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
-            <div class="region-card no-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
+            <div class="region-card has-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
                 <div class="region-flag">🇸🇬</div>
                 <div class="region-name">新加坡</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+                <div class="region-count"><span class="count-num">1</span> 条动态</div>
             </div>
 
             <div class="region-card no-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
@@ -661,23 +661,40 @@
     
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('today', this)">
-            📅 今天 <span class="count">0</span>
+            📅 今天 <span class="count">1</span>
         </button>
         <button class="tab-btn" onclick="showTab('last3days', this)">
             📆 近3天 <span class="count">2</span>
         </button>
         <button class="tab-btn" onclick="showTab('lastweek', this)">
-            📋 近1周 <span class="count">13</span>
+            📋 近1周 <span class="count">15</span>
         </button>
     </div>
 
     <!-- 今天 -->
     <div id="tab-today" class="tab-content active">
         
-        <div class="empty-state">
-            <div class="icon">📭</div>
-            <div>暂无新闻动态</div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">1 条动态</span>
         </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">16 hours ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/health/9m-pilot-to-integrate-palliative-care-into-chronic-kidney-disease-treatment" target="_blank">$9m pilot initiative to integrate palliative care into chronic kidney disease treatment</a></h4>
+                <div class="news-summary">新加坡启动900万新元试点计划，将临终关怀融入慢性肾病治疗，挑战“默认透析”观念。</div>
+            </div>
+        </div>
+    </div>
 
     </div>
     
@@ -686,22 +703,35 @@
         
     <div class="group-section">
         <div class="group-header">
-            <h2>🇮🇳 印度</h2>
-            <span class="count">2 条动态</span>
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">1 条动态</span>
         </div>
 
-        <div class="entity-section">
+        <div class="entity-section sea-health-section">
             <div class="entity-header">
-                <h3>📍 Apollo Hospitals (2 条)</h3>
+                <h3>🌏 卫生动态 (1 条)</h3>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">Fri, 29 May 2026 11:16:00 GMT</span>
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">16 hours ago</span>
                 </div>
-                <h4 class="news-title"><a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQSkRvd29sSHVPb0N3cTVCSU1oSlVCUTd5cVFFeVBiVVR1bGJxZlNWamJNbW1iZHRCS2t2bElMT0JkQnB5RWRDNThFRkZwLWdBaU5RaE5yVVY2ZVU4SUdnY3RpNmkxQ0d2UGNYVWtKSEFiU250NjBhcDA2aHVwbjFkanFmMUVmVUt5alNTeGVZYzhLb0E?oc=5" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using Hugo RAS Platform via Lateral Approach</a></h4>
-                <div class="news-summary">阿波罗医院 Chennai 使用 Hugo RAS 平台完成全球首例机器人淋巴结切除癌手术。</div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/health/9m-pilot-to-integrate-palliative-care-into-chronic-kidney-disease-treatment" target="_blank">$9m pilot initiative to integrate palliative care into chronic kidney disease treatment</a></h4>
+                <div class="news-summary">新加坡启动900万新元试点计划，将临终关怀融入慢性肾病治疗，挑战“默认透析”观念。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Apollo Hospitals (1 条)</h3>
             </div>
 
             <div class="news-item">
@@ -709,8 +739,8 @@
                     <span class="entity-tag">Apollo Hospitals</span>
                     <span class="date-tag">2 days ago</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.aninews.in/videos/national/feels-like-50c-apollo-hospital-expert-explains-dangerous-impact-of-heat-humidity" target="_blank">‘Feels Like 50°C’: Apollo hospital expert explains dangerous impact of heat & humidity</a></h4>
-                <div class="news-summary">新德里专家警告，湿球温度达35°C将带来致命高温危害，呼吁加强防护措施。</div>
+                <h4 class="news-title"><a href="https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares" target="_blank">Apollo Hospitals Enterprise (NSEI:APOLLOHOSP) - Stock Analysis</a></h4>
+                <div class="news-summary">本文分析Apollo Hospitals Enterprise的财务状况、历史表现、估值及分红等信息。</div>
             </div>
         </div>
     </div>
@@ -737,7 +767,7 @@
                     <span class="date-tag">Wed, 27 May 2026 00:46:27 GMT</span>
                 </div>
                 <h4 class="news-title"><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxQM0QxazhTT2hwYWFycjlSeFoyU29OQzRGOEd2OXBwTHdfNjV4TUtUQ003aFQwVnNidkNzbndDNXBTUDFYZzI4d0c1OG1kLUJtY25sU1FQaTEyZGlUUEFQbHc0VDU3bVhqRVk0WE1TT3BtOHRuNE0xcUxqQUEyTTh4dnJ2aS1oY041emZTZjZ5VG1sbE11UDNUMnpjRThPOHU0TV9KeWp3YkNsR3V2M2dN?oc=5" target="_blank">IHH Healthcare embeds AI into workflows as adoption scales across hospitals</a></h4>
-                <div class="news-summary">IHH Healthcare将AI嵌入医院工作流程，推动AI在医疗领域的广泛应用。</div>
+                <div class="news-summary">IHH Healthcare将AI嵌入医院工作流程，推动AI在医疗机构的广泛应用。</div>
             </div>
 
             <div class="news-item">
@@ -768,7 +798,7 @@
                     <span class="date-tag">1 week ago</span>
                 </div>
                 <h4 class="news-title"><a href="https://business.inquirer.net/592017/health-care-beyond-borders-mount-elizabeth-raises-stake-in-ph" target="_blank">Health care beyond borders: Mount Elizabeth raises stake in PH</a></h4>
-                <div class="news-summary">Mount Elizabeth Hospital扩大在菲律宾投资，提升在马尼拉的办公场所，加强跨境医疗布局。</div>
+                <div class="news-summary">Mount Elizabeth Hospital扩大在菲律宾投资，提升在马尼拉的办公场所，加强其在该国的医疗影响力。</div>
             </div>
         </div>
 
@@ -782,17 +812,17 @@
                     <span class="entity-tag sea-tag">政策动态</span>
                     <span class="date-tag">1 week ago</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.thedailystar.net/health/news/the-new-prescription-technology-empathy-4182941" target="_blank">The new prescription - Technology with empathy</a></h4>
-                <div class="news-summary">新加坡医疗体系以高效和先进著称，但 Yong Yih Ming 指出，如今更需融入同理心，实现科技与人文关怀的结合。</div>
+                <h4 class="news-title"><a href="https://www.asiaone.com/lifestyle/how-much-are-health-screening-packages-singapore-comparing-public-and-private-hospitals" target="_blank">Cost of health screen packages in Singapore (2025): Public and private hospitals, clinics and more</a></h4>
+                <div class="news-summary">新加坡2025年健康筛查套餐价格公布，涵盖公立医院、私立医院及诊所，帮助民众及时发现疾病，降低医疗负担。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">5 days ago</span>
+                    <span class="date-tag">16 hours ago</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.expatriatehealthcare.com/best-hospitals-worldwide/" target="_blank">The World's Best Hospitals 2026: Top 10 Ranked (Newsweek Data)</a></h4>
-                <div class="news-summary">2026年《新闻周刊》全球最佳医院排名中，梅奥诊所位列第一，榜单涵盖32国2530家医院。</div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/health/9m-pilot-to-integrate-palliative-care-into-chronic-kidney-disease-treatment" target="_blank">$9m pilot initiative to integrate palliative care into chronic kidney disease treatment</a></h4>
+                <div class="news-summary">新加坡启动900万新元试点计划，将临终关怀融入慢性肾病治疗，挑战“默认透析”观念。</div>
             </div>
         </div>
     </div>
@@ -800,31 +830,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇲🇾 马来西亚</h2>
-            <span class="count">4 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Subang Jaya Medical Centre (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Subang Jaya Medical Centre</span>
-                    <span class="date-tag">Wed, 27 May 2026 06:48:41 GMT</span>
-                </div>
-                <h4 class="news-title"><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxQVW1FV2pQNmd2MkQ5WnNNRlFNamtyYUZWTV9Jc01HWk1DbzA1TGg0TEZfdjFKOTRIM0M1OG8waUl6YW5OY1dfQkxuVVdvanB4MlVlYXUybDJlS3BlbDR5Rl8zT0U0ZjhTVi1CTGlTampoTVBDemtoUnRlNk1YNnZ2WkVNX2lNVUZIa0hfWW5yelN5Nm9MMV9vdnZNNU93ZDMxQTdSUHBObmhwU3hrY1J0X1g1WVM4YVdGWkVJ0gHAAUFVX3lxTE9MUDNMcm12LW1URDlxdVo1dDVhT09nWW9oVnQ5Ti1SSjJtcF9pa3VMdUpKMklFX2NVYW5ZdlZnUm40bDJCaG43RFZEY0dkMmVkczQyNjJQSTNtZDNwMjF6QmN1bGx2VkhUZjNxakE1NHZpNFNFckhsamVmbVhsRU10X3NybmJ5eUJDbDNCcnNTNWhEcUo4NFFkTlY0WU5sT2lHTnB6clF4YzJQd3pxWVptbVRycmZSUU5nY05IbFdRYg?oc=5" target="_blank">New 500-bed Petaling Jaya Hospital to feature vertical design concept</a></h4>
-                <div class="news-summary">马来西亚拟建500床垂直设计的Petaling Jaya医院，提升医疗容量与效率。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Subang Jaya Medical Centre</span>
-                    <span class="date-tag">4 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/05/27/selangor-to-speed-up-construction-of-petaling-jaya-hospital-after-site-approval/" target="_blank">Selangor To Speed Up Construction Of Petaling Jaya Hospital After Site Approval</a></h4>
-                <div class="news-summary">雪兰莪将加速建设巴生再也医院，因卫生部已批准建设地点。</div>
-            </div>
+            <span class="count">2 条动态</span>
         </div>
 
         <div class="entity-section sea-health-section">
@@ -855,7 +861,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇹🇭 泰国</h2>
-            <span class="count">3 条动态</span>
+            <span class="count">2 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -881,27 +887,12 @@
                 <div class="news-summary">BDMS推动全球成果认证，提升医疗服务质量与国际认可度。</div>
             </div>
         </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">6 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.bangkokpost.com/learning/easy/3261068/doctor-in-coma-after-being-hit-by-british-motorcyclist" target="_blank">Doctor in coma after being hit by British motorcyclist</a></h4>
-                <div class="news-summary">一名医生在泰国 Koh Phangan 被英国摩托车手撞伤后陷入昏迷，该摩托车手经营旅游船服务。</div>
-            </div>
-        </div>
     </div>
 
     <div class="group-section">
         <div class="group-header">
             <h2>🇮🇳 印度</h2>
-            <span class="count">6 条动态</span>
+            <span class="count">5 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -923,8 +914,8 @@
                     <span class="entity-tag">Apollo Hospitals</span>
                     <span class="date-tag">2 days ago</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.aninews.in/videos/national/feels-like-50c-apollo-hospital-expert-explains-dangerous-impact-of-heat-humidity" target="_blank">‘Feels Like 50°C’: Apollo hospital expert explains dangerous impact of heat & humidity</a></h4>
-                <div class="news-summary">新德里专家警告，湿球温度达35°C将带来致命高温危害，呼吁加强防护措施。</div>
+                <h4 class="news-title"><a href="https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares" target="_blank">Apollo Hospitals Enterprise (NSEI:APOLLOHOSP) - Stock Analysis</a></h4>
+                <div class="news-summary">本文分析Apollo Hospitals Enterprise的财务状况、历史表现、估值及分红等信息。</div>
             </div>
         </div>
 
@@ -952,21 +943,6 @@
             </div>
         </div>
 
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Fortis Healthcare (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">Tue, 26 May 2026 11:52:08 GMT</span>
-                </div>
-                <h4 class="news-title"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNWVZUaWJ6NE5Ld1hkZEVwbUFSVFctT0JhNGk1VWZkclNVYkNkZ0lOYzVLdUpLakgzTVNDRDduT2F4akVHdzZGcXJmNUl3eFV0c1hGdG51czNMeUVPU2VWdTZoYWZ0ei1haE5fSXF0NHBranpWSEJQN0FSZndHVGpWcjJhNjdWckF4Nm0wTkpuQXljUHlrZG5SYlpyOEEzY2VKWDJhci0tTTBLWGtIVVZqSTR3WVFxUdIBuwFBVV95cUxOR1hZWDQ2NFoxYWE5Y3VCSFBxV29SSWtMSmtGMzhyNERIR1liWll3RFBOaVBqYk9Gd3pMRWpFMFNzdTF3UE92Wl9rSmRkYjF6NmNZazJtUHFrM2Jzd3gtVDEzaG1Ja0U4ZlhVV2Zab0E5LVBSbU9DZVRzaEw4dWQ1RlRVRzJsRXRFLXRrZktKeU1id3RISXJlWFdaNC1sLVJha29yYk43ZFU4c3NKU19KZnhjX2ljekl5X2dN?oc=5" target="_blank">Building India’s emergency care ecosystem: The next healthcare priority</a></h4>
-                <div class="news-summary">印度正将建设紧急护理体系作为下一阶段的医疗重点，以提升全国应急医疗响应能力。</div>
-            </div>
-        </div>
-
         <div class="entity-section sea-health-section">
             <div class="entity-header">
                 <h3>🌏 卫生动态 (1 条)</h3>
@@ -986,7 +962,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇹🇷 土耳其</h2>
-            <span class="count">2 条动态</span>
+            <span class="count">1 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -997,22 +973,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Acibadem Healthcare Group</span>
-                    <span class="date-tag">Mon, 25 May 2026 12:10:15 GMT</span>
-                </div>
-                <h4 class="news-title"><a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxQOUl3WWxlMm5vMkFwZURXOXU5dV9EX0h1a2psX2dHMThHNnlhbXM0MlRBSk4yOWhsSWlxNnI4Qnc5aFJmS3hFSUdZd1dmT1N5eHlfY3phem96WkJpUXFfSG1fclJLNVNUd1V5bDZSaksyMHZ5ZFA2VUk1WmtYQUptYzNVNHpmbXNPVGlielVnQVF1SmlYb3VOaEhNTzAybjZnZkhaRVk1a0VxX2ZGTW84anpwNVpEQWpuQVlTUnhRWFo2U00?oc=5" target="_blank">IHH CEO: Turkiye operations unaffected by Middle East conflict, growth intact</a></h4>
-                <div class="news-summary">IHH首席执行官表示，土耳其业务未受中东冲突影响，增长保持稳定。</div>
-            </div>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">6 days ago</span>
+                    <span class="date-tag">1 week ago</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.klsescreener.com/v2/news/view/1727591/ihh-ceo-turkiye-operations-unaffected-by-middle-east-conflict-growth-intact" target="_blank">IHH CEO: Turkiye operations unaffected by Middle East conflict, growth intact</a></h4>
                 <div class="news-summary">IHH医疗集团表示，土耳其业务未受中东冲突影响，医院运营正常，增长势头保持不变。</div>
@@ -1027,14 +988,14 @@
         const statsData = {
             today: { label: '今日动态', value: '0 家机构' },
             last3days: { label: '近3天动态', value: '1 家机构' },
-            lastweek: { label: '近1周动态', value: '8 家机构' }
+            lastweek: { label: '近1周动态', value: '6 家机构' }
         };
         
         // 各时间段的国家新闻数量
         const locationCounts = {
-            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            last3days: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 2, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            lastweek: {"IHH\u96c6\u56e2": 2, "\u65b0\u52a0\u5761": 1, "\u9a6c\u6765\u897f\u4e9a": 2, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 5, "\u571f\u8033\u5176": 1, "\u5176\u4ed6": 0}
+            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 1, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            last3days: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 1, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 1, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            lastweek: {"IHH\u96c6\u56e2": 2, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 2, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 5, "\u571f\u8033\u5176": 1, "\u5176\u4ed6": 0}
         };
         
         let currentView = 'list';
