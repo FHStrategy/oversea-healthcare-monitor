@@ -64,246 +64,467 @@
             font-weight: 700;
         }
         
-        /* 标签页 */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        /* 排行榜样式 */
+        .ranking-section {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #e3f2fd;
         }
-        .tab-btn {
-            padding: 10px 20px;
-            background: white;
-            border: 2px solid #003B83;
-            border-radius: 25px;
-            cursor: pointer;
+        .ranking-title {
+            color: #003B83;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ranking-item .rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .ranking-item .entity-name {
+            min-width: 180px;
+            color: #37474f;
             font-size: 14px;
             font-weight: 500;
+        }
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 200px;
+        }
+        .bar {
+            height: 100%;
+            background: linear-gradient(90deg, #003B83 0%, #0066E6 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .bar-count {
             color: #003B83;
-            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: right;
+        }
+        .ranking-empty {
+            color: #90a4ae;
+            font-size: 14px;
+            padding: 12px 0;
+        }
+        
+        /* 标签页样式 */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .tab-btn:hover {
-            background: #f0f5ff;
+            background: #e3f2fd;
+            color: #003B83;
         }
         .tab-btn.active {
             background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(0, 59, 131, 0.3);
         }
-        
-        /* 视图切换 */
-        .view-switcher {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .view-btn {
-            padding: 8px 16px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #666;
-            transition: all 0.2s;
-        }
-        .view-btn.active {
-            background: #003B83;
-            color: white;
-            border-color: #003B83;
-        }
-        
-        /* 新闻组 */
-        .group-section {
-            background: white;
+        .tab-btn .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 10px;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            font-size: 13px;
         }
-        .group-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e3f2fd;
+        .tab-btn.active .count {
+            background: rgba(255,255,255,0.25);
         }
-        .group-header h2 {
-            color: #003B83;
-            font-size: 18px;
-        }
-        .count {
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        /* 机构区块 */
-        .entity-section {
-            margin-bottom: 20px;
-        }
-        .entity-header h3 {
-            color: #0052B8;
-            font-size: 15px;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            border-left: 3px solid #0052B8;
-        }
-        
-        /* 新闻卡片 */
-        .news-item {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-left: 3px solid #003B83;
-            transition: all 0.2s;
-        }
-        .news-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(0,59,131,0.15);
-        }
-        .news-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-        .entity-tag {
+        .tab-btn:not(.active) .count {
             background: #e3f2fd;
             color: #003B83;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        .entity-tag.sea-tag {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .date-tag {
-            color: #666;
-            font-size: 11px;
-        }
-        .news-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-            line-height: 1.5;
-        }
-        .news-title a {
-            color: inherit;
-            text-decoration: none;
-        }
-        .news-title a:hover {
-            color: #003B83;
-        }
-        .news-summary {
-            color: #555;
-            font-size: 13px;
-            line-height: 1.6;
         }
         
-        /* 国家筛选提示 */
-        #country-filter {
+        .tab-content {
             display: none;
-            background: #fff3cd;
-            color: #856404;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            align-items: center;
-            gap: 10px;
         }
-        #country-filter.active {
-            display: flex;
-        }
-        #clear-filter {
-            background: #856404;
-            color: white;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
+        .tab-content.active {
+            display: block;
         }
         
-        /* 空状态 */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #666;
+            color: #546e7a;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .empty-state .icon {
             font-size: 48px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
         
-        /* 加载状态 */
-        .loading {
+        .group-section { margin-bottom: 25px; }
+        .group-header { 
+            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
+            color: white; 
+            padding: 16px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 43, 97, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .group-header h2 { font-size: 19px; font-weight: 600; }
+        .group-header .count { 
+            background: rgba(255,255,255,0.15); 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .entity-section { margin-left: 15px; margin-bottom: 20px; }
+        .sea-health-section { background: rgba(0, 59, 131, 0.03); border-radius: 8px; padding: 10px; margin-top: 10px; }
+        .sea-tag { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .entity-header { 
+            background: rgba(255,255,255,0.95); 
+            padding: 14px 20px; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            border-left: 5px solid #003B83;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .entity-header h3 { color: #003B83; font-size: 16px; font-weight: 600; }
+        .news-item { 
+            background: rgba(255,255,255,0.98); 
+            padding: 18px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 12px; 
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 59, 131, 0.08);
+            transition: all 0.2s ease;
+        }
+        .news-item:hover { 
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 59, 131, 0.2);
+            border-color: #0066E6;
+        }
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .entity-tag { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white; 
+            padding: 4px 14px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: 500;
+        }
+        .date-tag { color: #90a4ae; font-size: 12px; }
+        .news-title { 
+            font-size: 16px; 
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .news-title a { 
+            color: #003B83; 
+            text-decoration: none; 
+            font-weight: 600;
+        }
+        .news-title a:hover { 
+            color: #0052B8; 
+            text-decoration: underline; 
+        }
+        .news-summary { 
+            color: #546e7a; 
+            line-height: 1.7; 
+            font-size: 14px; 
+            background: #f8fafc; 
+            padding: 12px 16px; 
+            border-radius: 8px;
+            border-left: 3px solid #003B83;
+        }
+        
+        /* 地图视图样式 */
+        .view-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .view-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .view-btn:hover {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        .view-btn.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+        }
+        
+        .map-container {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .map-container.active {
+            display: block;
+        }
+        
+        .map-title {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            color: #003B83;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
         
-        /* 页脚 */
+        .map-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .map-tab {
+            padding: 10px 20px;
+            border: 2px solid #e3f2fd;
+            background: white;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .map-tab:hover {
+            border-color: #003B83;
+            color: #003B83;
+            background: #f8fafc;
+        }
+        .map-tab.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            border-color: #003B83;
+        }
+        .map-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .map-tab:not(.active) .count {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .region-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .region-card:hover {
+            transform: translateY(-5px);
+            border-color: #003B83;
+            box-shadow: 0 8px 25px rgba(0, 59, 131, 0.2);
+        }
+        .region-card.has-news {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .region-card.no-news {
+            opacity: 0.6;
+        }
+        .region-flag {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        .region-name {
+            color: #003B83;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .region-count {
+            color: #546e7a;
+            font-size: 13px;
+        }
+        .region-count span {
+            color: #003B83;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .country-filter {
+            display: none;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .country-filter.active {
+            display: flex;
+        }
+        .country-filter-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .country-filter-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .country-filter-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
         .footer {
             text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 12px;
+            padding: 25px;
+            color: #546e7a;
+            font-size: 14px;
             margin-top: 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        /* 响应式 */
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            h1 { font-size: 20px; padding: 15px 20px; }
-            .summary { padding: 15px; }
-            .summary-stats { gap: 20px; }
-            .tabs { gap: 5px; }
-            .tab-btn { padding: 8px 15px; font-size: 12px; }
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #546e7a;
+            background: white;
+            border-radius: 12px;
         }
     </style>
 </head>
 <body>
-    <h1>🌏 海外医疗集团动态监测</h1>
-    
+    <h1>🏥 海外医疗集团动态监测</h1>
     <div class="summary">
         <div class="summary-title">📊 数据概览</div>
         <div class="summary-stats">
             <div class="stat-item">
+                <span class="stat-label">更新时间</span>
+                <span class="stat-value" id="update-time">加载中...</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">监测范围</span>
+                <span class="stat-value">25 家机构</span>
+            </div>
+            <div class="stat-item">
                 <span class="stat-label" id="stat-label">今日动态</span>
                 <span class="stat-value" id="stat-value">-- 家机构</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">最后更新</span>
-                <span class="stat-value" id="update-time">--</span>
-            </div>
         </div>
+        <div id="ranking-container"></div>
     </div>
     
-    <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('today', this)">今天</button>
-        <button class="tab-btn" onclick="showTab('last3days', this)">近 3 天</button>
-        <button class="tab-btn" onclick="showTab('lastweek', this)">近 1 周</button>
+    <!-- 视图切换 -->
+    <div class="view-toggle">
+        <button class="view-btn active" onclick="switchView('list', this)">📋 列表视图</button>
+        <button class="view-btn" onclick="switchView('map', this)">🗺️ 地图视图</button>
     </div>
     
-    <div id="country-filter">
-        <span>筛选：<strong id="filter-name"></strong></span>
-        <button id="clear-filter" onclick="clearFilter()">清除筛选</button>
+    <!-- 地图视图 -->
+    <div id="map-view" class="map-container">
+        <div class="map-title">🌏 选择国家/地区查看动态</div>
+        <div class="map-tabs" id="map-tabs"></div>
+        <div class="region-grid" id="region-grid"></div>
     </div>
+    
+    <!-- 国家筛选提示 -->
+    <div id="country-filter" class="country-filter">
+        <span class="country-filter-name" id="filter-name">全部地区</span>
+        <button class="country-filter-close" onclick="clearFilter()">✕ 清除筛选</button>
+    </div>
+    
+    <div class="tabs" id="tabs"></div>
     
     <div id="news-container">
         <div class="loading">⏳ 加载中...</div>
     </div>
     
     <script>
-        // 国家旗帜映射
+        const LOCATION_ORDER = ["IHH集团", "新加坡", "马来西亚", "泰国", "印度", "土耳其", "其他"];
         const locationFlags = {
             "IHH集团": "🌐",
             "新加坡": "🇸🇬",
@@ -314,11 +535,10 @@
             "其他": "📍"
         };
         
-        const LOCATION_ORDER = ["IHH集团", "新加坡", "马来西亚", "泰国", "印度", "土耳其", "其他"];
-        
         let allData = null;
         let currentTab = 'today';
         let currentFilter = null;
+        let currentView = 'list';
         
         // 加载数据
         async function loadData() {
@@ -326,11 +546,10 @@
                 const response = await fetch('data.json?t=' + Date.now());
                 allData = await response.json();
                 
-                // 更新时间
-                document.getElementById('update-time').textContent = 
-                    allData.update_time || new Date().toLocaleDateString('zh-CN');
+                document.getElementById('update-time').textContent = allData.update_time || '--';
                 
-                renderNews();
+                initUI();
+                renderAll();
             } catch (error) {
                 document.getElementById('news-container').innerHTML = 
                     '<div class="empty-state"><div class="icon">⚠️</div><div>数据加载失败</div></div>';
@@ -338,16 +557,57 @@
             }
         }
         
-        // 时间判断
+        // 初始化 UI
+        function initUI() {
+            // 初始化标签页
+            const counts = countByTime();
+            document.getElementById('tabs').innerHTML = `
+                <button class="tab-btn active" onclick="showTab('today', this)">
+                    📅 今天 <span class="count">${counts.today}</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('last3days', this)">
+                    📆 近3天 <span class="count">${counts.last3days}</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('lastweek', this)">
+                    📋 近1周 <span class="count">${counts.lastweek}</span>
+                </button>
+            `;
+            
+            // 初始化地图标签
+            document.getElementById('map-tabs').innerHTML = `
+                <button class="map-tab active" onclick="selectMapTime('today', this)">
+                    📅 今天 <span class="count">${counts.today}</span>
+                </button>
+                <button class="map-tab" onclick="selectMapTime('last3days', this)">
+                    📆 近3天 <span class="count">${counts.last3days}</span>
+                </button>
+                <button class="map-tab" onclick="selectMapTime('lastweek', this)">
+                    📋 近1周 <span class="count">${counts.lastweek}</span>
+                </button>
+            `;
+            
+            // 初始化地区卡片
+            renderRegionGrid();
+        }
+        
+        // 按时间计数
+        function countByTime() {
+            const institutions = allData?.institutions || [];
+            const sea = allData?.sea_health || [];
+            const all = [...institutions, ...sea];
+            
+            return {
+                today: all.filter(i => getTimeCategory(i.date) === 'today').length,
+                last3days: all.filter(i => ['today', 'last3days'].includes(getTimeCategory(i.date))).length,
+                lastweek: all.length
+            };
+        }
+        
+        // 时间分类
         function getTimeCategory(dateStr) {
             if (!dateStr) return 'lastweek';
             
-            const now = new Date();
-            let date;
-            
-            // 解析不同日期格式
             if (dateStr.includes('ago')) {
-                // "2 days ago", "1 week ago" 等
                 const match = dateStr.match(/(\d+)\s*(day|days|week|weeks|hour|hours)/);
                 if (match) {
                     const num = parseInt(match[1]);
@@ -357,37 +617,29 @@
                     if (unit.includes('day') && num <= 3) return 'last3days';
                     return 'lastweek';
                 }
-            } else {
-                date = new Date(dateStr);
-                if (isNaN(date)) return 'lastweek';
             }
             
-            if (!date) return 'lastweek';
+            const date = new Date(dateStr);
+            if (isNaN(date)) return 'lastweek';
             
+            const now = new Date();
             const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
             if (diffDays <= 0) return 'today';
             if (diffDays <= 3) return 'last3days';
             return 'lastweek';
         }
         
-        // 按时间段分组
+        // 按时间过滤
         function filterByTime(items, timeKey) {
             if (!items) return [];
-            
             if (timeKey === 'lastweek') return items;
             if (timeKey === 'last3days') {
-                return items.filter(item => {
-                    const cat = getTimeCategory(item.date);
-                    return cat === 'today' || cat === 'last3days';
-                });
+                return items.filter(i => ['today', 'last3days'].includes(getTimeCategory(i.date)));
             }
-            if (timeKey === 'today') {
-                return items.filter(item => getTimeCategory(item.date) === 'today');
-            }
-            return items;
+            return items.filter(i => getTimeCategory(i.date) === 'today');
         }
         
-        // 按国家分组
+        // 按地区分组
         function groupByLocation(items) {
             const grouped = {};
             for (const item of items || []) {
@@ -400,25 +652,24 @@
             return grouped;
         }
         
-        // 渲染新闻
+        // 渲染所有内容
+        function renderAll() {
+            renderNews();
+            renderRanking();
+            updateStats();
+            updateMapData();
+        }
+        
+        // 渲染新闻列表
         function renderNews() {
-            if (!allData) return;
-            
-            const institutions = filterByTime(allData.institutions, currentTab);
-            const seaHealth = filterByTime(allData.sea_health, currentTab);
+            const institutions = filterByTime(allData?.institutions, currentTab);
+            const sea = filterByTime(allData?.sea_health, currentTab);
             
             const grouped = groupByLocation(institutions);
-            const seaGrouped = groupSeaByLocation(seaHealth);
+            const seaGrouped = groupByLocation(sea);
             
-            // 统计
-            const uniqueEntities = new Set(institutions.map(i => i.entity_name));
-            document.getElementById('stat-label').textContent = 
-                currentTab === 'today' ? '今日动态' : 
-                currentTab === 'last3days' ? '近3天动态' : '近1周动态';
-            document.getElementById('stat-value').textContent = uniqueEntities.size + ' 家机构';
-            
-            // 渲染
             let html = '';
+            
             for (const location of LOCATION_ORDER) {
                 const locData = grouped[location];
                 const seaItems = seaGrouped[location] || [];
@@ -429,7 +680,6 @@
                 const totalItems = Object.values(entities).flat().length + seaItems.length;
                 const flag = locationFlags[location] || '📍';
                 
-                // 筛选过滤
                 if (currentFilter && currentFilter !== location) continue;
                 
                 html += `
@@ -466,7 +716,7 @@
                 // 东南亚卫生动态
                 if (seaItems.length > 0) {
                     html += `
-                        <div class="entity-section">
+                        <div class="entity-section sea-health-section">
                             <div class="entity-header">
                                 <h3>🌏 卫生动态 (${seaItems.length} 条)</h3>
                             </div>
@@ -496,15 +746,164 @@
             document.getElementById('news-container').innerHTML = html;
         }
         
-        // 东南亚动态按国家分组
-        function groupSeaByLocation(items) {
-            const grouped = {};
-            for (const item of items || []) {
-                const loc = item.sea_country || item.location || '其他';
-                if (!grouped[loc]) grouped[loc] = [];
-                grouped[loc].push(item);
+        // 渲染排行榜
+        function renderRanking() {
+            const institutions = filterByTime(allData?.institutions, currentTab);
+            
+            // 统计机构数量
+            const entityCounts = {};
+            for (const item of institutions) {
+                const entity = item.entity_name || '未知';
+                entityCounts[entity] = (entityCounts[entity] || 0) + 1;
             }
-            return grouped;
+            
+            // 排序取前5
+            const sorted = Object.entries(entityCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            const maxCount = sorted[0]?.[1] || 1;
+            
+            const tabNames = { today: '今日', last3days: '近3天', lastweek: '近1周' };
+            
+            let html = `<div class="ranking-section">
+                <div class="ranking-title">📈 ${tabNames[currentTab]}机构动态排行</div>`;
+            
+            if (sorted.length === 0) {
+                html += '<div class="ranking-empty">暂无动态</div>';
+            } else {
+                html += '<div class="ranking-list">';
+                sorted.forEach(([name, count], idx) => {
+                    const pct = (count / maxCount) * 100;
+                    html += `
+                        <div class="ranking-item">
+                            <span class="rank">${idx + 1}</span>
+                            <span class="entity-name">${name}</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: ${pct}%"></div>
+                            </div>
+                            <span class="bar-count">${count} 条</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            document.getElementById('ranking-container').innerHTML = html;
+        }
+        
+        // 更新统计
+        function updateStats() {
+            const institutions = filterByTime(allData?.institutions, currentTab);
+            const uniqueEntities = new Set(institutions.map(i => i.entity_name));
+            
+            const tabNames = { today: '今日动态', last3days: '近3天动态', lastweek: '近1周动态' };
+            
+            document.getElementById('stat-label').textContent = tabNames[currentTab];
+            document.getElementById('stat-value').textContent = uniqueEntities.size + ' 家机构';
+        }
+        
+        // 渲染地区卡片
+        function renderRegionGrid() {
+            const counts = countByLocation('today');
+            let html = '';
+            
+            for (const loc of LOCATION_ORDER) {
+                const flag = locationFlags[loc] || '📍';
+                const count = counts[loc] || 0;
+                const hasNews = count > 0 ? 'has-news' : 'no-news';
+                
+                html += `
+                    <div class="region-card ${hasNews}" data-location="${loc}" onclick="filterByLocation('${loc}')">
+                        <div class="region-flag">${flag}</div>
+                        <div class="region-name">${loc}</div>
+                        <div class="region-count"><span class="count-num">${count}</span> 条动态</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('region-grid').innerHTML = html;
+        }
+        
+        // 按地区统计
+        function countByLocation(timeKey) {
+            const institutions = filterByTime(allData?.institutions, timeKey);
+            const sea = filterByTime(allData?.sea_health, timeKey);
+            const all = [...institutions, ...sea];
+            
+            const counts = {};
+            for (const item of all) {
+                const loc = item.location || '其他';
+                counts[loc] = (counts[loc] || 0) + 1;
+            }
+            return counts;
+        }
+        
+        // 更新地图数据
+        function updateMapData() {
+            const counts = countByLocation(currentTab);
+            document.querySelectorAll('.region-card').forEach(card => {
+                const loc = card.getAttribute('data-location');
+                const count = counts[loc] || 0;
+                card.querySelector('.count-num').textContent = count;
+                card.classList.remove('has-news', 'no-news');
+                card.classList.add(count > 0 ? 'has-news' : 'no-news');
+            });
+        }
+        
+        // 切换视图
+        function switchView(view, btn) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (view === 'map') {
+                document.getElementById('map-view').classList.add('active');
+                document.getElementById('news-container').style.display = 'none';
+                document.getElementById('tabs').style.display = 'none';
+                document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+                document.querySelector(`.map-tab[onclick*="${currentTab}"]`).classList.add('active');
+                updateMapData();
+            } else {
+                document.getElementById('map-view').classList.remove('active');
+                document.getElementById('news-container').style.display = 'block';
+                document.getElementById('tabs').style.display = 'flex';
+            }
+        }
+        
+        // 地图内时间选择
+        function selectMapTime(tabName, btn) {
+            currentTab = tabName;
+            document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            updateMapData();
+        }
+        
+        // 按国家筛选
+        function filterByLocation(location) {
+            currentFilter = location;
+            
+            // 切换到列表视图
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            document.querySelector('.view-btn').classList.add('active');
+            document.getElementById('map-view').classList.remove('active');
+            document.getElementById('news-container').style.display = 'block';
+            document.getElementById('tabs').style.display = 'flex';
+            
+            // 同步时间选择
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.tab-btn[onclick*="${currentTab}"]`).classList.add('active');
+            
+            // 显示筛选提示
+            document.getElementById('country-filter').classList.add('active');
+            document.getElementById('filter-name').textContent = location + ' 动态';
+            
+            renderAll();
+        }
+        
+        // 清除筛选
+        function clearFilter() {
+            currentFilter = null;
+            document.getElementById('country-filter').classList.remove('active');
+            renderAll();
         }
         
         // 切换标签
@@ -512,14 +911,8 @@
             currentTab = tabName;
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             btn.classList.add('active');
-            renderNews();
-        }
-        
-        // 清除筛选
-        function clearFilter() {
-            currentFilter = null;
-            document.getElementById('country-filter').classList.remove('active');
-            renderNews();
+            renderAll();
+            if (currentFilter) clearFilter();
         }
         
         // 初始化
