@@ -1,233 +1,705 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>海外医疗动态 - 2026-06-04</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海外医疗动态监测 - 2026-06-04</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
-        h1 { color: #003B83; border-bottom: 2px solid #003B83; padding-bottom: 10px; }
-        .stats { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .news-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .news-item h3 { margin: 0 0 10px 0; color: #333; }
-        .news-item a { color: #003B83; text-decoration: none; }
-        .news-item a:hover { text-decoration: underline; }
-        .meta { color: #666; font-size: 14px; }
-        .tag { display: inline-block; background: #e3f2fd; color: #003B83; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); 
+            min-height: 100vh;
+            color: #333;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        .header { 
+            background: linear-gradient(135deg, #003B83 0%, #0056b3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,59,131,0.3);
+        }
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header .stats { opacity: 0.9; font-size: 16px; }
+        .header .stats span { margin-right: 20px; }
+        
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn {
+            background: white;
+            border: 2px solid #003B83;
+            color: #003B83;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { background: #e3f2fd; }
+        .tab-btn.active { background: #003B83; color: white; }
+        .tab-btn .count { 
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 5px;
+            font-size: 13px;
+        }
+        .tab-btn.active .count { background: rgba(255,255,255,0.3); }
+        
+        /* Location Filter */
+        .location-filter { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            flex-wrap: wrap;
+        }
+        .location-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .location-btn:hover { border-color: #003B83; color: #003B83; }
+        .location-btn.active { background: #e3f2fd; border-color: #003B83; color: #003B83; }
+        
+        /* News Sections */
+        .news-section { display: none; }
+        .news-section.active { display: block; }
+        
+        .country-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .country-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .country-header h2 { font-size: 18px; color: #003B83; }
+        .country-header .count { color: #666; font-size: 14px; }
+        
+        .entity-group { padding: 10px 20px; border-bottom: 1px solid #f0f0f0; }
+        .entity-group:last-child { border-bottom: none; }
+        .entity-title { font-size: 16px; color: #333; margin-bottom: 10px; font-weight: 600; }
+        
+        .news-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .news-item:last-child { border-bottom: none; }
+        .news-item a {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            line-height: 1.5;
+            display: block;
+        }
+        .news-item a:hover { color: #003B83; }
+        .news-item .meta { color: #999; font-size: 13px; margin-top: 5px; }
+        .news-item .tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #003B83;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 22px; }
+            .tabs { gap: 8px; }
+            .tab-btn { padding: 10px 16px; font-size: 14px; }
+        }
     </style>
 </head>
 <body>
-    <h1>🏥 海外医疗动态监测</h1>
-    <div class="stats">
-        <strong>📅 2026-06-04</strong> | 
-        <strong>📰 39 条新闻</strong>
-    </div>
-<h2>Acibadem Healthcare Group (1 条)</h2>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 海外医疗动态监测</h1>
+            <div class="stats">
+                <span>📅 2026-06-04</span>
+                <span>📰 39 条动态</span>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('today', this)">
+                📅 今天 <span class="count">18</span>
+            </button>
+            <button class="tab-btn" onclick="showTab('last3days', this)">
+                📆 近3天 <span class="count">23</span>
+            </button>
+            <button class="tab-btn" onclick="showTab('lastweek', this)">
+                📋 近1周 <span class="count">39</span>
+            </button>
+        </div>
+        
+        <div class="location-filter" id="locationFilter">
+            <button class="location-btn active" onclick="filterLocation('all', this)">全部地区</button>
+            <button class="location-btn" onclick="filterLocation('新加坡', this)">🇸🇬 新加坡</button>
+            <button class="location-btn" onclick="filterLocation('马来西亚', this)">🇲🇾 马来西亚</button>
+            <button class="location-btn" onclick="filterLocation('泰国', this)">🇹🇭 泰国</button>
+            <button class="location-btn" onclick="filterLocation('印度', this)">🇮🇳 印度</button>
+            <button class="location-btn" onclick="filterLocation('土耳其', this)">🇹🇷 土耳其</button>
+        </div>
+<div class="news-section active" id="today">
 
-    <div class="news-item">
-        <h3><a href="https://www.klsescreener.com/v2/news/view/1727591/ihh-ceo-turkiye-operations-unaffected-by-middle-east-conflict-growth-intact" target="_blank">IHH CEO: Turkiye operations unaffected by Middle East conflict, growth intact</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
-<h2>Apollo Hospitals (8 条)</h2>
+        <div class="country-section" data-country="新加坡">
+            <div class="country-header">
+                <h2>🇸🇬 新加坡</h2>
+                <span class="count">7 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQSkRvd29sSHVPb0N3cTVCSU1oSlVCUTd5cVFFeVBiVVR1bGJxZlNWamJNbW1iZHRCS2t2bElMT0JkQnB5RWRDNThFRkZwLWdBaU5RaE5yVVY2ZVU4SUdnY3RpNmkxQ0d2UGNYVWtKSEFiU250NjBhcDA2aHVwbjFkanFmMUVmVUt5alNTeGVZYzhLb0E?oc=5" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a></h3>
-        <div class="meta">Fri, 29 May 2026 11:16:00 GMT</div>
-    </div>
+            <div class="entity-group">
+                <div class="entity-title">📍 IHH Healthcare (7 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxPUG13bVlST1VPblJyaEN0R2d3STFra0U2SExYcHVIMXhIbGpVOHJSRjRxZ3Y0VHFlT0xDNTQ4a2JQX3o2OWNzMVdnd2ZaY1pEOFhjLWJqMXF0TTk5cHhvV1c3S1U4bmpVUXBaUmZkZWt5S1JNSy1FTjR5WDJDUF8xUEgzTF9yN25ud0hKeUR0VHgwTG4zUzVXY2cydFhyd01FVWNlRWp6NUxFLUdWLVNBUERQOGUzQm1nYUpIdEtDOUlhdXhGaGtQeWMzODNmQmNOV3dXc0E0Tklad0lEOHlkWktiUV9IYkwybXNj0gHwAUFVX3lxTFBNSUxTcHFPMVQ2THZ2ZDJPTFpXY3NhV1FSSnFJRnBvX1Y0dTQ0QWw2WWg0TGpTZmJrX0J4aDdNYnlkVFBjT3VONDdyZWJEZDdPOFNkaGt3bkV4QTVoclEyYUJRcjRhNGk1Z29xdTFPXzhqSUM5a0dNaHUxbmJ2ZEpERVNWNmR1Y3Nwei1OS0tielNmOGhXS1ZVT1hzMU5tS3lFcjBzN2tXamdNQU94V2luekFaQzR6ako4SEgtUzNmeVBGYTUtcVNxVnZSV0o0cG5EbEhxaWNMSWtCVjZ2LXFhbGZLS2FZLTlSS0kybDI0Mw?oc=5" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a></h3>
-        <div class="meta">Fri, 29 May 2026 03:51:05 GMT</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPZklIa3dLd2xCM21EcUpMWDE5TmsxNlhLcWVJUWVORFZtTnNKaUxzZlp4SDVJNUNiYmlVOXZiVktYU2RQc0tPNWI4TnlkMndHRXJVbnlfSUR1bVFoeFRMTEVtTlhQOTAxLVpjeVRoWXYxU2p5SzlWODdQRjVUSldDRnM5Z1ZkRmRnMjdXTl9Wa3AtRTY0MmdWdDJ1cnZzb01MelVMNg?oc=5" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">Sat, 30 May 2026 00:41:00 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.reuters.com/business/healthcare-pharmaceuticals/indias-apollo-hospitals-quarterly-profit-rises-strong-demand-complex-procedures-2026-05-20/" target="_blank">India's Apollo Hospitals posts higher quarterly profit, divests fertility business</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQdjIxZkZoMEtTZ1ZFYlBwT0lUdFJ2cm5IVy1zcFNucVVuZHkyOWE2YmpLeldJYU4xcVFtZ0QyMkNaZ1dBOUtjS0tkSHBRSDVobjVUZFJyN0p3TnpENHRFMERxaXlxaTBpeEI1a2k4MWdTSWNSWjJzejZ0YnZPNVVpbUVMSXFZbnVjQkt5WEhGZTE4c2tLbi16WkZOZzlFS0JqbkE?oc=5" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a>
+                    <div class="meta">Thu, 28 May 2026 01:05:00 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://sg.finance.yahoo.com/news/apollo-hospitals-chennai-performs-worlds-111600882.html" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/sectors/healthcare/articles/ihh-healthcare-berhad-just-missed-004149815.html" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">2 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://m.economictimes.com/news/india/every-organ-will-be-affected-apollo-hospitals-expert-warns-of-dangerous-heat-humidity-impact/videoshow/131381401.cms" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/sectors/healthcare/articles/think-more-issues-ihh-healthcare-030510379.html" target="_blank">We Think That There Are More Issues For IHH Healthcare Berhad (KLSE:IHH) Than Just Sluggish Earnings</a>
+                    <div class="meta">1 day ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.aninews.in/videos/national/feels-like-50c-apollo-hospital-expert-explains-dangerous-impact-of-heat-humidity" target="_blank">‘Feels Like 50°C’: Apollo hospital expert explains dangerous impact of heat & humidity</a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://healthcareasiamagazine.com/healthcare/news/ihh-earnings-edge-higher-in-q1-despite-currency-headwinds" target="_blank">IHH earnings edge higher in Q1 despite currency headwinds</a>
+                    <div class="meta">2 hours ago</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.prnewswire.com/in/news-releases/apollo-hospitals-chennai-performs-worlds-first-robotic-cancer-surgery-for-lymph-node-removal-using-hugo-ras-platform-via-lateral-approach-302785576.html" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a></h3>
-        <div class="meta">3 days ago</div>
-    </div>
+        <div class="country-section" data-country="马来西亚">
+            <div class="country-header">
+                <h2>🇲🇾 马来西亚</h2>
+                <span class="count">1 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares" target="_blank">Apollo Hospitals Enterprise (NSEI:APOLLOHOSP) - Stock Analysis</a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
-<h2>Aster DM Healthcare (3 条)</h2>
+            <div class="entity-group">
+                <div class="entity-title">📍 Sunway Medical Centre (1 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://finance.yahoo.com/markets/stocks/articles/aster-dm-healthcare-nsei-asterdm-161427194.html" target="_blank">How The Aster DM Healthcare (NSEI:ASTERDM) Narrative Is Shifting With New Valuation Assumptions</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://bernama.com/en/general/news.php?id=2563891" target="_blank">Sunway Medical Centre Penang Opens Advanced Orthopaedic, Spine Centre</a>
+                    <div class="meta">18 hours ago</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.marketsmojo.com/news/stock-recommendation/aster-dm-healthcare-ltd-is-rated-hold-4016626" target="_blank">Aster DM Healthcare Ltd is Rated Hold</a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
+        <div class="country-section" data-country="泰国">
+            <div class="country-header">
+                <h2>🇹🇭 泰国</h2>
+                <span class="count">2 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://scanx.trade/stock-market-news/companies/aster-dm-healthcare-to-host-investor-meets-in-hong-kong-singapore/42016424" target="_blank">Aster DM Healthcare to host investor meets in Hong Kong, Singapore</a></h3>
-        <div class="meta">21 hours ago</div>
-    </div>
-<h2>BDMS (Bangkok Dusit Medical Services) (3 条)</h2>
+            <div class="entity-group">
+                <div class="entity-title">📍 BDMS (Bangkok Dusit Medical Services) (1 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNNm9LX3RyZUtnaXMwbHVoaVFDTUF5eGRfd3A5THBjckw1QTRmcnMtTFBfTjAtWUFRQ21SdWZMSjg2WVpDV1Q2QXd1a1pNck5vcUg1T09kdUZzZVBsQV9PQk1UTVJhLW1ydFFVTHBfRVFiZ05oWG1zcjA5OVpfU2FJZC10czJhX3B5S0YwNTljRDZyRkhPTHE5N0FCYlI?oc=5" target="_blank">BDMS promotes global outcome certifications</a></h3>
-        <div class="meta">Thu, 28 May 2026 18:01:00 GMT</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNNm9LX3RyZUtnaXMwbHVoaVFDTUF5eGRfd3A5THBjckw1QTRmcnMtTFBfTjAtWUFRQ21SdWZMSjg2WVpDV1Q2QXd1a1pNck5vcUg1T09kdUZzZVBsQV9PQk1UTVJhLW1ydFFVTHBfRVFiZ05oWG1zcjA5OVpfU2FJZC10czJhX3B5S0YwNTljRDZyRkhPTHE5N0FCYlI?oc=5" target="_blank">BDMS promotes global outcome certifications</a>
+                    <div class="meta">Thu, 28 May 2026 18:01:00 GMT</div>
+                </div>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.tradingview.com/news/reuters.com,2026:newsml_FWN42311Y:0-bangkok-dusit-medical-services-appoints-piyasakol-sakolsatayadorn-as-additional-vice-chairman/" target="_blank">Bangkok Dusit Medical Services Appoints Piyasakol Sakolsatayadorn As Additional Vice Chairman</a></h3>
-        <div class="meta">4 days ago</div>
-    </div>
+            <div class="entity-group">
+                <div class="entity-title">📍 Bangkok Hospital Group (1 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://www.bangkokpost.com/business/general/3262560/bdms-promotes-global-outcome-certifications" target="_blank">BDMS promotes global outcome certifications</a></h3>
-        <div class="meta">3 days ago</div>
-    </div>
-<h2>Bangkok Hospital Group (1 条)</h2>
+                <div class="news-item">
+                    <a href="https://mshale.com/2969b6da/dad17872Ll74OMKnbaQ" target="_blank">King And Queen Visit Princess Bajrakitiyabha At A Bangkok Hospital After She Took Ill On Wednesday J</a>
+                    <div class="meta">1 day ago</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="news-item">
-        <h3><a href="https://mshale.com/2969b6da/dad17872Ll74OMKnbaQ" target="_blank">King And Queen Visit Princess Bajrakitiyabha At A Bangkok Hospital After She Took Ill On Wednesday J</a></h3>
-        <div class="meta">1 day ago</div>
-    </div>
-<h2>Fortis Healthcare (1 条)</h2>
+        <div class="country-section" data-country="印度">
+            <div class="country-header">
+                <h2>🇮🇳 印度</h2>
+                <span class="count">8 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.moomoo.com/news/post/70563970/ihh-healthcare-india-business-continues-to-benefit-from-fortis-healthcare" target="_blank">IHH Healthcare: India Business Continues to Benefit From Fortis Healthcare, Gleneagles India Integra</a></h3>
-        <div class="meta">5 days ago</div>
-    </div>
-<h2>IHH Healthcare (10 条)</h2>
+            <div class="entity-group">
+                <div class="entity-title">📍 Apollo Hospitals (6 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPZklIa3dLd2xCM21EcUpMWDE5TmsxNlhLcWVJUWVORFZtTnNKaUxzZlp4SDVJNUNiYmlVOXZiVktYU2RQc0tPNWI4TnlkMndHRXJVbnlfSUR1bVFoeFRMTEVtTlhQOTAxLVpjeVRoWXYxU2p5SzlWODdQRjVUSldDRnM5Z1ZkRmRnMjdXTl9Wa3AtRTY0MmdWdDJ1cnZzb01MelVMNg?oc=5" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a></h3>
-        <div class="meta">Sat, 30 May 2026 00:41:00 GMT</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQSkRvd29sSHVPb0N3cTVCSU1oSlVCUTd5cVFFeVBiVVR1bGJxZlNWamJNbW1iZHRCS2t2bElMT0JkQnB5RWRDNThFRkZwLWdBaU5RaE5yVVY2ZVU4SUdnY3RpNmkxQ0d2UGNYVWtKSEFiU250NjBhcDA2aHVwbjFkanFmMUVmVUt5alNTeGVZYzhLb0E?oc=5" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">Fri, 29 May 2026 11:16:00 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQdjIxZkZoMEtTZ1ZFYlBwT0lUdFJ2cm5IVy1zcFNucVVuZHkyOWE2YmpLeldJYU4xcVFtZ0QyMkNaZ1dBOUtjS0tkSHBRSDVobjVUZFJyN0p3TnpENHRFMERxaXlxaTBpeEI1a2k4MWdTSWNSWjJzejZ0YnZPNVVpbUVMSXFZbnVjQkt5WEhGZTE4c2tLbi16WkZOZzlFS0JqbkE?oc=5" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a></h3>
-        <div class="meta">Thu, 28 May 2026 01:05:00 GMT</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxPUG13bVlST1VPblJyaEN0R2d3STFra0U2SExYcHVIMXhIbGpVOHJSRjRxZ3Y0VHFlT0xDNTQ4a2JQX3o2OWNzMVdnd2ZaY1pEOFhjLWJqMXF0TTk5cHhvV1c3S1U4bmpVUXBaUmZkZWt5S1JNSy1FTjR5WDJDUF8xUEgzTF9yN25ud0hKeUR0VHgwTG4zUzVXY2cydFhyd01FVWNlRWp6NUxFLUdWLVNBUERQOGUzQm1nYUpIdEtDOUlhdXhGaGtQeWMzODNmQmNOV3dXc0E0Tklad0lEOHlkWktiUV9IYkwybXNj0gHwAUFVX3lxTFBNSUxTcHFPMVQ2THZ2ZDJPTFpXY3NhV1FSSnFJRnBvX1Y0dTQ0QWw2WWg0TGpTZmJrX0J4aDdNYnlkVFBjT3VONDdyZWJEZDdPOFNkaGt3bkV4QTVoclEyYUJRcjRhNGk1Z29xdTFPXzhqSUM5a0dNaHUxbmJ2ZEpERVNWNmR1Y3Nwei1OS0tielNmOGhXS1ZVT1hzMU5tS3lFcjBzN2tXamdNQU94V2luekFaQzR6ako4SEgtUzNmeVBGYTUtcVNxVnZSV0o0cG5EbEhxaWNMSWtCVjZ2LXFhbGZLS2FZLTlSS0kybDI0Mw?oc=5" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">Fri, 29 May 2026 03:51:05 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://finance.yahoo.com/sectors/healthcare/articles/ihh-healthcare-berhad-just-missed-004149815.html" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a></h3>
-        <div class="meta">2 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://sg.finance.yahoo.com/news/apollo-hospitals-chennai-performs-worlds-111600882.html" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">2 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.healthcareitnews.com/news/asia/ihh-healthcare-embeds-ai-workflows-adoption-scales-across-hospitals" target="_blank">IHH Healthcare embeds AI into workflows as adoption scales across hospitals</a></h3>
-        <div class="meta">5 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://m.economictimes.com/news/india/every-organ-will-be-affected-apollo-hospitals-expert-warns-of-dangerous-heat-humidity-impact/videoshow/131381401.cms" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">2 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.moomoo.com/news/post/70667118/ihh-healthcare-s-outlook-still-seems-promising-market-talk" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a></h3>
-        <div class="meta">4 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://www.aninews.in/videos/national/feels-like-50c-apollo-hospital-expert-explains-dangerous-impact-of-heat-humidity" target="_blank">‘Feels Like 50°C’: Apollo hospital expert explains dangerous impact of heat & humidity</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.thestar.com.my/business/business-news/2026/05/27/improved-revenue-lifts-ihh-healthcare-1q-results" target="_blank">Improved revenue lifts IHH Healthcare 1Q results</a></h3>
-        <div class="meta">5 days ago</div>
-    </div>
+            <div class="entity-group">
+                <div class="entity-title">📍 Aster DM Healthcare (2 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://finance.yahoo.com/sectors/healthcare/articles/think-more-issues-ihh-healthcare-030510379.html" target="_blank">We Think That There Are More Issues For IHH Healthcare Berhad (KLSE:IHH) Than Just Sluggish Earnings</a></h3>
-        <div class="meta">1 day ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://www.marketsmojo.com/news/stock-recommendation/aster-dm-healthcare-ltd-is-rated-hold-4016626" target="_blank">Aster DM Healthcare Ltd is Rated Hold</a>
+                    <div class="meta">2 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://healthcareasiamagazine.com/healthcare/news/ihh-earnings-edge-higher-in-q1-despite-currency-headwinds" target="_blank">IHH earnings edge higher in Q1 despite currency headwinds</a></h3>
-        <div class="meta">2 hours ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://scanx.trade/stock-market-news/companies/aster-dm-healthcare-to-host-investor-meets-in-hong-kong-singapore/42016424" target="_blank">Aster DM Healthcare to host investor meets in Hong Kong, Singapore</a>
+                    <div class="meta">21 hours ago</div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="news-section " id="last3days">
 
-    <div class="news-item">
-        <h3><a href="https://www.techinasia.com/news/infosys-lands-ai-software-deal-ihh-healthcare" target="_blank">Infosys lands AI software deal from IHH Healthcare</a></h3>
-        <div class="meta">4 hours ago</div>
-    </div>
+        <div class="country-section" data-country="新加坡">
+            <div class="country-header">
+                <h2>🇸🇬 新加坡</h2>
+                <span class="count">9 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://m.economictimes.com/tech/information-tech/ai-prescription-infosys-bags-seven-year-deal-to-upgrade-fortis-owner-ihhs-network/articleshow/131495594.cms" target="_blank">AI prescription: Infosys bags seven-year deal to upgrade Fortis-owner IHH's network</a></h3>
-        <div class="meta">5 hours ago</div>
-    </div>
-<h2>KPJ Healthcare (7 条)</h2>
+            <div class="entity-group">
+                <div class="entity-title">📍 IHH Healthcare (8 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://www.moomoo.com/news/post/70379930/kpj-healthcare-bhd-malaysia-1st-quarter-2026-earnings-summary-table" target="_blank">KPJ Healthcare Bhd Malaysia 1st-Quarter 2026 Earnings Summary Table</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPZklIa3dLd2xCM21EcUpMWDE5TmsxNlhLcWVJUWVORFZtTnNKaUxzZlp4SDVJNUNiYmlVOXZiVktYU2RQc0tPNWI4TnlkMndHRXJVbnlfSUR1bVFoeFRMTEVtTlhQOTAxLVpjeVRoWXYxU2p5SzlWODdQRjVUSldDRnM5Z1ZkRmRnMjdXTl9Wa3AtRTY0MmdWdDJ1cnZzb01MelVMNg?oc=5" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">Sat, 30 May 2026 00:41:00 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.malaysiakini.com/announcement/776081" target="_blank">KPJ Kluang Specialist Hospital performs southern Malaysia’s first FARAPULSE Pulsed Field Ablation Pr</a></h3>
-        <div class="meta">5 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQdjIxZkZoMEtTZ1ZFYlBwT0lUdFJ2cm5IVy1zcFNucVVuZHkyOWE2YmpLeldJYU4xcVFtZ0QyMkNaZ1dBOUtjS0tkSHBRSDVobjVUZFJyN0p3TnpENHRFMERxaXlxaTBpeEI1a2k4MWdTSWNSWjJzejZ0YnZPNVVpbUVMSXFZbnVjQkt5WEhGZTE4c2tLbi16WkZOZzlFS0JqbkE?oc=5" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a>
+                    <div class="meta">Thu, 28 May 2026 01:05:00 GMT</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://healthcareasiamagazine.com/healthcare/news/kpj-healthcare-profit-rises-22-in-q1-amidst-system-shift" target="_blank">KPJ Healthcare profit rises 22% in Q1 amidst system shift</a></h3>
-        <div class="meta">6 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/sectors/healthcare/articles/ihh-healthcare-berhad-just-missed-004149815.html" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">2 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://theedgemalaysia.com/node/804547" target="_blank">KPJ Healthcare 1Q net profit climbs 22.1% on higher patient visits, surgeries</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://www.moomoo.com/news/post/70667118/ihh-healthcare-s-outlook-still-seems-promising-market-talk" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a>
+                    <div class="meta">4 days ago</div>
+                </div>
 
-    <div class="news-item">
-        <h3><a href="https://bernama.com/en/region/news.php?id=2560099" target="_blank">KPJ Healthcare Net Profit Higher At RM69.6 Mln In 1Q</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/sectors/healthcare/articles/think-more-issues-ihh-healthcare-030510379.html" target="_blank">We Think That There Are More Issues For IHH Healthcare Berhad (KLSE:IHH) Than Just Sluggish Earnings</a>
+                    <div class="meta">1 day ago</div>
+                </div>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.nst.com.my/business/corporate/2026/05/1445253/kpj-healthcare-net-profit-higher-rm696mil-q1" target="_blank">KPJ Healthcare net profit higher at RM69.6mil in Q1</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
+            <div class="entity-group">
+                <div class="entity-title">📍 Singapore General Hospital (1 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://www.freemalaysiatoday.com/category/nation/2026/05/22/kpj-performs-regions-first-spinal-procedure-with-cement-screws" target="_blank">KPJ performs region’s first spinal procedure with cement screws</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
-<h2>Mount Elizabeth Hospital (1 条)</h2>
+                <div class="news-item">
+                    <a href="https://sg.finance.yahoo.com/news/scientific-forum-singapore-explores-advanced-061600898.html" target="_blank">Scientific forum in Singapore explores advanced PET/CT imaging</a>
+                    <div class="meta">3 days ago</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="news-item">
-        <h3><a href="https://business.inquirer.net/592017/health-care-beyond-borders-mount-elizabeth-raises-stake-in-ph" target="_blank">Health care beyond borders: Mount Elizabeth raises stake in PH</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
-<h2>Pantai Hospitals (1 条)</h2>
+        <div class="country-section" data-country="马来西亚">
+            <div class="country-header">
+                <h2>🇲🇾 马来西亚</h2>
+                <span class="count">1 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.nst.com.my/property/2026/05/1447726/developer-seeks-approval-61-storey-tower-project-near-tnb-hq-pantai" target="_blank">Developer seeks approval for 61-storey tower project near TNB HQ, Pantai Hospital [WATCH]</a></h3>
-        <div class="meta">1 week ago</div>
-    </div>
-<h2>Singapore General Hospital (2 条)</h2>
+            <div class="entity-group">
+                <div class="entity-title">📍 Sunway Medical Centre (1 条)</div>
 
-    <div class="news-item">
-        <h3><a href="https://sg.finance.yahoo.com/news/scientific-forum-singapore-explores-advanced-061600898.html" target="_blank">Scientific forum in Singapore explores advanced PET/CT imaging</a></h3>
-        <div class="meta">3 days ago</div>
-    </div>
+                <div class="news-item">
+                    <a href="https://bernama.com/en/general/news.php?id=2563891" target="_blank">Sunway Medical Centre Penang Opens Advanced Orthopaedic, Spine Centre</a>
+                    <div class="meta">18 hours ago</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="news-item">
-        <h3><a href="https://www.aap.com.au/aapreleases/cision20260528ae70064/" target="_blank">Scientific forum in Singapore explores advanced PET/CT imaging</a></h3>
-        <div class="meta">5 days ago</div>
-    </div>
-<h2>Sunway Medical Centre (1 条)</h2>
+        <div class="country-section" data-country="泰国">
+            <div class="country-header">
+                <h2>🇹🇭 泰国</h2>
+                <span class="count">4 条动态</span>
+            </div>
 
-    <div class="news-item">
-        <h3><a href="https://bernama.com/en/general/news.php?id=2563891" target="_blank">Sunway Medical Centre Penang Opens Advanced Orthopaedic, Spine Centre</a></h3>
-        <div class="meta">18 hours ago</div>
-    </div>
+            <div class="entity-group">
+                <div class="entity-title">📍 BDMS (Bangkok Dusit Medical Services) (3 条)</div>
 
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNNm9LX3RyZUtnaXMwbHVoaVFDTUF5eGRfd3A5THBjckw1QTRmcnMtTFBfTjAtWUFRQ21SdWZMSjg2WVpDV1Q2QXd1a1pNck5vcUg1T09kdUZzZVBsQV9PQk1UTVJhLW1ydFFVTHBfRVFiZ05oWG1zcjA5OVpfU2FJZC10czJhX3B5S0YwNTljRDZyRkhPTHE5N0FCYlI?oc=5" target="_blank">BDMS promotes global outcome certifications</a>
+                    <div class="meta">Thu, 28 May 2026 18:01:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.tradingview.com/news/reuters.com,2026:newsml_FWN42311Y:0-bangkok-dusit-medical-services-appoints-piyasakol-sakolsatayadorn-as-additional-vice-chairman/" target="_blank">Bangkok Dusit Medical Services Appoints Piyasakol Sakolsatayadorn As Additional Vice Chairman</a>
+                    <div class="meta">4 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.bangkokpost.com/business/general/3262560/bdms-promotes-global-outcome-certifications" target="_blank">BDMS promotes global outcome certifications</a>
+                    <div class="meta">3 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Bangkok Hospital Group (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://mshale.com/2969b6da/dad17872Ll74OMKnbaQ" target="_blank">King And Queen Visit Princess Bajrakitiyabha At A Bangkok Hospital After She Took Ill On Wednesday J</a>
+                    <div class="meta">1 day ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="country-section" data-country="印度">
+            <div class="country-header">
+                <h2>🇮🇳 印度</h2>
+                <span class="count">9 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Apollo Hospitals (7 条)</div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQSkRvd29sSHVPb0N3cTVCSU1oSlVCUTd5cVFFeVBiVVR1bGJxZlNWamJNbW1iZHRCS2t2bElMT0JkQnB5RWRDNThFRkZwLWdBaU5RaE5yVVY2ZVU4SUdnY3RpNmkxQ0d2UGNYVWtKSEFiU250NjBhcDA2aHVwbjFkanFmMUVmVUt5alNTeGVZYzhLb0E?oc=5" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">Fri, 29 May 2026 11:16:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxPUG13bVlST1VPblJyaEN0R2d3STFra0U2SExYcHVIMXhIbGpVOHJSRjRxZ3Y0VHFlT0xDNTQ4a2JQX3o2OWNzMVdnd2ZaY1pEOFhjLWJqMXF0TTk5cHhvV1c3S1U4bmpVUXBaUmZkZWt5S1JNSy1FTjR5WDJDUF8xUEgzTF9yN25ud0hKeUR0VHgwTG4zUzVXY2cydFhyd01FVWNlRWp6NUxFLUdWLVNBUERQOGUzQm1nYUpIdEtDOUlhdXhGaGtQeWMzODNmQmNOV3dXc0E0Tklad0lEOHlkWktiUV9IYkwybXNj0gHwAUFVX3lxTFBNSUxTcHFPMVQ2THZ2ZDJPTFpXY3NhV1FSSnFJRnBvX1Y0dTQ0QWw2WWg0TGpTZmJrX0J4aDdNYnlkVFBjT3VONDdyZWJEZDdPOFNkaGt3bkV4QTVoclEyYUJRcjRhNGk1Z29xdTFPXzhqSUM5a0dNaHUxbmJ2ZEpERVNWNmR1Y3Nwei1OS0tielNmOGhXS1ZVT1hzMU5tS3lFcjBzN2tXamdNQU94V2luekFaQzR6ako4SEgtUzNmeVBGYTUtcVNxVnZSV0o0cG5EbEhxaWNMSWtCVjZ2LXFhbGZLS2FZLTlSS0kybDI0Mw?oc=5" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">Fri, 29 May 2026 03:51:05 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://sg.finance.yahoo.com/news/apollo-hospitals-chennai-performs-worlds-111600882.html" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://m.economictimes.com/news/india/every-organ-will-be-affected-apollo-hospitals-expert-warns-of-dangerous-heat-humidity-impact/videoshow/131381401.cms" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.aninews.in/videos/national/feels-like-50c-apollo-hospital-expert-explains-dangerous-impact-of-heat-humidity" target="_blank">‘Feels Like 50°C’: Apollo hospital expert explains dangerous impact of heat & humidity</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Aster DM Healthcare (2 条)</div>
+
+                <div class="news-item">
+                    <a href="https://www.marketsmojo.com/news/stock-recommendation/aster-dm-healthcare-ltd-is-rated-hold-4016626" target="_blank">Aster DM Healthcare Ltd is Rated Hold</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://scanx.trade/stock-market-news/companies/aster-dm-healthcare-to-host-investor-meets-in-hong-kong-singapore/42016424" target="_blank">Aster DM Healthcare to host investor meets in Hong Kong, Singapore</a>
+                    <div class="meta">21 hours ago</div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="news-section " id="lastweek">
+
+        <div class="country-section" data-country="新加坡">
+            <div class="country-header">
+                <h2>🇸🇬 新加坡</h2>
+                <span class="count">13 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 IHH Healthcare (10 条)</div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPZklIa3dLd2xCM21EcUpMWDE5TmsxNlhLcWVJUWVORFZtTnNKaUxzZlp4SDVJNUNiYmlVOXZiVktYU2RQc0tPNWI4TnlkMndHRXJVbnlfSUR1bVFoeFRMTEVtTlhQOTAxLVpjeVRoWXYxU2p5SzlWODdQRjVUSldDRnM5Z1ZkRmRnMjdXTl9Wa3AtRTY0MmdWdDJ1cnZzb01MelVMNg?oc=5" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">Sat, 30 May 2026 00:41:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQdjIxZkZoMEtTZ1ZFYlBwT0lUdFJ2cm5IVy1zcFNucVVuZHkyOWE2YmpLeldJYU4xcVFtZ0QyMkNaZ1dBOUtjS0tkSHBRSDVobjVUZFJyN0p3TnpENHRFMERxaXlxaTBpeEI1a2k4MWdTSWNSWjJzejZ0YnZPNVVpbUVMSXFZbnVjQkt5WEhGZTE4c2tLbi16WkZOZzlFS0JqbkE?oc=5" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a>
+                    <div class="meta">Thu, 28 May 2026 01:05:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/sectors/healthcare/articles/ihh-healthcare-berhad-just-missed-004149815.html" target="_blank">IHH Healthcare Berhad Just Missed EPS By 8.6%: Here's What Analysts Think Will Happen Next</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.healthcareitnews.com/news/asia/ihh-healthcare-embeds-ai-workflows-adoption-scales-across-hospitals" target="_blank">IHH Healthcare embeds AI into workflows as adoption scales across hospitals</a>
+                    <div class="meta">5 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.moomoo.com/news/post/70667118/ihh-healthcare-s-outlook-still-seems-promising-market-talk" target="_blank">IHH Healthcare's Outlook Still Seems Promising -- Market Talk</a>
+                    <div class="meta">4 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Singapore General Hospital (2 条)</div>
+
+                <div class="news-item">
+                    <a href="https://sg.finance.yahoo.com/news/scientific-forum-singapore-explores-advanced-061600898.html" target="_blank">Scientific forum in Singapore explores advanced PET/CT imaging</a>
+                    <div class="meta">3 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.aap.com.au/aapreleases/cision20260528ae70064/" target="_blank">Scientific forum in Singapore explores advanced PET/CT imaging</a>
+                    <div class="meta">5 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Mount Elizabeth Hospital (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://business.inquirer.net/592017/health-care-beyond-borders-mount-elizabeth-raises-stake-in-ph" target="_blank">Health care beyond borders: Mount Elizabeth raises stake in PH</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="country-section" data-country="马来西亚">
+            <div class="country-header">
+                <h2>🇲🇾 马来西亚</h2>
+                <span class="count">9 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 KPJ Healthcare (7 条)</div>
+
+                <div class="news-item">
+                    <a href="https://www.moomoo.com/news/post/70379930/kpj-healthcare-bhd-malaysia-1st-quarter-2026-earnings-summary-table" target="_blank">KPJ Healthcare Bhd Malaysia 1st-Quarter 2026 Earnings Summary Table</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.malaysiakini.com/announcement/776081" target="_blank">KPJ Kluang Specialist Hospital performs southern Malaysia’s first FARAPULSE Pulsed Field Ablation Pr</a>
+                    <div class="meta">5 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://healthcareasiamagazine.com/healthcare/news/kpj-healthcare-profit-rises-22-in-q1-amidst-system-shift" target="_blank">KPJ Healthcare profit rises 22% in Q1 amidst system shift</a>
+                    <div class="meta">6 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://theedgemalaysia.com/node/804547" target="_blank">KPJ Healthcare 1Q net profit climbs 22.1% on higher patient visits, surgeries</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://bernama.com/en/region/news.php?id=2560099" target="_blank">KPJ Healthcare Net Profit Higher At RM69.6 Mln In 1Q</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Pantai Hospitals (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://www.nst.com.my/property/2026/05/1447726/developer-seeks-approval-61-storey-tower-project-near-tnb-hq-pantai" target="_blank">Developer seeks approval for 61-storey tower project near TNB HQ, Pantai Hospital [WATCH]</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Sunway Medical Centre (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://bernama.com/en/general/news.php?id=2563891" target="_blank">Sunway Medical Centre Penang Opens Advanced Orthopaedic, Spine Centre</a>
+                    <div class="meta">18 hours ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="country-section" data-country="泰国">
+            <div class="country-header">
+                <h2>🇹🇭 泰国</h2>
+                <span class="count">4 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 BDMS (Bangkok Dusit Medical Services) (3 条)</div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNNm9LX3RyZUtnaXMwbHVoaVFDTUF5eGRfd3A5THBjckw1QTRmcnMtTFBfTjAtWUFRQ21SdWZMSjg2WVpDV1Q2QXd1a1pNck5vcUg1T09kdUZzZVBsQV9PQk1UTVJhLW1ydFFVTHBfRVFiZ05oWG1zcjA5OVpfU2FJZC10czJhX3B5S0YwNTljRDZyRkhPTHE5N0FCYlI?oc=5" target="_blank">BDMS promotes global outcome certifications</a>
+                    <div class="meta">Thu, 28 May 2026 18:01:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.tradingview.com/news/reuters.com,2026:newsml_FWN42311Y:0-bangkok-dusit-medical-services-appoints-piyasakol-sakolsatayadorn-as-additional-vice-chairman/" target="_blank">Bangkok Dusit Medical Services Appoints Piyasakol Sakolsatayadorn As Additional Vice Chairman</a>
+                    <div class="meta">4 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.bangkokpost.com/business/general/3262560/bdms-promotes-global-outcome-certifications" target="_blank">BDMS promotes global outcome certifications</a>
+                    <div class="meta">3 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Bangkok Hospital Group (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://mshale.com/2969b6da/dad17872Ll74OMKnbaQ" target="_blank">King And Queen Visit Princess Bajrakitiyabha At A Bangkok Hospital After She Took Ill On Wednesday J</a>
+                    <div class="meta">1 day ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="country-section" data-country="印度">
+            <div class="country-header">
+                <h2>🇮🇳 印度</h2>
+                <span class="count">12 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Apollo Hospitals (8 条)</div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQSkRvd29sSHVPb0N3cTVCSU1oSlVCUTd5cVFFeVBiVVR1bGJxZlNWamJNbW1iZHRCS2t2bElMT0JkQnB5RWRDNThFRkZwLWdBaU5RaE5yVVY2ZVU4SUdnY3RpNmkxQ0d2UGNYVWtKSEFiU250NjBhcDA2aHVwbjFkanFmMUVmVUt5alNTeGVZYzhLb0E?oc=5" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">Fri, 29 May 2026 11:16:00 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxPUG13bVlST1VPblJyaEN0R2d3STFra0U2SExYcHVIMXhIbGpVOHJSRjRxZ3Y0VHFlT0xDNTQ4a2JQX3o2OWNzMVdnd2ZaY1pEOFhjLWJqMXF0TTk5cHhvV1c3S1U4bmpVUXBaUmZkZWt5S1JNSy1FTjR5WDJDUF8xUEgzTF9yN25ud0hKeUR0VHgwTG4zUzVXY2cydFhyd01FVWNlRWp6NUxFLUdWLVNBUERQOGUzQm1nYUpIdEtDOUlhdXhGaGtQeWMzODNmQmNOV3dXc0E0Tklad0lEOHlkWktiUV9IYkwybXNj0gHwAUFVX3lxTFBNSUxTcHFPMVQ2THZ2ZDJPTFpXY3NhV1FSSnFJRnBvX1Y0dTQ0QWw2WWg0TGpTZmJrX0J4aDdNYnlkVFBjT3VONDdyZWJEZDdPOFNkaGt3bkV4QTVoclEyYUJRcjRhNGk1Z29xdTFPXzhqSUM5a0dNaHUxbmJ2ZEpERVNWNmR1Y3Nwei1OS0tielNmOGhXS1ZVT1hzMU5tS3lFcjBzN2tXamdNQU94V2luekFaQzR6ako4SEgtUzNmeVBGYTUtcVNxVnZSV0o0cG5EbEhxaWNMSWtCVjZ2LXFhbGZLS2FZLTlSS0kybDI0Mw?oc=5" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">Fri, 29 May 2026 03:51:05 GMT</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.reuters.com/business/healthcare-pharmaceuticals/indias-apollo-hospitals-quarterly-profit-rises-strong-demand-complex-procedures-2026-05-20/" target="_blank">India's Apollo Hospitals posts higher quarterly profit, divests fertility business</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://sg.finance.yahoo.com/news/apollo-hospitals-chennai-performs-worlds-111600882.html" target="_blank">Apollo Hospitals Chennai Performs World's First Robotic Cancer Surgery for Lymph Node Removal Using </a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://m.economictimes.com/news/india/every-organ-will-be-affected-apollo-hospitals-expert-warns-of-dangerous-heat-humidity-impact/videoshow/131381401.cms" target="_blank">'Every organ will be affected...': Apollo Hospitals expert warns of dangerous heat-humidity impact</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Aster DM Healthcare (3 条)</div>
+
+                <div class="news-item">
+                    <a href="https://finance.yahoo.com/markets/stocks/articles/aster-dm-healthcare-nsei-asterdm-161427194.html" target="_blank">How The Aster DM Healthcare (NSEI:ASTERDM) Narrative Is Shifting With New Valuation Assumptions</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://www.marketsmojo.com/news/stock-recommendation/aster-dm-healthcare-ltd-is-rated-hold-4016626" target="_blank">Aster DM Healthcare Ltd is Rated Hold</a>
+                    <div class="meta">2 days ago</div>
+                </div>
+
+                <div class="news-item">
+                    <a href="https://scanx.trade/stock-market-news/companies/aster-dm-healthcare-to-host-investor-meets-in-hong-kong-singapore/42016424" target="_blank">Aster DM Healthcare to host investor meets in Hong Kong, Singapore</a>
+                    <div class="meta">21 hours ago</div>
+                </div>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Fortis Healthcare (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://www.moomoo.com/news/post/70563970/ihh-healthcare-india-business-continues-to-benefit-from-fortis-healthcare" target="_blank">IHH Healthcare: India Business Continues to Benefit From Fortis Healthcare, Gleneagles India Integra</a>
+                    <div class="meta">5 days ago</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="country-section" data-country="土耳其">
+            <div class="country-header">
+                <h2>🇹🇷 土耳其</h2>
+                <span class="count">1 条动态</span>
+            </div>
+
+            <div class="entity-group">
+                <div class="entity-title">📍 Acibadem Healthcare Group (1 条)</div>
+
+                <div class="news-item">
+                    <a href="https://www.klsescreener.com/v2/news/view/1727591/ihh-ceo-turkiye-operations-unaffected-by-middle-east-conflict-growth-intact" target="_blank">IHH CEO: Turkiye operations unaffected by Middle East conflict, growth intact</a>
+                    <div class="meta">1 week ago</div>
+                </div>
+            </div>
+        </div>
+</div>
+
+        <script>
+            function showTab(tabId, btn) {
+                // 切换 tab 按钮状态
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // 切换内容区域
+                document.querySelectorAll('.news-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+            }
+            
+            function filterLocation(location, btn) {
+                // 切换按钮状态
+                document.querySelectorAll('.location-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // 筛选内容
+                document.querySelectorAll('.country-section').forEach(s => {
+                    if (location === 'all' || s.dataset.country === location) {
+                        s.style.display = 'block';
+                    } else {
+                        s.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+    </div>
 </body>
 </html>
