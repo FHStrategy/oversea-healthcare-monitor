@@ -607,6 +607,7 @@
         function getTimeCategory(dateStr) {
             if (!dateStr) return 'lastweek';
             
+            // 处理 "2 days ago" 格式
             if (dateStr.includes('ago')) {
                 const match = dateStr.match(/(\d+)\s*(day|days|week|weeks|hour|hours)/);
                 if (match) {
@@ -619,11 +620,22 @@
                 }
             }
             
-            const date = new Date(dateStr);
+            // 处理 GMT 格式：Sat, 30 May 2026 00:41:00 GMT
+            let date = new Date(dateStr);
+            if (isNaN(date)) {
+                // 尝试手动解析 GMT 格式
+                const gmtMatch = dateStr.match(/(\d{1,2})\s+(\w+)\s+(\d{4})/);
+                if (gmtMatch) {
+                    date = new Date(dateStr);
+                }
+            }
+            
             if (isNaN(date)) return 'lastweek';
             
             const now = new Date();
-            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+            const diffMs = now - date;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
             if (diffDays <= 0) return 'today';
             if (diffDays <= 3) return 'last3days';
             return 'lastweek';
