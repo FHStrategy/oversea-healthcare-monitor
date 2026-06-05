@@ -684,7 +684,9 @@
             
             for (const location of LOCATION_ORDER) {
                 const locData = grouped[location];
-                const seaItems = seaGrouped[location] || [];
+                // seaGrouped 返回的是 { entities: {...} }，需要提取所有新闻
+                const seaEntities = seaGrouped[location]?.entities || {};
+                const seaItems = Object.values(seaEntities).flat();
                 
                 if (!locData && seaItems.length === 0) continue;
                 
