@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海外医疗集团动态监测 - 2026-07-07</title>
+    <title>海外医疗集团动态监测 - 2026-07-08</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -483,7 +483,7 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-label">更新时间</span>
-                <span class="stat-value">2026年07月07日 16:44</span>
+                <span class="stat-value">2026年07月08日 11:19</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">监测范围</span>
@@ -538,13 +538,13 @@
         <!-- 地图内的时间选择 -->
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMapTime('today', this)">
-                📅 今天 <span class="count">0</span>
+                📅 今天 <span class="count">1</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('last3days', this)">
-                📆 近3天 <span class="count">0</span>
+                📆 近3天 <span class="count">2</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('lastweek', this)">
-                📋 近1周 <span class="count">2</span>
+                📋 近1周 <span class="count">7</span>
             </button>
         </div>
         
@@ -568,10 +568,10 @@
                 <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
-            <div class="region-card no-news" data-location="泰国" onclick="filterByLocation('泰国')">
+            <div class="region-card has-news" data-location="泰国" onclick="filterByLocation('泰国')">
                 <div class="region-flag">🇹🇭</div>
                 <div class="region-name">泰国</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+                <div class="region-count"><span class="count-num">1</span> 条动态</div>
             </div>
 
             <div class="region-card no-news" data-location="印度" onclick="filterByLocation('印度')">
@@ -603,33 +603,67 @@
     
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('today', this)">
-            📅 今天 <span class="count">0</span>
+            📅 今天 <span class="count">1</span>
         </button>
         <button class="tab-btn" onclick="showTab('last3days', this)">
-            📆 近3天 <span class="count">0</span>
+            📆 近3天 <span class="count">2</span>
         </button>
         <button class="tab-btn" onclick="showTab('lastweek', this)">
-            📋 近1周 <span class="count">2</span>
+            📋 近1周 <span class="count">7</span>
         </button>
     </div>
 
     <!-- 今天 -->
     <div id="tab-today" class="tab-content active">
         
-        <div class="empty-state">
-            <div class="icon">📭</div>
-            <div>暂无新闻动态</div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">1 条动态</span>
         </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2 hours ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
+                <div class="news-summary">泰国拟推大麻法案规范医疗使用及店铺管控，将涵盖种植并打击无证经营和假货。</div>
+            </div>
+        </div>
+    </div>
 
     </div>
     
     <!-- 过去3天 -->
     <div id="tab-last3days" class="tab-content">
         
-        <div class="empty-state">
-            <div class="icon">📭</div>
-            <div>暂无新闻动态</div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">1 条动态</span>
         </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2 hours ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
+                <div class="news-summary">泰国拟推大麻法案，规范医疗使用及种植，并打击无证经营和假产品。</div>
+            </div>
+        </div>
+    </div>
 
     </div>
     
@@ -639,12 +673,21 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇸🇬 新加坡</h2>
-            <span class="count">2 条动态</span>
+            <span class="count">3 条动态</span>
         </div>
 
         <div class="entity-section sea-health-section">
             <div class="entity-header">
-                <h3>🌏 卫生动态 (2 条)</h3>
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">1 week ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://sg.news.yahoo.com/first-ebola-case-confirmed-france-112445176.html" target="_blank">First Ebola case confirmed in France, health ministry says</a></h4>
+                <div class="news-summary">法国确认首例埃博拉病例，患者为从刚果民主共和国返回的医生。</div>
             </div>
 
             <div class="news-item">
@@ -653,7 +696,7 @@
                     <span class="date-tag">5 days ago</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.moh.gov.sg/newsroom/speech-by-mr-tan-kiat-how--senior-minister-of-state--ministry-of-digital-development-and-information---ministry-of-health--at-chi-innovate-2026--2-july-2026/" target="_blank">SPEECH BY MR TAN KIAT HOW, SENIOR MINISTER OF STATE, MINISTRY OF DIGITAL DEVELOPMENT AND INFORMATION & MINISTRY OF HEALTH, AT CHI INNOVATE 2026, 2 JULY 2026</a></h4>
-                <div class="news-summary">陈杰豪高级政务部长在2026年CHI创新大会上强调推动医疗与数字技术融合发展。</div>
+                <div class="news-summary">陈杰豪高级政务部长在2026年CHI创新大会上强调推动数字健康与医疗创新。</div>
             </div>
 
             <div class="news-item">
@@ -663,6 +706,50 @@
                 </div>
                 <h4 class="news-title"><a href="https://www.moh.gov.sg/newsroom/1777-non-emergency-ambulance-hotline-to-cease--from-1-january-2027/" target="_blank">1777 NON-EMERGENCY AMBULANCE HOTLINE TO CEASE FROM 1 JANUARY 2027</a></h4>
                 <div class="news-summary">新加坡民防部队将于2027年1月1日停止使用1777非紧急救护车热线。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">1 week ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/news/malaysia/2026/06/27/moh-website-hacked-ministry-warns-malaysians-avoid-site-and-rely-on-verified-platforms/225402" target="_blank">MOH website hacked, ministry warns Malaysians avoid site and rely on verified platforms</a></h4>
+                <div class="news-summary">马来西亚卫生部网站遭黑客攻击，提醒民众避免访问并依赖官方验证平台获取信息。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2 hours ago</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
+                <div class="news-summary">泰国拟推大麻法案，规范医疗使用及种植，打击无证经营和假产品。</div>
             </div>
         </div>
     </div>
@@ -679,9 +766,9 @@
         
         // 各时间段的国家新闻数量
         const locationCounts = {
-            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            last3days: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            lastweek: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 2, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
+            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 1, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            last3days: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 1, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            lastweek: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 1, "\u6cf0\u56fd": 1, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
         };
         
         let currentView = 'list';
