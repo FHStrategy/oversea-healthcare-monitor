@@ -1,1803 +1,376 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海外医疗集团动态监测 - 2026-07-08</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --primary: #003B83;
-            --primary-light: #0052B8;
-            --primary-lighter: #0066E6;
-            --primary-dark: #002B61;
-        }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif; 
-            max-width: 1400px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background: #f5f7fa;
-            min-height: 100vh;
-        }
-        h1 { 
-            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
-            color: white;
-            padding: 22px 28px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 25px rgba(0, 59, 131, 0.5);
-            font-size: 26px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .summary { 
-            background: rgba(255,255,255,0.95); 
-            padding: 22px 28px; 
-            border-radius: 12px; 
-            margin-bottom: 25px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid #003B83;
-        }
-        .summary-title {
-            color: #003B83;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .summary-stats {
-            display: flex;
-            gap: 35px;
-            flex-wrap: wrap;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .stat-label {
-            color: #0052B8;
-            font-size: 14px;
-        }
-        .stat-value {
-            color: #003B83;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        /* 排行榜样式 */
-        .ranking-section {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid #e3f2fd;
-        }
-        .ranking-title {
-            color: #003B83;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .ranking-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .ranking-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .ranking-item .rank {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-        .ranking-item .entity-name {
-            min-width: 180px;
-            color: #37474f;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .bar-container {
-            flex: 1;
-            height: 8px;
-            background: #e3f2fd;
-            border-radius: 4px;
-            overflow: hidden;
-            max-width: 200px;
-        }
-        .bar {
-            height: 100%;
-            background: linear-gradient(90deg, #003B83 0%, #0066E6 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        .bar-count {
-            color: #003B83;
-            font-size: 13px;
-            font-weight: 600;
-            min-width: 40px;
-            text-align: right;
-        }
-        .ranking-empty {
-            color: #90a4ae;
-            font-size: 14px;
-            padding: 12px 0;
-        }
-        
-        /* 标签页样式 */
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            background: white;
-            padding: 8px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 14px 24px;
-            border: none;
-            background: transparent;
-            color: #546e7a;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .tab-btn:hover {
-            background: #e3f2fd;
-            color: #003B83;
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 59, 131, 0.3);
-        }
-        .tab-btn .count {
-            background: rgba(255,255,255,0.2);
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 13px;
-        }
-        .tab-btn.active .count {
-            background: rgba(255,255,255,0.25);
-        }
-        .tab-btn:not(.active) .count {
-            background: #e3f2fd;
-            color: #003B83;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #546e7a;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .group-section { margin-bottom: 25px; }
-        .group-header { 
-            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
-            color: white; 
-            padding: 16px 22px; 
-            border-radius: 10px; 
-            margin-bottom: 15px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 43, 97, 0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .group-header h2 { font-size: 19px; font-weight: 600; }
-        .group-header .count { 
-            background: rgba(255,255,255,0.15); 
-            padding: 6px 18px; 
-            border-radius: 20px; 
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .entity-section { margin-left: 15px; margin-bottom: 20px; }
-        .sea-health-section { background: rgba(0, 59, 131, 0.03); border-radius: 8px; padding: 10px; margin-top: 10px; }
-        .sea-tag { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-        .entity-header { 
-            background: rgba(255,255,255,0.95); 
-            padding: 14px 20px; 
-            border-radius: 8px; 
-            margin-bottom: 12px; 
-            border-left: 5px solid #003B83;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .entity-header h3 { color: #003B83; font-size: 16px; font-weight: 600; }
-        .news-item { 
-            background: rgba(255,255,255,0.98); 
-            padding: 18px 22px; 
-            border-radius: 10px; 
-            margin-bottom: 12px; 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-            border: 1px solid rgba(0, 59, 131, 0.08);
-            transition: all 0.2s ease;
-        }
-        .news-item:hover { 
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 59, 131, 0.2);
-            border-color: #0066E6;
-        }
-        .news-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        .entity-tag { 
-            display: inline-block; 
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white; 
-            padding: 4px 14px; 
-            border-radius: 15px; 
-            font-size: 12px; 
-            font-weight: 500;
-        }
-        .date-tag { color: #90a4ae; font-size: 12px; }
-        .news-title { 
-            font-size: 16px; 
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-        .news-title a { 
-            color: #003B83; 
-            text-decoration: none; 
-            font-weight: 600;
-        }
-        .news-title a:hover { 
-            color: #0052B8; 
-            text-decoration: underline; 
-        }
-        .news-summary { 
-            color: #546e7a; 
-            line-height: 1.7; 
-            font-size: 14px; 
-            background: #f8fafc; 
-            padding: 12px 16px; 
-            border-radius: 8px;
-            border-left: 3px solid #003B83;
-        }
-        
-        /* 地图视图样式 */
-        .view-toggle {
-            display: flex;
-            gap: 0;
-            margin-bottom: 20px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .view-btn {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            background: transparent;
-            color: #546e7a;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .view-btn:hover {
-            background: #e3f2fd;
-            color: #003B83;
-        }
-        .view-btn.active {
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-        }
-        
-        .map-container {
-            display: none;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .map-container.active {
-            display: block;
-        }
-        
-        .map-title {
-            text-align: center;
-            color: #003B83;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-        
-        .map-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-        .map-tab {
-            padding: 10px 20px;
-            border: 2px solid #e3f2fd;
-            background: white;
-            color: #546e7a;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .map-tab:hover {
-            border-color: #003B83;
-            color: #003B83;
-            background: #f8fafc;
-        }
-        .map-tab.active {
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-            border-color: #003B83;
-        }
-        .map-tab .count {
-            background: rgba(255,255,255,0.2);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        .map-tab:not(.active) .count {
-            background: #e3f2fd;
-            color: #003B83;
-        }
-        
-        .region-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-        }
-        
-        .region-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
-            border: 2px solid #e3f2fd;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .region-card:hover {
-            transform: translateY(-5px);
-            border-color: #003B83;
-            box-shadow: 0 8px 25px rgba(0, 59, 131, 0.2);
-        }
-        .region-card.has-news {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        }
-        .region-card.no-news {
-            opacity: 0.6;
-        }
-        .region-flag {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-        .region-name {
-            color: #003B83;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .region-count {
-            color: #546e7a;
-            font-size: 13px;
-        }
-        .region-count span {
-            color: #003B83;
-            font-weight: 700;
-            font-size: 16px;
-        }
-        
-        .news-list-container {
-            display: block;
-        }
-        .news-list-container.hidden {
-            display: none;
-        }
-        
-        .country-filter {
-            display: none;
-            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
-            color: white;
-            padding: 14px 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .country-filter.active {
-            display: flex;
-        }
-        .country-filter-name {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .country-filter-close {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .country-filter-close:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 25px;
-            color: #546e7a;
-            font-size: 14px;
-            margin-top: 30px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-    </style>
+<meta charset="utf-8">
+<title>海外医疗动态监测 - 2026-07-08</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+h1 { color: #333; }
+.stats { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }
+.news-item { margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee; }
+.date { color: #666; font-size: 0.9em; }
+.entity { color: #0066cc; }
+</style>
 </head>
 <body>
-    <h1>🏥 海外医疗集团动态监测</h1>
-    <div class="summary">
-        <div class="summary-title">📊 数据概览</div>
-        <div class="summary-stats">
-            <div class="stat-item">
-                <span class="stat-label">更新时间</span>
-                <span class="stat-value">2026年07月08日 15:00</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">监测范围</span>
-                <span class="stat-value">25 家机构</span>
-            </div>
-            <div class="stat-item" id="stat-active">
-                <span class="stat-label" id="stat-label">今日动态</span>
-                <span class="stat-value" id="stat-value">7 家机构</span>
-            </div>
-        </div>
+<h1>海外医疗动态监测</h1>
+<p>更新时间: 2026-07-08 17:42</p>
 
-        <!-- 排行榜容器 -->
-        <div id="ranking-container">
-            
-            <div class="ranking-section">
-                <div class="ranking-title">📈 今日机构动态排行</div>
-                <div class="ranking-list">
-
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">Aster DM Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">2</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">3</span>
-                        <span class="entity-name">Raffles Medical Group</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">4</span>
-                        <span class="entity-name">Apollo Hospitals</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">5</span>
-                        <span class="entity-name">Gleneagles Kuala Lumpur</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 33%"></div>
-                        </div>
-                        <span class="bar-count">1 条</span>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-        
-        <!-- 隐藏的排行数据 -->
-        <div id="ranking-today-data" style="display:none;">
-            <div class="ranking-section">
-                <div class="ranking-title">📈 今日机构动态排行</div>
-                <div class="ranking-list">
-
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">Aster DM Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">2</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">3</span>
-                        <span class="entity-name">Raffles Medical Group</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">4</span>
-                        <span class="entity-name">Apollo Hospitals</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">5</span>
-                        <span class="entity-name">Gleneagles Kuala Lumpur</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 33%"></div>
-                        </div>
-                        <span class="bar-count">1 条</span>
-                    </div>
-
-                </div>
-            </div>
+<div class="stats">
+<strong>统计:</strong> 机构新闻 238 条 | 东南亚动态 267 条
 </div>
-        <div id="ranking-last3days-data" style="display:none;">
-            <div class="ranking-section">
-                <div class="ranking-title">📈 近3天机构动态排行</div>
-                <div class="ranking-list">
 
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">Aster DM Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">5 条</span>
-                    </div>
+<h2>机构新闻</h2>
 
-                    <div class="ranking-item">
-                        <span class="rank">2</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 60%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">3</span>
-                        <span class="entity-name">Fortis Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 60%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">4</span>
-                        <span class="entity-name">Raffles Medical Group</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 40%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">5</span>
-                        <span class="entity-name">Apollo Hospitals</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 40%"></div>
-                        </div>
-                        <span class="bar-count">2 条</span>
-                    </div>
-
-                </div>
-            </div>
+<div class="news-item">
+<strong>IHH Healthcare Collaborates with Infosys on a Multi-Country, AI-Powered ERP Transformation to Accelerate Growth</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">4 weeks ago</div>
+<a href="https://www.prnewswire.com/news-releases/ihh-healthcare-collaborates-with-infosys-on-a-multi-country-ai-powered-erp-transformation-to-accelerate-growth-302797798.html" target="_blank">查看原文</a>
 </div>
-        <div id="ranking-lastweek-data" style="display:none;">
-            <div class="ranking-section">
-                <div class="ranking-title">📈 近1周机构动态排行</div>
-                <div class="ranking-list">
 
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">Aster DM Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">6 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">2</span>
-                        <span class="entity-name">Apollo Hospitals</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 66%"></div>
-                        </div>
-                        <span class="bar-count">4 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">3</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 50%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">4</span>
-                        <span class="entity-name">Fortis Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 50%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                    <div class="ranking-item">
-                        <span class="rank">5</span>
-                        <span class="entity-name">Raffles Medical Group</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 50%"></div>
-                        </div>
-                        <span class="bar-count">3 条</span>
-                    </div>
-
-                </div>
-            </div>
+<div class="news-item">
+<strong>Enterprise value to revenue forward of IHH Healthcare Bhd. – MYX:IHH</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">1 day ago</div>
+<a href="https://www.tradingview.com/symbols/MYX-IHH/financials-statistics-and-ratios/enterprise-value-sales-fwd/" target="_blank">查看原文</a>
 </div>
-    </div>
-    <!-- 视图切换 -->
-    <div class="view-toggle">
-        <button class="view-btn active" onclick="switchView('list', this)">📋 列表视图</button>
-        <button class="view-btn" onclick="switchView('map', this)">🗺️ 地图视图</button>
-    </div>
-    
-    <!-- 地图视图 -->
-    <div id="map-view" class="map-container">
-        <div class="map-title">🌏 选择国家/地区查看动态</div>
-        
-        <!-- 地图内的时间选择 -->
-        <div class="map-tabs">
-            <button class="map-tab active" onclick="selectMapTime('today', this)">
-                📅 今天 <span class="count">13</span>
-            </button>
-            <button class="map-tab" onclick="selectMapTime('last3days', this)">
-                📆 近3天 <span class="count">19</span>
-            </button>
-            <button class="map-tab" onclick="selectMapTime('lastweek', this)">
-                📋 近1周 <span class="count">32</span>
-            </button>
-        </div>
-        
-        <div class="region-grid" id="region-grid">
-
-            <div class="region-card has-news" data-location="IHH集团" onclick="filterByLocation('IHH集团')">
-                <div class="region-flag">🌐</div>
-                <div class="region-name">IHH集团</div>
-                <div class="region-count"><span class="count-num">2</span> 条动态</div>
-            </div>
-
-            <div class="region-card has-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
-                <div class="region-flag">🇸🇬</div>
-                <div class="region-name">新加坡</div>
-                <div class="region-count"><span class="count-num">2</span> 条动态</div>
-            </div>
-
-            <div class="region-card has-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
-                <div class="region-flag">🇲🇾</div>
-                <div class="region-name">马来西亚</div>
-                <div class="region-count"><span class="count-num">2</span> 条动态</div>
-            </div>
-
-            <div class="region-card has-news" data-location="泰国" onclick="filterByLocation('泰国')">
-                <div class="region-flag">🇹🇭</div>
-                <div class="region-name">泰国</div>
-                <div class="region-count"><span class="count-num">1</span> 条动态</div>
-            </div>
-
-            <div class="region-card has-news" data-location="印度" onclick="filterByLocation('印度')">
-                <div class="region-flag">🇮🇳</div>
-                <div class="region-name">印度</div>
-                <div class="region-count"><span class="count-num">6</span> 条动态</div>
-            </div>
-
-            <div class="region-card no-news" data-location="土耳其" onclick="filterByLocation('土耳其')">
-                <div class="region-flag">🇹🇷</div>
-                <div class="region-name">土耳其</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
-            </div>
-
-            <div class="region-card no-news" data-location="其他" onclick="filterByLocation('其他')">
-                <div class="region-flag">📍</div>
-                <div class="region-name">其他</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
-            </div>
-
-        </div>
-    </div>
-    
-    <!-- 国家筛选提示 -->
-    <div id="country-filter" class="country-filter">
-        <span class="country-filter-name" id="filter-name">全部地区</span>
-        <button class="country-filter-close" onclick="clearFilter()">✕ 清除筛选</button>
-    </div>
-    
-    <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('today', this)">
-            📅 今天 <span class="count">13</span>
-        </button>
-        <button class="tab-btn" onclick="showTab('last3days', this)">
-            📆 近3天 <span class="count">19</span>
-        </button>
-        <button class="tab-btn" onclick="showTab('lastweek', this)">
-            📋 近1周 <span class="count">32</span>
-        </button>
-    </div>
-
-    <!-- 今天 -->
-    <div id="tab-today" class="tab-content active">
-        
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🌐 IHH集团</h2>
-            <span class="count">2 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 IHH Healthcare (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">3 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/07/1482670/ihh-healthcare-backs-merdeka-118-tower-race-promote-preventive" target="_blank">IHH Healthcare backs Merdeka 118 tower race to promote preventive health</a></h4>
-                <div class="news-summary">IHH Healthcare携手合作三年，推动预防医学，助力默迪卡118大楼健康挑战赛。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://health.economictimes.indiatimes.com/amp/news/health-it/ihh-healthcare-and-fortis-name-winners-of-inaugural-india-catalyst-accelerator/132215909" target="_blank">IHH Healthcare and Fortis name winners of inaugural India catalyst accelerator</a></h4>
-                <div class="news-summary">IHH Healthcare与Fortis公布首届印度创新加速器获奖初创企业。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇸🇬 新加坡</h2>
-            <span class="count">2 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Raffles Medical Group (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">13 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.biospectrumasia.com/news/54/27958/koreas-neurophet-to-supply-neurodegenerative-brain-imaging-analysis-software-to-raffles-medical-in-singapore.html" target="_blank">Korea's Neurophet to supply neurodegenerative brain imaging analysis software to Raffles Medical in Singapore</a></h4>
-                <div class="news-summary">韩国Neurophet向新加坡莱佛士医疗供应神经退行性脑成像分析软件“Neurophet AQUA”。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">7 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.theedgesingapore.com/capital/brokers-calls/rhb-calls-recent-drop-raffles-medical-shares-attractive-entry-point" target="_blank">RHB calls recent drop in Raffles Medical shares an 'attractive' entry point</a></h4>
-                <div class="news-summary">RHB认为莱佛士医疗股价下跌是入场良机，公司具备海外收购及回购潜力。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇲🇾 马来西亚</h2>
-            <span class="count">2 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Gleneagles Kuala Lumpur (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Gleneagles Kuala Lumpur</span>
-                    <span class="date-tag">9 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-cardiac-care/69709320" target="_blank">The Gleneagles Hospital Kuala Lumpur from IHH Healthcare - cardiac care expansion draws US investor</a></h4>
-                <div class="news-summary">吉隆坡格伦艾格尔斯医院扩建心脏导管实验室，吸引美国投资者关注。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Subang Jaya Medical Centre</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4047890/selangor/subang_jaya/commercial/shop/ss15-corner-lot-3-storey-shop-facing-main-road-near-lrt-station" target="_blank">SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by JAYDEN HENG</a></h4>
-                <div class="news-summary">雪兰莪梳邦再也一間6800平方英尺的零售店出租，月租28000林吉特。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇹🇭 泰国</h2>
-            <span class="count">1 条动态</span>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
-                <div class="news-summary">泰国拟推大麻法案，规范医疗使用及种植，打击无证经营和假产品。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇮🇳 印度</h2>
-            <span class="count">6 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Aster DM Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">48 minutes ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/aster-quality-starts-operations-targets-healthcare-expansion-beyond-indias-metro-cities" target="_blank">Aster DM Quality Care starts operations, targets healthcare expansion beyond India’s metro cities</a></h4>
-                <div class="news-summary">Aster DM Quality Care正式运营，合并后计划将医疗业务扩展至印度非一线城市。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">22 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/aster-dm-healthcare-appoints-varun-khanna-as-md-group-ceo-following-merger-613470" target="_blank">Aster DM Healthcare Appoints Varun Khanna As MD & Group CEO Following Merger</a></h4>
-                <div class="news-summary">Aster DM Healthcare任命Varun Khanna为董事总经理兼集团CEO，完成合并后领导公司发展。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">19 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/bengaluru/aster-dm-quality-care-merger-completed-combined-entity-begins-ops/articleshow/132218273.cms" target="_blank">Aster DM, Quality Care merger completed; combined entity begins ops</a></h4>
-                <div class="news-summary">Aster DM Healthcare与Quality Care合并完成，新公司Aster DM Quality Care开始运营。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Apollo Hospitals (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">23 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.yahoo.com/news/science/articles/zydus-apollo-hospitals-sign-mou-100812858.html" target="_blank">Zydus and Apollo Hospitals sign MoU to launch MCD test in India</a></h4>
-                <div class="news-summary">兆科与阿波罗医院签署协议，将在印度推广多癌种早筛检测MCD。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">8 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://m.economictimes.com/markets/stocks/apollo-hospitals-in-uncharted-territory-with-strong-momentum-kkunal-v-parar-see-more-upside/videoshow/132208828.cms" target="_blank">Apollo Hospitals in uncharted territory with strong momentum; Kkunal V. Parar see more upside</a></h4>
-                <div class="news-summary">Apollo Hospitals股价创新高，交易量显著放大，分析师看好其未来上涨潜力。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Fortis Healthcare (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">5 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://medicaldialogues.in/news/health/hospital-diagnostics/fortis-healthcare-announces-300-bed-multi-speciality-hospital-in-cuttack-174401" target="_blank">Fortis Healthcare announces 300-bed multi-speciality hospital in Cuttack</a></h4>
-                <div class="news-summary">福蒂斯医疗与迪昂集团签署协议，在奥里萨邦库贾克建设一家300张床位的综合医院。</div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    
-    <!-- 过去3天 -->
-    <div id="tab-last3days" class="tab-content">
-        
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🌐 IHH集团</h2>
-            <span class="count">3 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 IHH Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">3 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/07/1482670/ihh-healthcare-backs-merdeka-118-tower-race-promote-preventive" target="_blank">IHH Healthcare backs Merdeka 118 tower race to promote preventive health</a></h4>
-                <div class="news-summary">IHH Healthcare携手合作三年，推动预防医学，助力默迪卡118大楼健康挑战赛。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://health.economictimes.indiatimes.com/amp/news/health-it/ihh-healthcare-and-fortis-name-winners-of-inaugural-india-catalyst-accelerator/132215909" target="_blank">IHH Healthcare and Fortis name winners of inaugural India catalyst accelerator</a></h4>
-                <div class="news-summary">IHH Healthcare与Fortis公布首届印度创新加速器获奖初创企业。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://in.investing.com/news/stock-market-news/stock-jumps-6-from-days-low-after-ihh-healthcare-plans-to-increase-stake-by-19-5325283" target="_blank">Stock Jumps 6% from Day’s Low After IHH Healthcare Plans to Increase Stake by 19% By Trade Brains</a></h4>
-                <div class="news-summary">IHH Healthcare计划增持19%股份，股价从日内低点上涨6%。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇸🇬 新加坡</h2>
-            <span class="count">2 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Raffles Medical Group (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">13 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.biospectrumasia.com/news/54/27958/koreas-neurophet-to-supply-neurodegenerative-brain-imaging-analysis-software-to-raffles-medical-in-singapore.html" target="_blank">Korea's Neurophet to supply neurodegenerative brain imaging analysis software to Raffles Medical in Singapore</a></h4>
-                <div class="news-summary">韩国Neurophet向新加坡莱佛士医疗供应神经退行性脑成像分析软件“Neurophet AQUA”。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">7 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.theedgesingapore.com/capital/brokers-calls/rhb-calls-recent-drop-raffles-medical-shares-attractive-entry-point" target="_blank">RHB calls recent drop in Raffles Medical shares an 'attractive' entry point</a></h4>
-                <div class="news-summary">RHB认为莱佛士医疗股价近期下跌是入场良机，公司具备海外收购及回购潜力。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇲🇾 马来西亚</h2>
-            <span class="count">2 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Gleneagles Kuala Lumpur (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Gleneagles Kuala Lumpur</span>
-                    <span class="date-tag">9 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-cardiac-care/69709320" target="_blank">The Gleneagles Hospital Kuala Lumpur from IHH Healthcare - cardiac care expansion draws US investor</a></h4>
-                <div class="news-summary">吉隆坡格伦艾格尔斯医院扩建心脏导管实验室，吸引美国投资者关注。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Subang Jaya Medical Centre</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4047890/selangor/subang_jaya/commercial/shop/ss15-corner-lot-3-storey-shop-facing-main-road-near-lrt-station" target="_blank">SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by JAYDEN HENG</a></h4>
-                <div class="news-summary">雪兰莪梳邦再也一間6800平方英尺的零售店出租，月租28000林吉特。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇹🇭 泰国</h2>
-            <span class="count">1 条动态</span>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
-                <div class="news-summary">泰国拟推大麻法案，规范医疗使用及种植，并打击无证经营和假产品。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇮🇳 印度</h2>
-            <span class="count">10 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Aster DM Healthcare (5 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">48 minutes ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/aster-quality-starts-operations-targets-healthcare-expansion-beyond-indias-metro-cities" target="_blank">Aster DM Quality Care starts operations, targets healthcare expansion beyond India’s metro cities</a></h4>
-                <div class="news-summary">Aster DM Quality Care正式运营，合并后计划将医疗业务扩展至印度非一线城市。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">22 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/aster-dm-healthcare-appoints-varun-khanna-as-md-group-ceo-following-merger-613470" target="_blank">Aster DM Healthcare Appoints Varun Khanna As MD & Group CEO Following Merger</a></h4>
-                <div class="news-summary">Aster DM Healthcare任命Varun Khanna为董事总经理兼集团CEO，完成合并后领导公司发展。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">19 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/bengaluru/aster-dm-quality-care-merger-completed-combined-entity-begins-ops/articleshow/132218273.cms" target="_blank">Aster DM, Quality Care merger completed; combined entity begins ops</a></h4>
-                <div class="news-summary">Aster DM Healthcare与Quality Care合并完成，新公司Aster DM Quality Care开始运营。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">3 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://theindianpractitioner.com/aster-quality-care-begins-operations-sets-sights-on-expanding-advanced-healthcare-beyond-metros/" target="_blank">Aster Quality Care Begins Operations, Sets Sights on Expanding Advanced Healthcare Beyond Metros</a></h4>
-                <div class="news-summary">Aster Quality Care正式运营，合并后瞄准非一线城市高端医疗市场扩张。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">3 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.indianpharmapost.com/hospitals/aster-quality-care-launches-unified-healthcare-platform-to-expand-advanced-treatment-beyond-indias-metros-20818" target="_blank">Aster Quality Care launches unified healthcare platform to expand advanced treatment beyond India’s metros</a></h4>
-                <div class="news-summary">Aster Quality Care 启动统一医疗平台，推动先进治疗覆盖印度更多地区。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Fortis Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">5 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://medicaldialogues.in/news/health/hospital-diagnostics/fortis-healthcare-announces-300-bed-multi-speciality-hospital-in-cuttack-174401" target="_blank">Fortis Healthcare announces 300-bed multi-speciality hospital in Cuttack</a></h4>
-                <div class="news-summary">福蒂斯医疗与迪昂集团签署协议，在奥里萨邦库贾克建设一家300张床位的综合医院。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.indianpharmapost.com/news/fortis-healthcare-and-dion-group-to-launch-300-bed-multi-specialty-hospital-in-odisha-20831" target="_blank">Fortis Healthcare and Dion Group to launch 300-bed multi-specialty hospital in Odisha</a></h4>
-                <div class="news-summary">福蒂斯医疗与戴昂集团将在奥里萨邦合作开设一家300张床位的综合医院，这是福蒂斯在该州的首次重大布局。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.expresshealthcare.in/news/fortis-healthcare-signs-om-agreement-with-dion-group-for-300-bed-greenfield-multi-specialty-hospital-in-odisha/454216/" target="_blank">Fortis Healthcare signs O&M agreement with Dion Group for 300-bed hospital in Odisha</a></h4>
-                <div class="news-summary">福蒂斯医疗与戴昂集团签署协议，将运营印度奥迪沙邦一家300张床位的综合医院。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Apollo Hospitals (2 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">23 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.yahoo.com/news/science/articles/zydus-apollo-hospitals-sign-mou-100812858.html" target="_blank">Zydus and Apollo Hospitals sign MoU to launch MCD test in India</a></h4>
-                <div class="news-summary">赞思和阿波罗医院签署协议，在印度推广多癌种检测。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">8 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://m.economictimes.com/markets/stocks/apollo-hospitals-in-uncharted-territory-with-strong-momentum-kkunal-v-parar-see-more-upside/videoshow/132208828.cms" target="_blank">Apollo Hospitals in uncharted territory with strong momentum; Kkunal V. Parar see more upside</a></h4>
-                <div class="news-summary">Apollo Hospitals股价创新高，交易量显著增加，分析师看好其未来上涨潜力。</div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    
-    <!-- 过去1周 -->
-    <div id="tab-lastweek" class="tab-content">
-        
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🌐 IHH集团</h2>
-            <span class="count">3 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 IHH Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">3 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/07/1482670/ihh-healthcare-backs-merdeka-118-tower-race-promote-preventive" target="_blank">IHH Healthcare backs Merdeka 118 tower race to promote preventive health</a></h4>
-                <div class="news-summary">IHH Healthcare携手默迪卡118大楼竞赛，推动预防性健康理念。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://health.economictimes.indiatimes.com/amp/news/health-it/ihh-healthcare-and-fortis-name-winners-of-inaugural-india-catalyst-accelerator/132215909" target="_blank">IHH Healthcare and Fortis name winners of inaugural India catalyst accelerator</a></h4>
-                <div class="news-summary">IHH Healthcare与Fortis公布首届印度创新加速器获奖初创企业。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://in.investing.com/news/stock-market-news/stock-jumps-6-from-days-low-after-ihh-healthcare-plans-to-increase-stake-by-19-5325283" target="_blank">Stock Jumps 6% from Day’s Low After IHH Healthcare Plans to Increase Stake by 19% By Trade Brains</a></h4>
-                <div class="news-summary">IHH Healthcare计划增持19%股份，股价从日内低点上涨6%。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇸🇬 新加坡</h2>
-            <span class="count">6 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Raffles Medical Group (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">4 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.prnewswire.com/news-releases/neurophet-supplies-neurophet-aqua-to-raffles-medical-in-singapore-302815590.html" target="_blank">Neurophet Supplies 'Neurophet AQUA' to Raffles Medical in Singapore</a></h4>
-                <div class="news-summary">Neurophet向新加坡莱佛士医疗集团供应AI脑疾病诊断设备Neurophet AQUA。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">13 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.biospectrumasia.com/news/54/27958/koreas-neurophet-to-supply-neurodegenerative-brain-imaging-analysis-software-to-raffles-medical-in-singapore.html" target="_blank">Korea's Neurophet to supply neurodegenerative brain imaging analysis software to Raffles Medical in Singapore</a></h4>
-                <div class="news-summary">韩国Neurophet向新加坡莱佛士医疗供应神经退行性脑成像分析软件“Neurophet AQUA”。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Raffles Medical Group</span>
-                    <span class="date-tag">7 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.theedgesingapore.com/capital/brokers-calls/rhb-calls-recent-drop-raffles-medical-shares-attractive-entry-point" target="_blank">RHB calls recent drop in Raffles Medical shares an 'attractive' entry point</a></h4>
-                <div class="news-summary">RHB认为莱佛士医疗股价近期下跌是入场良机，公司具备海外收购及回购潜力。</div>
-            </div>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://sg.news.yahoo.com/first-ebola-case-confirmed-france-112445176.html" target="_blank">First Ebola case confirmed in France, health ministry says</a></h4>
-                <div class="news-summary">法国确认首例埃博拉病例，为从刚果民主共和国返回的医生。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">5 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.moh.gov.sg/newsroom/speech-by-mr-tan-kiat-how--senior-minister-of-state--ministry-of-digital-development-and-information---ministry-of-health--at-chi-innovate-2026--2-july-2026/" target="_blank">SPEECH BY MR TAN KIAT HOW, SENIOR MINISTER OF STATE, MINISTRY OF DIGITAL DEVELOPMENT AND INFORMATION & MINISTRY OF HEALTH, AT CHI INNOVATE 2026, 2 JULY 2026</a></h4>
-                <div class="news-summary">陈杰豪高级部长在2026年CHI创新大会上强调推动医疗与数字技术融合发展。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">6 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.moh.gov.sg/newsroom/1777-non-emergency-ambulance-hotline-to-cease--from-1-january-2027/" target="_blank">1777 NON-EMERGENCY AMBULANCE HOTLINE TO CEASE FROM 1 JANUARY 2027</a></h4>
-                <div class="news-summary">新加坡民防部队将于2027年1月1日停止使用1777非紧急救护车热线。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇲🇾 马来西亚</h2>
-            <span class="count">3 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Gleneagles Kuala Lumpur (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Gleneagles Kuala Lumpur</span>
-                    <span class="date-tag">9 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-cardiac-care/69709320" target="_blank">The Gleneagles Hospital Kuala Lumpur from IHH Healthcare - cardiac care expansion draws US investor</a></h4>
-                <div class="news-summary">吉隆坡格伦艾格尔斯医院扩建心脏导管室，吸引美国投资者关注。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Subang Jaya Medical Centre</span>
-                    <span class="date-tag">21 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4047890/selangor/subang_jaya/commercial/shop/ss15-corner-lot-3-storey-shop-facing-main-road-near-lrt-station" target="_blank">SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by JAYDEN HENG</a></h4>
-                <div class="news-summary">雪兰莪梳邦再也一間6800平方英尺的零售店出租，月租28000林吉特。</div>
-            </div>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.malaymail.com/news/malaysia/2026/06/27/moh-website-hacked-ministry-warns-malaysians-avoid-site-and-rely-on-verified-platforms/225402" target="_blank">MOH website hacked, ministry warns Malaysians avoid site and rely on verified platforms</a></h4>
-                <div class="news-summary">马来西亚卫生部网站遭黑客攻击，提醒民众避免访问并依赖官方验证平台获取信息。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇹🇭 泰国</h2>
-            <span class="count">4 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Bumrungrad International Hospital (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Bumrungrad International Hospital</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tradingview.com/symbols/GETTEX-BZ7A/forecast-actuals-and-estimates/" target="_blank">Bumrungrad Hospital Public Co., Ltd.(Alien Mkt) Actuals & Estimates (GETTEX:BZ7A)</a></h4>
-                <div class="news-summary">泰国Bumrungrad医院公布实际业绩与分析师预期对比，涵盖营收、盈利等关键财务指标。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 BDMS (Bangkok Dusit Medical Services) (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tradingview.com/symbols/SET-BDMS/forecast-actuals-and-estimates/" target="_blank">Bangkok Dusit Medical Services Public Co. Ltd. Actuals & Estimates (SET:BDMS)</a></h4>
-                <div class="news-summary">泰国杜斯特医疗集团（BDMS）公布实际业绩与分析师预期对比，涵盖营收、盈利及现金流等关键指标。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Praram 9 Hospital (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Praram 9 Hospital</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://praram9.com/en/news/praram9-myanmar-health-talk-2026" target="_blank">Praram 9 Hospital, in collaboration with MKT Corporation Co., Ltd., Hosts Myanmar Health Talk in Bangkok 2026 to Strengthen Preventive Healthcare Awareness</a></h4>
-                <div class="news-summary">普拉玛九医院与MKT公司合作在曼谷举办健康讲座，提升缅甸社区预防保健意识。</div>
-            </div>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.nationthailand.com/news/policy/40068375" target="_blank">Thailand cannabis draft law targets medical use and shop controls</a></h4>
-                <div class="news-summary">泰国拟推大麻法案，规范医疗使用及种植，并打击无证经营和假产品。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇮🇳 印度</h2>
-            <span class="count">13 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Aster DM Healthcare (6 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">48 minutes ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/aster-quality-starts-operations-targets-healthcare-expansion-beyond-indias-metro-cities" target="_blank">Aster DM Quality Care starts operations, targets healthcare expansion beyond India’s metro cities</a></h4>
-                <div class="news-summary">Aster DM Quality Care正式运营，合并后计划将医疗业务扩展至印度非一线城市。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">22 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/aster-dm-healthcare-appoints-varun-khanna-as-md-group-ceo-following-merger-613470" target="_blank">Aster DM Healthcare Appoints Varun Khanna As MD & Group CEO Following Merger</a></h4>
-                <div class="news-summary">Aster DM Healthcare任命Varun Khanna为董事总经理兼集团CEO，完成合并后领导公司发展。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">19 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/bengaluru/aster-dm-quality-care-merger-completed-combined-entity-begins-ops/articleshow/132218273.cms" target="_blank">Aster DM, Quality Care merger completed; combined entity begins ops</a></h4>
-                <div class="news-summary">Aster DM Healthcare与Quality Care合并完成，新实体Aster DM Quality Care开始运营。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tradingview.com/news/reuters.com,2026-06-29:newsml_Zaw77S9C5:0-zawya-aster-dm-healthcare-launches-women-s-health-programme-a-unified-initiative-to-support-women-across-different-stages-of-life/" target="_blank">ZAWYA: Aster DM Healthcare launches Women’s Health Programme – A unified initiative to support women across different stages of life</a></h4>
-                <div class="news-summary">Aster DM Healthcare推出统一女性健康计划，旨在支持女性不同生命阶段的健康需求。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">3 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://theindianpractitioner.com/aster-quality-care-begins-operations-sets-sights-on-expanding-advanced-healthcare-beyond-metros/" target="_blank">Aster Quality Care Begins Operations, Sets Sights on Expanding Advanced Healthcare Beyond Metros</a></h4>
-                <div class="news-summary">Aster Quality Care正式运营，合并后瞄准非一线城市高端医疗市场扩张。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">3 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.indianpharmapost.com/hospitals/aster-quality-care-launches-unified-healthcare-platform-to-expand-advanced-treatment-beyond-indias-metros-20818" target="_blank">Aster Quality Care launches unified healthcare platform to expand advanced treatment beyond India’s metros</a></h4>
-                <div class="news-summary">Aster Quality Care合并成立，推出统一医疗平台，推动先进治疗向印度非一线城市扩展。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Apollo Hospitals (4 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">23 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.yahoo.com/news/science/articles/zydus-apollo-hospitals-sign-mou-100812858.html" target="_blank">Zydus and Apollo Hospitals sign MoU to launch MCD test in India</a></h4>
-                <div class="news-summary">赞思和阿波罗医院签署协议，在印度推广多癌种检测。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.weforum.org/videos/apollo-hospitals-leveraging-ai-to-increase-access-to-health-care/" target="_blank">Apollo Hospitals: Leveraging AI and other technologies to increase access to healthcare</a></h4>
-                <div class="news-summary">阿波罗医院通过AI等技术提升医疗可及性，重点关注服务不足地区。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">8 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://m.economictimes.com/markets/stocks/apollo-hospitals-in-uncharted-territory-with-strong-momentum-kkunal-v-parar-see-more-upside/videoshow/132208828.cms" target="_blank">Apollo Hospitals in uncharted territory with strong momentum; Kkunal V. Parar see more upside</a></h4>
-                <div class="news-summary">Apollo Hospitals股价创新高，交易量显著增加，分析师看好其未来上涨潜力。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6 days ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.prnewswire.com/in/news-releases/apollo-hospitals-bangalore-becomes-first-in-india-to-receive-dual-american-heart-association-certification-for-stroke-and-chest-pain-care-302814601.html" target="_blank">Apollo Hospitals, Bangalore Becomes First in India to Receive Dual American Heart Association Certification for Stroke and Chest Pain Care</a></h4>
-                <div class="news-summary">班加罗尔阿波罗医院成为印度首家获得美国心脏协会中风和胸痛护理双重认证的医院。</div>
-            </div>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Fortis Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">5 hours ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://medicaldialogues.in/news/health/hospital-diagnostics/fortis-healthcare-announces-300-bed-multi-speciality-hospital-in-cuttack-174401" target="_blank">Fortis Healthcare announces 300-bed multi-speciality hospital in Cuttack</a></h4>
-                <div class="news-summary">福蒂斯医疗与迪昂集团签署协议，在奥里萨邦库贾克建设一家300张床位的综合医院。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.indianpharmapost.com/news/fortis-healthcare-and-dion-group-to-launch-300-bed-multi-specialty-hospital-in-odisha-20831" target="_blank">Fortis Healthcare and Dion Group to launch 300-bed multi-specialty hospital in Odisha</a></h4>
-                <div class="news-summary">福蒂斯医疗与戴昂集团将在奥里萨邦合作开设一家300张床位的综合医院，这是福蒂斯在该州的首次重大布局。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">1 day ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.expresshealthcare.in/news/fortis-healthcare-signs-om-agreement-with-dion-group-for-300-bed-greenfield-multi-specialty-hospital-in-odisha/454216/" target="_blank">Fortis Healthcare signs O&M agreement with Dion Group for 300-bed hospital in Odisha</a></h4>
-                <div class="news-summary">福蒂斯医疗与戴昂集团签署协议，将运营印度奥迪沙邦一家300张床位的综合医院。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇹🇷 土耳其</h2>
-            <span class="count">1 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Acibadem Healthcare Group (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Acibadem Healthcare Group</span>
-                    <span class="date-tag">1 week ago</span>
-                </div>
-                <h4 class="news-title"><a href="https://finance.yahoo.com/healthcare/articles/acibadem-healthcare-group-strengthens-global-210500899.html" target="_blank">Acibadem Healthcare Group Strengthens Global Patient Services Through Multidisciplinary Care and Advanced Medical Technologies</a></h4>
-                <div class="news-summary">阿克切德姆医疗集团通过多学科协作和先进医疗技术，提升国际患者诊疗服务体验。</div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    
-    <script>
-        // 时间段统计数据
-        const statsData = {
-            today: { label: '今日动态', value: '7 家机构' },
-            last3days: { label: '近3天动态', value: '7 家机构' },
-            lastweek: { label: '近1周动态', value: '11 家机构' }
-        };
-        
-        // 各时间段的国家新闻数量
-        const locationCounts = {
-            today: {"IHH\u96c6\u56e2": 2, "\u65b0\u52a0\u5761": 2, "\u9a6c\u6765\u897f\u4e9a": 2, "\u6cf0\u56fd": 1, "\u5370\u5ea6": 6, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            last3days: {"IHH\u96c6\u56e2": 3, "\u65b0\u52a0\u5761": 2, "\u9a6c\u6765\u897f\u4e9a": 2, "\u6cf0\u56fd": 1, "\u5370\u5ea6": 10, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            lastweek: {"IHH\u96c6\u56e2": 3, "\u65b0\u52a0\u5761": 6, "\u9a6c\u6765\u897f\u4e9a": 3, "\u6cf0\u56fd": 4, "\u5370\u5ea6": 13, "\u571f\u8033\u5176": 1, "\u5176\u4ed6": 0}
-        };
-        
-        let currentView = 'list';
-        let currentFilter = null;
-        let currentTab = 'today';
-        
-        // 切换视图
-        function switchView(view, btn) {
-            currentView = view;
-            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-            
-            if (view === 'map') {
-                document.getElementById('map-view').classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-                document.querySelector('.tabs').style.display = 'none';
-                // 同步地图内的时间选择
-                document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
-                document.querySelector('.map-tab[onclick*="' + currentTab + '"]').classList.add('active');
-                updateMapData(currentTab);
-            } else {
-                document.getElementById('map-view').classList.remove('active');
-                document.querySelectorAll('.tab-content').forEach(el => {
-                    el.style.display = el.classList.contains('active') ? 'block' : 'none';
-                });
-                document.querySelector('.tabs').style.display = 'flex';
-            }
-        }
-        
-        // 更新地图数据
-        function updateMapData(tabName) {
-            const counts = locationCounts[tabName];
-            document.querySelectorAll('.region-card').forEach(card => {
-                const location = card.getAttribute('data-location');
-                const count = counts[location] || 0;
-                card.querySelector('.count-num').textContent = count;
-                card.classList.remove('has-news', 'no-news');
-                card.classList.add(count > 0 ? 'has-news' : 'no-news');
-            });
-        }
-        
-        // 地图内时间选择
-        function selectMapTime(tabName, btn) {
-            currentTab = tabName;
-            document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-            updateMapData(tabName);
-        }
-        
-        // 按国家筛选
-        function filterByLocation(location) {
-            currentFilter = location;
-            
-            // 切换到列表视图
-            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
-            document.querySelector('.view-btn').classList.add('active');
-            document.getElementById('map-view').classList.remove('active');
-            document.querySelector('.tabs').style.display = 'flex';
-            
-            // 同步时间选择到列表视图
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.remove('active');
-                el.style.display = 'none';
-            });
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            // 激活当前时间对应的标签页
-            const activeTab = document.getElementById('tab-' + currentTab);
-            activeTab.classList.add('active');
-            activeTab.style.display = 'block';
-            document.querySelector('.tab-btn[onclick*="' + currentTab + '"]').classList.add('active');
-            
-            // 更新统计和排行榜
-            document.getElementById('stat-label').textContent = statsData[currentTab].label;
-            document.getElementById('stat-value').textContent = statsData[currentTab].value;
-            const rankingHtml = document.getElementById('ranking-' + currentTab + '-data').innerHTML;
-            document.getElementById('ranking-container').innerHTML = rankingHtml;
-            
-            // 显示国家筛选提示
-            document.getElementById('country-filter').classList.add('active');
-            document.getElementById('filter-name').textContent = location + ' 动态';
-            
-            // 筛选对应国家的新闻
-            document.querySelectorAll('.group-section').forEach(el => {
-                const headerText = el.querySelector('.group-header h2').textContent;
-                if (headerText.includes(location)) {
-                    el.style.display = 'block';
-                } else {
-                    el.style.display = 'none';
-                }
-            });
-        }
-        
-        // 清除筛选
-        function clearFilter() {
-            currentFilter = null;
-            document.getElementById('country-filter').classList.remove('active');
-            document.querySelectorAll('.group-section').forEach(el => {
-                el.style.display = 'block';
-            });
-        }
-        
-        function showTab(tabName, btn) {
-            currentTab = tabName;
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.remove('active');
-                el.style.display = 'none';
-            });
-            document.querySelectorAll('.tab-btn').forEach(el => {
-                el.classList.remove('active');
-            });
-            const activeContent = document.getElementById('tab-' + tabName);
-            activeContent.classList.add('active');
-            activeContent.style.display = 'block';
-            btn.classList.add('active');
-            
-            document.getElementById('stat-label').textContent = statsData[tabName].label;
-            document.getElementById('stat-value').textContent = statsData[tabName].value;
-            
-            const rankingHtml = document.getElementById('ranking-' + tabName + '-data').innerHTML;
-            document.getElementById('ranking-container').innerHTML = rankingHtml;
-            
-            if (currentFilter) clearFilter();
-        }
-    </script>
-    
-    <div class="footer">
-        📌 数据来源：Firecrawl 搜索引擎 | 自动采集，每日更新
-    </div>
+
+<div class="news-item">
+<strong>We Think That There Are More Issues For IHH Healthcare Berhad (KLSE:IHH) Than Just Sluggish Earnings</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">1 month ago</div>
+<a href="https://finance.yahoo.com/sectors/healthcare/articles/think-more-issues-ihh-healthcare-030510379.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare embeds AI into workflows as adoption scales across hospitals</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">1 month ago</div>
+<a href="https://www.healthcareitnews.com/news/asia/ihh-healthcare-embeds-ai-workflows-adoption-scales-across-hospitals" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare backs Merdeka 118 tower race to promote preventive health</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">3 hours ago</div>
+<a href="https://www.nst.com.my/amp/business/corporate/2026/07/1482670/ihh-healthcare-backs-merdeka-118-tower-race-promote-preventive" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare and Fortis name winners of inaugural India catalyst accelerator</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">21 hours ago</div>
+<a href="https://health.economictimes.indiatimes.com/amp/news/health-it/ihh-healthcare-and-fortis-name-winners-of-inaugural-india-catalyst-accelerator/132215909" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare drives operational excellence & strategic growth through a treasury-first digital transformation</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">Apr 22, 2026</div>
+<a href="https://www.bloomberg.com/professional/insights/treasury/ihh-healthcare-drives-operational-excellence/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Malaysia's IHH Healthcare makes oncology push with investment in US firm TibaRay</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">Jan 28, 2026</div>
+<a href="https://www.reuters.com/business/healthcare-pharmaceuticals/malaysias-ihh-healthcare-makes-oncology-push-with-investment-us-firm-tibaray-2026-01-29/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Stock Jumps 6% from Day’s Low After IHH Healthcare Plans to Increase Stake by 19% By Trade Brains</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">1 day ago</div>
+<a href="https://in.investing.com/news/stock-market-news/stock-jumps-6-from-days-low-after-ihh-healthcare-plans-to-increase-stake-by-19-5325283" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare, Fortis announce winners of inaugural healthcare startup accelerator</strong>
+<div class="entity">IHH Healthcare</div>
+<div class="date">4 days ago</div>
+<a href="https://entrackr.com/snippets/ihh-healthcare-fortis-announce-winners-of-inaugural-healthcare-startup-accelerator-12129800" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Health care beyond borders: Mount Elizabeth raises stake in PH</strong>
+<div class="entity">Mount Elizabeth Hospital</div>
+<div class="date">1 month ago</div>
+<a href="https://business.inquirer.net/592017/health-care-beyond-borders-mount-elizabeth-raises-stake-in-ph" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Mount Elizabeth Hospital elevates complex care with completion of Project Renaissance | Anne Ruth Dela Cruz</strong>
+<div class="entity">Mount Elizabeth Hospital</div>
+<div class="date">Apr 29, 2026</div>
+<a href="https://businessmirror.com.ph/2026/04/29/mount-elizabeth-hospital-elevates-complex-care-with-completion-of-project-renaissance/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH rolls out AI across Mount Elizabeth as S$350 million upgrade delivers on savings, efficiency gains</strong>
+<div class="entity">Mount Elizabeth Hospital</div>
+<div class="date">Apr 16, 2026</div>
+<a href="https://www.businesstimes.com.sg/companies-markets/ihh-rolls-out-ai-across-mount-elizabeth-s350-million-upgrade-delivers-savings-efficiency-gains" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Doctor For A Day At Mount Elizabeth Hospital Review</strong>
+<div class="entity">Mount Elizabeth Hospital</div>
+<div class="date">Mar 18, 2026</div>
+<a href="https://www.littledayout.com/doctor-for-a-day-mount-elizabeth-hospital-review/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Parkway Radiology reopens Nuclear Medicine and PET Centre at Mount Elizabeth Hospital</strong>
+<div class="entity">Mount Elizabeth Hospital</div>
+<div class="date">Mar 19, 2026</div>
+<a href="https://healthcareasiamagazine.com/news/parkway-radiology-reopens-nuclear-medicine-and-pet-centre-mount-elizabeth-hospital" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Parkway East’s launches Peranakan menu for patients</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">3 days ago</div>
+<a href="https://www.straitstimes.com/life/food/less-salt-full-on-flavours-parkway-east-hospital-refreshes-patient-menu-with-peranakan-dishes" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>BGMEA, Parkway Hospitals Singapore signs MoU to ensure int’l healthcare for members</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">Dec 10, 2025</div>
+<a href="https://www.bssnews.net/business/340720" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Parkway Life Reit Q1 DPU up 15.1% at S$0.0442 on higher Singapore hospital rents</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">Apr 30, 2026</div>
+<a href="https://www.businesstimes.com.sg/companies-markets/reits-property/parkway-life-reit-q1-dpu-15-1-s0-0442-higher-singapore-hospital-rents" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Parkway Radiology enhances chest X-Ray diagnostics with AI across Singapore</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">Jun 18, 2025</div>
+<a href="https://sg.finance.yahoo.com/news/parkway-radiology-enhances-chest-x-190535187.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Parkway Life REIT: Singapore Hospitals Drive 15.1% DPU Growth</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">May 5, 2026</div>
+<a href="https://growbeansprout.com/parkway-life-reit-1q26-dividends" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>5 off-duty M'sian healthcare staff working in S'pore save elderly man who collapsed near JB customs</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">Aug 12, 2025</div>
+<a href="https://mothership.sg/2025/08/healthcare-staff-help-save-elderly-man-johor-bahru/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Is Parkway Life REIT The Safest Dividend Play in Singapore?</strong>
+<div class="entity">Parkway East Hospital</div>
+<div class="date">Oct 28, 2025</div>
+<a href="https://thesmartinvestor.com.sg/is-parkway-life-reit-the-safest-dividend-play-in-singapore/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>The Gleneagles Hospital Kuala Lumpur from IHH Healthcare - cardiac care expansion draws US investor</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">9 hours ago</div>
+<a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-cardiac-care/69709320" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Gleneagles Hospital Kuala Lumpur from IHH Healthcare Bhd - cardiac centre focuses on complex cases</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">1 week ago</div>
+<a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-bhd-cardiac-centre/69642675" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Sunway Medical Centre, Gleneagles Hospital named among world’s best 250 hospitals in 2025; HKL only public hospital in Malaysia Top 10</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">May 14, 2025</div>
+<a href="https://malaysia.news.yahoo.com/sunway-medical-centre-gleneagles-hospital-031611463.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Gleneagles KL Eyes Medical Tourism Boost With Nearby Stay Option</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">Jul 14, 2025</div>
+<a href="https://www.businesstoday.com.my/2025/07/14/gleneagles-kl-eyes-medical-tourism-boost-with-nearby-stay-option/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Gleneagles Hospital Kuala Lumpur Honours Cancer Survivors With Heartwarming Tribute</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">Jun 20, 2023</div>
+<a href="https://says.com/my/lifestyle/gleneagles-hospital-kl-cancer-survivor-tribute" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH's Fortis to manage most Gleneagles hospitals in India</strong>
+<div class="entity">Gleneagles Kuala Lumpur</div>
+<div class="date">Jul 23, 2025</div>
+<a href="https://theedgemalaysia.com/node/763761" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>SUBANG JAYA MEDICAL CENTRE RANKED AMONG THE WORLD'S TOP 250 HOSPITALS AND TOP 10 REGIONALLY IN NEWSWEEK'S 2026 RANKING</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">Mar 16, 2026</div>
+<a href="https://www.prnewswire.com/apac/news-releases/subang-jaya-medical-centre-ranked-among-the-worlds-top-250-hospitals-and-top-10-regionally-in-newsweeks-2026-ranking-302713254.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Subang Jaya Medical Centre CEO Bryan Lin on driving healthcare forward and prioritising prevention before cure</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">Oct 21, 2025</div>
+<a href="https://www.optionstheedge.com/topic/people/subang-jaya-medical-centre-ceo-bryan-lin-driving-healthcare-forward-and-prioritising" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Malaysia’s Subang Jaya Medical Centre Offers Specialised Care, Deepens Cambodia-Malaysia Healthcare Ties</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">1 month ago</div>
+<a href="https://phnompenhpost.com/business/malaysias-subang-jaya-medical-centre-offers-specialised-care-deepens-cambodia-malaysia-healthcare-ties/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>First connected health service in Malaysia launched</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">Jul 13, 2023</div>
+<a href="https://www.healthcareitnews.com/news/asia/first-connected-health-service-malaysia-launched" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>In conversation with Dr. Trish Hogan, Chief Executive Officer, Subang Jaya Medical Centre & Ara Damansara Medical Centre</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">Mar 24, 2021</div>
+<a href="https://www.siemens-healthineers.com/en-th/news/trish-hogan-pandemic-challenges-artificial-intelligence" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Born At SJMC? Now You Can Join Malaysia’s 1st Hospital ‘Alumni Circle’</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">Dec 4, 2025</div>
+<a href="https://www.therakyatpost.com/living/2025/12/04/born-at-sjmc-now-you-can-join-malaysias-1st-hospital-alumni-circle/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Subang Jaya Medical Centre Applauded by Frost & Sullivan as the Best Hospital Company of the Year in Malaysia for the fourth consecutive year</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">May 19, 2024</div>
+<a href="https://www.lelezard.com/en/news-21384005.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by JAYDEN HENG</strong>
+<div class="entity">Subang Jaya Medical Centre</div>
+<div class="date">21 hours ago</div>
+<a href="https://www.edgeprop.my/listing/rental/4047890/selangor/subang_jaya/commercial/shop/ss15-corner-lot-3-storey-shop-facing-main-road-near-lrt-station" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Tech-enabled Island Hospital named Malaysia's flagship medical tourism hospital</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Dec 17, 2025</div>
+<a href="https://www.healthcareitnews.com/news/asia/tech-enabled-island-hospital-named-malaysias-flagship-medical-tourism-hospital" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>ISLAND HOSPITAL NAMED MALAYSIA'S FIRST FLAGSHIP MEDICAL TOURISM HOSPITAL</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Dec 9, 2025</div>
+<a href="https://www.prnewswire.com/apac/news-releases/island-hospital-named-malaysias-first-flagship-medical-tourism-hospital-302636413.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>IHH Healthcare to acquire Malaysia's Island Hospital for $901 mln</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Sep 4, 2024</div>
+<a href="https://www.reuters.com/markets/deals/ihh-healthcare-acquire-malaysias-island-hospital-901-mln-2024-09-04/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Deal focus: Affinity secures 3x return on Malaysia medical tourism play</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Sep 11, 2024</div>
+<a href="https://ionanalytics.com/insights/mergermarket/deal-focus-affinity-secures-3x-return-on-malaysia-medical-tourism-play/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Asian Buyout Firm Shortlists Bidders for $800 Million Malaysia Hospital Sale</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Jun 23, 2024</div>
+<a href="https://www.wsj.com/business/deals/asian-buyout-firm-shortlists-bidders-for-800-million-malaysia-hospital-sale-d2da3e40" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>New Singapore-based hospital opens branch in Penang</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Mar 31, 2026</div>
+<a href="https://www.thevibes.com/articles/lifestyles/121323/new-singapore-based-hospital-opens-branch-in-penang" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>MHTC honours Island Hospital with 3 awards, including flagship hospital title</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Dec 9, 2025</div>
+<a href="https://www.freemalaysiatoday.com/category/nation/2025/12/09/mhtc-honours-island-hospital-with-3-awards-including-flagship-hospital-title" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Malaysia names first Flagship Medical Tourism Hospital</strong>
+<div class="entity">Island Hospital</div>
+<div class="date">Dec 10, 2025</div>
+<a href="https://thesun.my/spotlight/malaysia-flagship-medical-tourism-hospital/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Prince Court Medical Centre Strengthens Malaysia's Position as a Global Healthcare Destination with First Kelly Procedure</strong>
+<div class="entity">Prince Court Medical Centre</div>
+<div class="date">Aug 13, 2025</div>
+<a href="https://www.prnewswire.com/apac/news-releases/prince-court-medical-centre-strengthens-malaysias-position-as-a-global-healthcare-destination-with-first-kelly-procedure-302528760.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Malaysia: IHH Healthcare completes Prince Court Medical Centre acquisition</strong>
+<div class="entity">Prince Court Medical Centre</div>
+<div class="date">Sep 8, 2020</div>
+<a href="https://www.investorsinhealthcare.com/articles/malaysia-ihh-healthcare-completes-prince-court-medical-centre-acquisition/" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Find delicious biryani rice at KL's Prince Court Medical Centre Food Galleria... yes, it's in the hospital!</strong>
+<div class="entity">Prince Court Medical Centre</div>
+<div class="date">Nov 22, 2022</div>
+<a href="https://malaysia.news.yahoo.com/delicious-biryani-rice-kls-prince-003635030.html" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Healthcare Asia Awards 2025 Winner: Dr. Shuba Srinivasan of Prince Court Medical Centre</strong>
+<div class="entity">Prince Court Medical Centre</div>
+<div class="date">May 20, 2025</div>
+<a href="https://healthcareasiamagazine.com/videos/healthcare-asia-awards-2025-winner-dr-shuba-srinivasan-prince-court-medical-centre" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Controversial Hospital Sale in Malaysia Draws Questions</strong>
+<div class="entity">Prince Court Medical Centre</div>
+<div class="date">Feb 14, 2020</div>
+<a href="https://www.asiasentinel.com/p/controversial-hospital-sale-in-malaysia" target="_blank">查看原文</a>
+</div>
+
+<div class="news-item">
+<strong>Fortis Healthcare announces 300-bed multi-speciality hospital in Cuttack</strong>
+<div class="entity">Fortis Healthcare</div>
+<div class="date">5 hours ago</div>
+<a href="https://medicaldialogues.in/news/health/hospital-diagnostics/fortis-healthcare-announces-300-bed-multi-speciality-hospital-in-cuttack-174401" target="_blank">查看原文</a>
+</div>
+
 </body>
 </html>
