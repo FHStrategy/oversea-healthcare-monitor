@@ -1,945 +1,1562 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>海外医疗动态监测 - 2026-07-13</title>
-<style>
-* { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-.container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-h1 { color: #333; margin-bottom: 10px; }
-.update-time { color: #666; font-size: 0.9em; margin-bottom: 20px; }
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
-.stat-box { background: #e8f4f8; padding: 15px; border-radius: 8px; text-align: center; }
-.stat-num { font-size: 2em; font-weight: bold; color: #0066cc; }
-.stat-label { color: #666; font-size: 0.9em; }
-.section { margin: 30px 0; }
-.section-title { color: #333; font-size: 1.3em; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
-.news-list { list-style: none; padding: 0; }
-.news-item { padding: 15px; border-bottom: 1px solid #eee; }
-.news-title { font-weight: 500; color: #333; margin-bottom: 5px; }
-.news-meta { font-size: 0.85em; color: #666; }
-.news-entity { color: #0066cc; }
-.news-date { color: #999; }
-a { color: #0066cc; text-decoration: none; }
-a:hover { text-decoration: underline; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海外医疗集团动态监测 - 2026-07-13</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #003B83;
+            --primary-light: #0052B8;
+            --primary-lighter: #0066E6;
+            --primary-dark: #002B61;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        h1 { 
+            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
+            color: white;
+            padding: 22px 28px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 25px rgba(0, 59, 131, 0.5);
+            font-size: 26px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .summary { 
+            background: rgba(255,255,255,0.95); 
+            padding: 22px 28px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #003B83;
+        }
+        .summary-title {
+            color: #003B83;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stat-label {
+            color: #0052B8;
+            font-size: 14px;
+        }
+        .stat-value {
+            color: #003B83;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        /* 排行榜样式 */
+        .ranking-section {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #e3f2fd;
+        }
+        .ranking-title {
+            color: #003B83;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ranking-item .rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .ranking-item .entity-name {
+            min-width: 180px;
+            color: #37474f;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 200px;
+        }
+        .bar {
+            height: 100%;
+            background: linear-gradient(90deg, #003B83 0%, #0066E6 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .bar-count {
+            color: #003B83;
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: right;
+        }
+        .ranking-empty {
+            color: #90a4ae;
+            font-size: 14px;
+            padding: 12px 0;
+        }
+        
+        /* 标签页样式 */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .tab-btn:hover {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 59, 131, 0.3);
+        }
+        .tab-btn .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .tab-btn.active .count {
+            background: rgba(255,255,255,0.25);
+        }
+        .tab-btn:not(.active) .count {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #546e7a;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .group-section { margin-bottom: 25px; }
+        .group-header { 
+            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
+            color: white; 
+            padding: 16px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 43, 97, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .group-header h2 { font-size: 19px; font-weight: 600; }
+        .group-header .count { 
+            background: rgba(255,255,255,0.15); 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .entity-section { margin-left: 15px; margin-bottom: 20px; }
+        .sea-health-section { background: rgba(0, 59, 131, 0.03); border-radius: 8px; padding: 10px; margin-top: 10px; }
+        .sea-tag { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .entity-header { 
+            background: rgba(255,255,255,0.95); 
+            padding: 14px 20px; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            border-left: 5px solid #003B83;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .entity-header h3 { color: #003B83; font-size: 16px; font-weight: 600; }
+        .news-item { 
+            background: rgba(255,255,255,0.98); 
+            padding: 18px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 12px; 
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 59, 131, 0.08);
+            transition: all 0.2s ease;
+        }
+        .news-item:hover { 
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 59, 131, 0.2);
+            border-color: #0066E6;
+        }
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .entity-tag { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white; 
+            padding: 4px 14px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: 500;
+        }
+        .date-tag { color: #90a4ae; font-size: 12px; }
+        .news-title { 
+            font-size: 16px; 
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .news-title a { 
+            color: #003B83; 
+            text-decoration: none; 
+            font-weight: 600;
+        }
+        .news-title a:hover { 
+            color: #0052B8; 
+            text-decoration: underline; 
+        }
+        .news-summary { 
+            color: #546e7a; 
+            line-height: 1.7; 
+            font-size: 14px; 
+            background: #f8fafc; 
+            padding: 12px 16px; 
+            border-radius: 8px;
+            border-left: 3px solid #003B83;
+        }
+        
+        /* 地图视图样式 */
+        .view-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .view-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .view-btn:hover {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        .view-btn.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+        }
+        
+        .map-container {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .map-container.active {
+            display: block;
+        }
+        
+        .map-title {
+            text-align: center;
+            color: #003B83;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .map-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .map-tab {
+            padding: 10px 20px;
+            border: 2px solid #e3f2fd;
+            background: white;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .map-tab:hover {
+            border-color: #003B83;
+            color: #003B83;
+            background: #f8fafc;
+        }
+        .map-tab.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            border-color: #003B83;
+        }
+        .map-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .map-tab:not(.active) .count {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .region-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .region-card:hover {
+            transform: translateY(-5px);
+            border-color: #003B83;
+            box-shadow: 0 8px 25px rgba(0, 59, 131, 0.2);
+        }
+        .region-card.has-news {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .region-card.no-news {
+            opacity: 0.6;
+        }
+        .region-flag {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        .region-name {
+            color: #003B83;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .region-count {
+            color: #546e7a;
+            font-size: 13px;
+        }
+        .region-count span {
+            color: #003B83;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .news-list-container {
+            display: block;
+        }
+        .news-list-container.hidden {
+            display: none;
+        }
+        
+        .country-filter {
+            display: none;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .country-filter.active {
+            display: flex;
+        }
+        .country-filter-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .country-filter-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .country-filter-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #546e7a;
+            font-size: 14px;
+            margin-top: 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>🏥 海外医疗动态监测</h1>
-<div class="update-time">更新时间: 2026-07-13 15:21</div>
+    <h1>🏥 海外医疗集团动态监测</h1>
+    <div class="summary">
+        <div class="summary-title">📊 数据概览</div>
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-label">更新时间</span>
+                <span class="stat-value">2026年07月13日 15:53</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">监测范围</span>
+                <span class="stat-value">25 家机构</span>
+            </div>
+            <div class="stat-item" id="stat-active">
+                <span class="stat-label" id="stat-label">今日动态</span>
+                <span class="stat-value" id="stat-value">5 家机构</span>
+            </div>
+        </div>
 
-<div class="stats-grid">
-<div class="stat-box">
-<div class="stat-num">180</div>
-<div class="stat-label">📋 今天</div>
-</div>
-<div class="stat-box">
-<div class="stat-num">202</div>
-<div class="stat-label">📅 近3天(含今天)</div>
-</div>
-<div class="stat-box">
-<div class="stat-num">207</div>
-<div class="stat-label">📊 近1周(含今天)</div>
-</div>
-</div>
+        <!-- 排行榜容器 -->
+        <div id="ranking-container">
+            
+            <div class="ranking-section">
+                <div class="ranking-title">📈 今日机构动态排行</div>
+                <div class="ranking-list">
 
-<div class="section">
-<h2 class="section-title">机构新闻 (今日 55 / 近3天 70 / 近1周 75)</h2>
-<ul class="news-list">
-<li class="news-item">
-<div class="news-title"><a href="https://indiplomacy.com/2026/07/13/ihh-announces-winners-of-inaugural-ihh-catalyst-fortis-india-edition-to-advance-healthcare-innovation/" target="_blank">IHH Recognises Winners of Inaugural Fortis India Catalyst Programme</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">1 hour ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://healthcareasiamagazine.com/healthcare/news/ihh-singapore-goes-preventive-new-healthspan-programme" target="_blank">IHH Singapore goes preventive with new Healthspan programme</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">1 hour ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesstoday.com.my/2026/07/13/stock-picks-ihh-healthcare-and-press-metal/" target="_blank">Stock Picks: IHH Healthcare And Press Metal</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">4 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://cj.my/157922/ihh-sky-race-returns-bigger-with-9000-climbers-at-merdeka-118/" target="_blank">IHH Sky Race returns bigger with 9,000 climbers at Merdeka 118</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">2 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.edgeprop.my/listing/rental/4057449/novum-bangsar-south-for-rent-by-kamal-sinland" target="_blank">Novum @ Bangsar South Condo for Rent in Pantai Dalam/Kerinchi, Kuala Lumpur by KAMAL SINLAND</a></div>
-<div class="news-meta">
-<span class="news-entity">Pantai Hospitals</span> ·
-<span class="news-date">8 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.edgeprop.my/content/1916698/haus-15-ss15-subang-jaya-rare-freehold-gem-prime-education-hub-introduction" target="_blank">Haus on 15, SS15 Subang Jaya: A Rare Freehold Gem in a Prime Education Hub Introduction</a></div>
-<div class="news-meta">
-<span class="news-entity">Subang Jaya Medical Centre</span> ·
-<span class="news-date">2 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://thenewsmill.com/2026/06/fortis-hospital-shalimar-bagh-to-cooperate-with-delhi-cms-inspection-order/" target="_blank">Fortis Hospital Shalimar Bagh to cooperate with Delhi CM’s inspection order</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">6 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/die-bdms-aktie-bleibt-vom-gesundheitswachstum-in-thailand-gestuetzt/69752728" target="_blank">Die BDMS-Aktie bleibt vom Gesundheitswachstum in Thailand gestützt</a></div>
-<div class="news-meta">
-<span class="news-entity">BDMS (Bangkok Dusit Medical Services)</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/die-bdms-aktie-bleibt-vom-gesundheitsmarkt-in-thailand-gestuetzt/69753922" target="_blank">Die BDMS-Aktie bleibt vom Gesundheitsmarkt in Thailand gestützt</a></div>
-<div class="news-meta">
-<span class="news-entity">BDMS (Bangkok Dusit Medical Services)</span> ·
-<span class="news-date">15 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thedailystar.net/business/organisation-news/news/nrb-bank-partners-thailands-phyathai-2-hospital-healthcare-benefits-4222311" target="_blank">NRB Bank partners with Thailand’s Phyathai 2 Hospital for healthcare benefits</a></div>
-<div class="news-meta">
-<span class="news-entity">Phyathai Hospital Group</span> ·
-<span class="news-date">10 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.dhakatribune.com/business/banks/414940/nrb-bank-signs-strategic-agreement-with-phyathai-2" target="_blank">NRB Bank signs strategic agreement with Phyathai 2 Hospital Co Ltd</a></div>
-<div class="news-meta">
-<span class="news-entity">Phyathai Hospital Group</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ndtv.com/entertainment/to-s-janaki-tributes-from-politicians-dk-shivakumar-chandrababu-naidu-jagan-reddy-her-unparalleled-voice-will-remain-immortal-11759233/amp/1" target="_blank">To S Janaki, Tributes From Politicians DK Shivakumar, Chandrababu Naidu, Jagan Reddy: 'Her Unparalleled Voice Will Remain Immortal'</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesstoday.com.my/2026/07/11/ihh-winds-up-dormant-china-healthcare-subsidiary/" target="_blank">IHH Winds Up Dormant China Healthcare Subsidiary</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.biospectrumindia.com/news/93/28103/intuitive-signs-mou-with-fortis-hospital-to-support-development-of-sustainable-robotic-assisted-surgery-programmes.html" target="_blank">Intuitive signs MoU with Fortis Hospital to support development of sustainable robotic-assisted surgery programmes</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theindependent.sg/singaporeans-are-nice-people-foreigner-praises-singaporeans-after-unforgettable-internship-experience-at-sgh/" target="_blank">‘Singaporeans are nice people’: Foreigner praises Singaporeans after unforgettable internship experience at SGH</a></div>
-<div class="news-meta">
-<span class="news-entity">Singapore General Hospital</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://timesofindia.indiatimes.com/entertainment/telugu/movies/news/s-janaki-demise-dk-shivakumar-says-her-unparalleled-voice-will-remain-immortal-y-s-jagan-mohan-reddy-pays-tribute/articleshow/132340150.cms" target="_blank">S. Janaki demise: DK Shivakumar says 'Her unparalleled voice will remain immortal'; Y.S. Jagan Mohan Redd</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">22 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://m.economictimes.com/news/new-updates/s-janaki-death-reason-what-happened-to-legendary-singer-janaki-amma/amp_articleshow/132333705.cms" target="_blank">S Janaki death reason: What happened to legendary singer Janaki Amma?</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">12 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/legendary-singer-s-janaki-called-nightingale-of-south-india-passes-away-at-88-in-mysuru-due-to-age-related-ailments/articleshow/132333161.cms" target="_blank">Legendary singer S Janaki, called Nightingale of South India passes away at 88 in Mysuru due to age-relat</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.marketsmojo.com/news/stock-recommendation/aster-dm-healthcare-ltd-is-rated-hold-4097007" target="_blank">Aster DM Healthcare Ltd is Rated Hold</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesstimes.com.sg/companies-markets/preventive-health-offers-new-opportunities-private-healthcare-patient-needs-develop-ihh" target="_blank">Preventive health offers new opportunities in private healthcare as patient needs develop: IHH</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.tipranks.com/news/company-announcements/ihh-healthcare-winds-up-dormant-suzhou-outpatient-unit-with-minimal-financial-impact" target="_blank">IHH Healthcare Winds Up Dormant Suzhou Outpatient Unit With Minimal Financial Impact</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.tipranks.com/news/company-announcements/ihh-healthcare-ceo-accepts-2026-long-term-incentive-share-grants" target="_blank">IHH Healthcare CEO Accepts 2026 Long-Term Incentive Share Grants</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.expresshealthcare.in/amp/news/intuitive-fortis-mohali-to-establish-indias-first-total-program-observation-site-in-a-non-metro-city/454320/" target="_blank">Intuitive, Fortis Mohali to establish India’s first Total Program Observation site in a non-metro city</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.digitalhealthnews.com/fortis-healthcare-board-reappoints-ashutosh-raghuvanshi-as-managing-director" target="_blank">Fortis Healthcare Board Reappoints Ashutosh Raghuvanshi as Managing Director</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://businessnewsthisweek.com/business/intuitive-signs-mou-with-fortis-hospital-to-establish-indias-first-total-program-observation-site-in-a-non-metro-city/" target="_blank">Intuitive signs MoU with Fortis Hospital to establish India’s first Total Program Observation site in a non-metro city</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.kaohooninternational.com/markets/586470" target="_blank">KGI Bullish on Bumrungrad Hospital, Sees Surging Healthcare Demand Towards 3Q26</a></div>
-<div class="news-meta">
-<span class="news-entity">Bumrungrad International Hospital</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.nst.com.my/amp/news/regional/2026/07/1485471/sunway-medical-centre-ipoh-performs-peraks-first-tavi-procedure" target="_blank">Sunway Medical Centre Ipoh performs Perak's first TAVI procedure</a></div>
-<div class="news-meta">
-<span class="news-entity">Sunway Medical Centre</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theedgemalaysia.com/node/810252" target="_blank">Talam Transform, Lim Seong Hai Capital, KPJ Healthcare, CelcomDigi, Lianson Fleet, GFM Services, Advancecon, Evergreen Max Cash Capital</a></div>
-<div class="news-meta">
-<span class="news-entity">KPJ Healthcare</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://vulcanpost.com/912086/raffles-medical-600-million-overseas-bet/" target="_blank">⁠The price of going regional: Raffles Medical’s S$600M bet is still struggling to pay off</a></div>
-<div class="news-meta">
-<span class="news-entity">Raffles Medical Group</span> ·
-<span class="news-date">9 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thehindu.com/news/national/tamil-nadu/ssn-college-apollo-hospitals-among-winners-at-mma-awards-for-managerial-excellence/article71207740.ece" target="_blank">SSN College, Apollo Hospitals among winners at MMA Awards for Managerial Excellence</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">9 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.reutersconnect.com/item/ihh-healthcare-group-ceo-prem-kumar-nair-speaks-during-an-interview-at-the-reuters-next-conference-in-singapore/dGFnOnJldXRlcnMuY29tLDIwMjY6bmV3c21sX1JDMjdBTUFGSFlZMA" target="_blank">IHH Healthcare Group CEO Prem Kumar Nair speaks during an interview at the Reuters NEXT conference in Singapore</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/07/10/fewer-patients-from-middle-east-for-ihh" target="_blank">Fewer patients from Middle East for IHH</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">7 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.devdiscourse.com/article/health/3947690-geopolitical-conflicts-impact-on-ihh-healthcares-hospital-admissions" target="_blank">Geopolitical Conflicts: Impact on IHH Healthcare's Hospital Admissions</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theedgemalaysia.com/node/810045" target="_blank">IHH hospitals in India, Singapore see fewer patients from Middle East due to war — CEO</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.marketscreener.com/news/ihh-hospitals-in-india-singapore-saw-fewer-patients-arriving-from-mideast-due-to-war-ce7f5ed9d189ff24" target="_blank">IHH hospitals in India, Singapore saw fewer patients arriving from MidEast due to war</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.devdiscourse.com/article/health/3947665-middle-east-conflict-impacts-ihh-hospital-patient-traffic" target="_blank">Middle East Conflict Impacts IHH Hospital Patient Traffic</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/07/10/trading-ideas-exsim-ihh-dnex-alpha-ivf-hartanah-kenyalang-prg-aax-ptt-jentayu-aizo-tdm-aeon-credit" target="_blank">Trading ideas: Exsim, IHH, Dnex, Alpha IVF, Hartanah Kenyalang, PRG, AAX, PTT, Jentayu, Aizo, TDM, Aeon Credit</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">3 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://cilisos.my/pop-meals-celebrates-halal-certification-with-official-ceremony-at-pantai-hospital-outlet/?amp" target="_blank">Pop Meals Celebrates Halal Certification with Official Ceremony at Pantai Hospital Outlet</a></div>
-<div class="news-meta">
-<span class="news-entity">Pantai Hospitals</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.edgeprop.my/listing/rental/4052811/selangor/subang_jaya/commercial/commercialothers/ss15-subang-jaya-3-storey-shoplot-corner-lot-for-rent" target="_blank">SS15 Commercial (Others) for Rent in Subang Jaya, Selangor by YEEVY LEE</a></div>
-<div class="news-meta">
-<span class="news-entity">Subang Jaya Medical Centre</span> ·
-<span class="news-date">15 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://face2news.com/news/fortis-and-intuitive-sign-mou-to-establish-indias-first-total-program-observation-site-in-a-non-metro-city/" target="_blank">FORTIS AND INTUITIVE SIGN MoU TO ESTABLISH INDIA’S FIRST TOTAL PROGRAM OBSERVATION SITE IN A NON-METRO CITY</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">16 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://indiamedtoday.com/fortis-healthcare-board-approves-two-year-extension-for-md-ceo-ashutosh-raghuvanshi/" target="_blank">Fortis Healthcare Board Approves Two-Year Extension for MD & CEO Ashutosh Raghuvanshi</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">22 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.tripurastarnews.com/gleneagles-hospital-chennai-successfully-treats-rare-brain-lymphoma-with-advanced-car-t-cell-therapy/" target="_blank">Gleneagles Hospital Chennai Successfully Treats Rare Brain Lymphoma with Advanced CAR-T Cell Therapy.</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.whalesbook.com/news/English/international-news/IHH-Healthcare-Faces-Patient-Drop-From-Middle-East-Conflict/6a4f5692bfbc3f40422205e6" target="_blank">IHH Healthcare Faces Patient Drop From Middle East Conflict</a></div>
-<div class="news-meta">
-<span class="news-entity">Acibadem Healthcare Group</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.asiaone.com/singapore/sgh-nhg-tiktok-impersonator-health-product" target="_blank">SGH, NHG warn public over TikTok impersonators selling medical products, Singapore News</a></div>
-<div class="news-meta">
-<span class="news-entity">Singapore General Hospital</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theprint.in/feature/delhi-apollo-hospital-liver-transplant-twin-infants-philippines/2981948/?amp" target="_blank">Delhi Apollo hospital performs 14-hr liver transplant on twin infants from Philippines</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://m.thewire.in/article/ptiprnews/guwahati-gets-a-life-saving-heart-breakthrough-apollo-hospitals-performs-northeast-indias-first-laa-closure/amp" target="_blank">Guwahati Gets a Life-Saving Heart Breakthrough: Apollo Hospitals Performs Northeast Indias First LAA Closure</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">15 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.tradingview.com/symbols/MYX-IHH/financials-statistics-and-ratios/enterprise-value-sales-fwd/" target="_blank">Enterprise value to revenue forward of IHH Healthcare Bhd. – MYX:IHH</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">2 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://in.investing.com/news/stock-market-news/stock-jumps-6-from-days-low-after-ihh-healthcare-plans-to-increase-stake-by-19-5325283" target="_blank">Stock Jumps 6% from Day’s Low After IHH Healthcare Plans to Increase Stake by 19% By Trade Brains</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">3 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://health.economictimes.indiatimes.com/amp/news/health-it/ihh-healthcare-and-fortis-name-winners-of-inaugural-india-catalyst-accelerator/132215909" target="_blank">IHH Healthcare and Fortis name winners of inaugural India catalyst accelerator</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-gleneagles-hospital-kuala-lumpur-from-ihh-healthcare-cardiac-care/69709320" target="_blank">The Gleneagles Hospital Kuala Lumpur from IHH Healthcare - cardiac care expansion draws US investor</a></div>
-<div class="news-meta">
-<span class="news-entity">Gleneagles Kuala Lumpur</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.indianpharmapost.com/hospitals/fortis-healthcare-and-dion-group-to-launch-300-bed-multi-specialty-hospital-in-odisha-20831" target="_blank">Fortis Healthcare and Dion Group to launch 300-bed multi-specialty hospital in Odisha</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">2 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.expresshealthcare.in/news/fortis-healthcare-signs-om-agreement-with-dion-group-for-300-bed-greenfield-multi-specialty-hospital-in-odisha/454216/" target="_blank">Fortis Healthcare signs O&M agreement with Dion Group for 300-bed hospital in Odisha</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">2 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://odisha.plus/2026/07/fortis-dion-group-300-bed-hospital-trishulia-odisha/" target="_blank">Fortis Signs Agreement with Dion Group for 300-bed Greenfield Hospital in Trishulia</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://medicaldialogues.in/news/health/hospital-diagnostics/fortis-healthcare-announces-300-bed-multi-speciality-hospital-in-cuttack-174401" target="_blank">Fortis Healthcare announces 300-bed multi-speciality hospital in Cuttack</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/the-bdms-heart-center-program-bangkok-dusitmedical-services-bets-on/69691909" target="_blank">The BDMS Heart Center program - Bangkok DusitMedical Services bets on long-term cardiac care</a></div>
-<div class="news-meta">
-<span class="news-entity">BDMS (Bangkok Dusit Medical Services)</span> ·
-<span class="news-date">3 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.mayoclinic.org/about-mayo-clinic/care-network/increase-competitive-edge/kpj-damansara-specialist-hospital" target="_blank">Increase competitive edge - KPJ Damansara Specialist Hospital</a></div>
-<div class="news-meta">
-<span class="news-entity">KPJ Healthcare</span> ·
-<span class="news-date">9 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.biospectrumasia.com/news/54/27958/koreas-neurophet-to-supply-neurodegenerative-brain-imaging-analysis-software-to-raffles-medical-in-singapore.html" target="_blank">Korea's Neurophet to supply neurodegenerative brain imaging analysis software to Raffles Medical in Singapore</a></div>
-<div class="news-meta">
-<span class="news-entity">Raffles Medical Group</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.theedgesingapore.com/capital/brokers-calls/rhb-calls-recent-drop-raffles-medical-shares-attractive-entry-point" target="_blank">RHB calls recent drop in Raffles Medical shares an 'attractive' entry point</a></div>
-<div class="news-meta">
-<span class="news-entity">Raffles Medical Group</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.straitstimes.com/singapore/sgh-nhg-health-warn-of-fake-ads-promoting-health-products" target="_blank">SGH, NHG Health warn of fake ads promoting health products</a></div>
-<div class="news-meta">
-<span class="news-entity">Singapore General Hospital</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.yahoo.com/news/science/articles/zydus-apollo-hospitals-sign-mou-100812858.html" target="_blank">Zydus and Apollo Hospitals sign MoU to launch MCD test in India</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://simplywall.st/community/narratives/in/healthcare/nse-asterdm/aster-dm-quality-care-shares/qr2hm1bv-analysts-raise-aster-dm-healthcare-price-target-as-profit-margins-improve-and-valuation-increases/updates/12-narrative-update-on-aster-dm-healthcare-analysts-have-revise" target="_blank">AnalystConsensusTarget updated the narrative for ASTERDM on Oct 23 2025</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">14 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.bwhealthcareworld.com/article/aster-dm-healthcare-appoints-varun-khanna-as-md-group-ceo-following-merger-613470" target="_blank">Aster DM Healthcare Appoints Varun Khanna As MD & Group CEO Following Merger</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://simplywall.st/community/narratives/in/healthcare/nse-asterdm/aster-dm-quality-care-shares/qr2hm1bv-analysts-raise-aster-dm-healthcare-price-target-as-profit-margins-improve-and-valuation-increases/updates/11-analysts-have-raised-their-price-target-for-aster-dm-healthc" target="_blank">AnalystConsensusTarget updated the narrative for ASTERDM on Oct 09 2025</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">15 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://timesofindia.indiatimes.com/city/bengaluru/aster-dm-quality-care-merger-completed-combined-entity-begins-ops/articleshow/132218273.cms" target="_blank">Aster DM, Quality Care merger completed; combined entity begins ops</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/aster-quality-starts-operations-targets-healthcare-expansion-beyond-indias-metro-cities" target="_blank">Aster DM Quality Care starts operations, targets healthcare expansion beyond India’s metro cities</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/07/1482670/ihh-healthcare-backs-merdeka-118-tower-race-promote-preventive" target="_blank">IHH Healthcare backs Merdeka 118 tower race to promote preventive health</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH Healthcare</span> ·
-<span class="news-date">3 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.edgeprop.my/listing/rental/4047890/selangor/subang_jaya/commercial/shop/ss15-corner-lot-3-storey-shop-facing-main-road-near-lrt-station" target="_blank">SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by JAYDEN HENG</a></div>
-<div class="news-meta">
-<span class="news-entity">Subang Jaya Medical Centre</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.indianpharmapost.com/news/fortis-healthcare-and-dion-group-to-launch-300-bed-multi-specialty-hospital-in-odisha-20831" target="_blank">Fortis Healthcare and Dion Group to launch 300-bed multi-specialty hospital in Odisha</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://health.economictimes.indiatimes.com/news/hospitals/fortis-healthcare-signs-agreement-to-open-300-bed-hospital-in-odisha/132205213" target="_blank">Fortis Healthcare signs agreement to open 300-bed hospital in Odisha</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">1 day ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.biospectrumindia.com/news/16/28069/fortis-healthcare-signs-agreement-with-dion-group-for-300-bed-multi-specialty-hospital-in-cuttack.html" target="_blank">Fortis Healthcare signs agreement with Dion Group for 300-bed multi-specialty hospital in Cuttack</a></div>
-<div class="news-meta">
-<span class="news-entity">Fortis Healthcare</span> ·
-<span class="news-date">3 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.straitstimes.com/opinion/forum/forum-dont-make-passengers-wait-for-sgh-shuttle-bus-doors-to-open" target="_blank">Forum: Let people get off once SGH shuttle bus is at alighting bay</a></div>
-<div class="news-meta">
-<span class="news-entity">Singapore General Hospital</span> ·
-<span class="news-date">12 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://m.economictimes.com/markets/stocks/apollo-hospitals-in-uncharted-territory-with-strong-momentum-kkunal-v-parar-see-more-upside/videoshow/132208828.cms" target="_blank">Apollo Hospitals in uncharted territory with strong momentum; Kkunal V. Parar see more upside</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">8 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://economictimes.indiatimes.com/markets/stocks/apollo-hospitals-in-uncharted-territory-with-strong-momentum-kkunal-v-parar-see-more-upside/videoshow/132208828.cms" target="_blank">Apollo Hospitals in uncharted territory with strong momentum; Kkunal V. Parar see more upside</a></div>
-<div class="news-meta">
-<span class="news-entity">Apollo Hospitals</span> ·
-<span class="news-date">8 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theindianpractitioner.com/aster-quality-care-begins-operations-sets-sights-on-expanding-advanced-healthcare-beyond-metros/" target="_blank">Aster Quality Care Begins Operations, Sets Sights on Expanding Advanced Healthcare Beyond Metros</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">3 days ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.indianpharmapost.com/hospitals/aster-quality-care-launches-unified-healthcare-platform-to-expand-advanced-treatment-beyond-indias-metros-20818" target="_blank">Aster Quality Care launches unified healthcare platform to expand advanced treatment beyond India’s metros</a></div>
-<div class="news-meta">
-<span class="news-entity">Aster DM Healthcare</span> ·
-<span class="news-date">3 days ago</span>
-</div>
-</li>
-</ul>
-</div>
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Phyathai Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
 
-<div class="section">
-<h2 class="section-title">东南亚动态 (今日 125 / 近3天 132 / 近1周 132)</h2>
-<ul class="news-list">
-<li class="news-item">
-<div class="news-title"><a href="https://sg.finance.yahoo.com/news/takeda-indonesian-government-announce-landmark-230000564.html" target="_blank">Takeda and the Indonesian Government Announce Landmark Collaboration to Strengthen Healthcare Resilience and Expand Access to Lifesaving Plasma-Derived Medicinal Products</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">5 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.newindianexpress.com/states/tamil-nadu/2026/Jul/13/senior-dmk-leader-velu-returns-from-singapore-says-ready-to-face-inquiry" target="_blank">Senior DMK leader Velu returns from Singapore, says ready to face inquiry</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">28 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.dtnext.in/news/tamilnadu/i-will-appear-before-the-dvac-on-july-15-ev-velu-returns-from-singapore-denies-evading-probe" target="_blank">I will appear before the DVAC on July 15: EV Velu returns from Singapore, denies evading probe</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thedailystar.net/business/organisation-news/news/nrb-bank-partners-thailands-phyathai-2-hospital-healthcare-benefits-4222311" target="_blank">NRB Bank partners with Thailand’s Phyathai 2 Hospital for healthcare benefits</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">10 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesswire.com/news/home/20260712698653/en/Takeda-and-the-Indonesian-Government-Announce-Landmark-Collaboration-to-Strengthen-Healthcare-Resilience-and-Expand-Access-to-Lifesaving-Plasma-Derived-Medicinal-Products" target="_blank">Takeda and the Indonesian Government Announce Landmark Collaboration to Strengthen Healthcare Resilience and Expand Access to Lifesaving Plasma-Derived Medicinal Products</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">5 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.gurufocus.com/news/8954716/takeda-tak-partners-with-indonesia-to-enhance-plasma-medicine-access" target="_blank">Takeda (TAK) Partners with Indonesia to Enhance Plasma Medicine Access</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">4 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.qdnd.vn/foreign-affairs/bilateral-relations/vietnam-showcases-pro-active-responsible-role-through-humanitarian-efforts-international-cooperation-592953" target="_blank">Vietnam showcases pro-active, responsible role through humanitarian efforts, international cooperation</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">16 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://news.sky.com/video/fire-engulfs-pub-in-bangkok-13562872" target="_blank">Fire engulfs pub in Bangkok, Thailand</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">8 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://sg.news.yahoo.com/urine-biopsy-offers-more-accurate-210000510.html" target="_blank">Urine biopsy offers a more accurate way to detect bladder, kidney and prostate cancers</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">7 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="http://island.lk/batik-air-national-heart-institute-of-malaysia-and-tourism-malaysia-launch-medical-tourism-drive/" target="_blank">Batik Air, National Heart Institute of Malaysia and Tourism Malaysia launch Medical Tourism Drive</a></div>
-<div class="news-meta">
-<span class="news-entity">其他</span> ·
-<span class="news-date">4 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://theindependent.sg/singaporean-says-s-2-77-polyclinic-bill-shows-why-he-appreciates-singapore-s-healthcare-system/" target="_blank">Singaporean says S$2.77 polyclinic bill shows why he appreciates Singapore’s healthcare system</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">22 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.bignewsnetwork.com/news/279181196/union-health-ministry-launches-monthly-webinar-series-on-best-practices-under-national-health-mission" target="_blank">Union Health Ministry launches monthly webinar series on best practices under National Health Mission</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">11 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.theborneopost.com/2026/07/11/moh-explores-helicopter-assisted-dental-outreach-for-sarawaks-remote-communities/" target="_blank">MoH explores helicopter-assisted dental outreach for Sarawak’s remote communities</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">22 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.antaranews.com/news/422289/indonesia-studies-provincial-hospital-for-highland-papua" target="_blank">Indonesia studies provincial hospital for Highland Papua</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://dollarsandsense.sg/things-to-know-about-foundation-healthcare-singapores-largest-multi-speciality-private-healthcare-platform-listed-on-sgx/" target="_blank">7 Things to Know About Foundation Healthcare, Singapore’s Largest Multi-Speciality Private Healthcare Platform Listed On SGX</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH集团</span> ·
-<span class="news-date">22 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://today.thefinancialexpress.com.bd/trade-market/nrb-bank-signs-strategic-agreement-with-phyathai-2-hospital-1783787741?amp=true" target="_blank">NRB Bank signs strategic agreement with Phyathai 2 Hospital</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">10 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://thefinancialexpress.com.bd/trade/nrb-bank-plc-signs-strategic-agreement-with-phyathai-2-hospital-co-ltd" target="_blank">The FE - NRB Bank PLC signs strategic agreement with Phyathai 2 Hospital Co Ltd</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">16 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.travelandtourworld.com/news/article/5at91sj67ql6/" target="_blank">Malaysia Turns Batik Air Boarding Passes into Heart-Screening Vouchers as IJN Opens Discounted Preventive Care to International Passengers and Builds a New Airline-to-Hospital Medical Tourism Funnel</a></div>
-<div class="news-meta">
-<span class="news-entity">其他</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thevibes.com/articles/news/124871/dengue-cases-jump-34.8-percent-34-deaths-recorded-as-of-yesterday" target="_blank">Dengue cases jump 34.8 percent, 34 deaths recorded as of yesterday</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">24 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesstoday.com.my/2026/07/10/moh-dengue-cases-jump-34-deaths-rise-78-9/" target="_blank">MOH: Dengue Cases Jump 34%, Deaths Rise 78.9%</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.nst.com.my/news/nation/2026/07/1485272/dengue-cases-35pc-nationwide-34-deaths-recorded" target="_blank">Dengue cases up 35pc nationwide, 34 deaths recorded</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.antaranews.com/news/422105/govt-targets-37000-leprosy-case-detections-to-speed-up-elimination" target="_blank">Govt targets 37,000 leprosy case detections to speed up elimination</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://vietnam.vnanet.vn/english/print/prime-minister-le-minh-hung-urges-modern-restructuring-of-healthcare-network-456089.html" target="_blank">Vietnam Pictorial</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.ibtimes.co.uk/vinmec-high-tech-robotic-surgery-network-launch-1808091" target="_blank">Vinmec's Strategy to Position Vietnam as a Regional Healthcare Hub</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">13 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://vovworld.vn/news/vietnam-highlights-youth-empowerment-as-it-marks-world-population-day-2449401.vov5" target="_blank">Vietnam highlights youth empowerment as it marks World Population Day</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">16 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="http://www.theedgemarkets.com/node/810185" target="_blank">KPJ biggest near-term winner of MediAsas, healthcare reforms — Maybank</a></div>
-<div class="news-meta">
-<span class="news-entity">IHH集团</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.expresshealthcare.in/news/ai-in-radiology-the-future-of-early-diagnosis-in-india/454317/" target="_blank">AI in radiology: The future of early diagnosis in India</a></div>
-<div class="news-meta">
-<span class="news-entity">印度</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://focusmalaysia.my/iran-conflict-weighs-on-medical-tourism-but-2026-revenue-target-holds/" target="_blank">Iran conflict weighs on medical tourism, but 2026 revenue target holds</a></div>
-<div class="news-meta">
-<span class="news-entity">土耳其</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.indexbox.io/store/thailand-personal-listening-systems-market-analysis-forecast-size-trends-and-insights/" target="_blank">Thailand Personal Listening Systems - Market Analysis, Forecast, Size, Trends and Insights</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">14 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.oneindia.com/in-the-news/branding-pioneers-launches-free-ai-tools-doctors-healthcare-india-012-8142451.html" target="_blank">Doctors, AI tools are here: Transform your practice, free!</a></div>
-<div class="news-meta">
-<span class="news-entity">印度</span> ·
-<span class="news-date">19 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://thenewsmill.com/2026/06/assam-cm-seeks-guidance-from-nadda-to-develop-state-as-medical-tourism-hub/" target="_blank">Assam CM seeks guidance from Nadda to develop state as medical tourism hub</a></div>
-<div class="news-meta">
-<span class="news-entity">其他</span> ·
-<span class="news-date">4 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://healthcareasiamagazine.com/healthcare/news/health-ministry-unveils-homegrown-ai-model-built-patients" target="_blank">Health ministry unveils homegrown AI model built for patients</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.tempo.co/read/2112793/singapore-unveils-locally-trained-medical-ai-model" target="_blank">Singapore Unveils Locally Trained Medical AI Model</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">17 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://mediaselangor.com/en/2026/07/383684" target="_blank">No blanket cuts to health and education budgets, says MOF</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">2 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.thestar.com.my/news/nation/2026/07/09/malaysias-mental-health-helpline-received-more-than-230000-calls-since-launch-says-health-ministry" target="_blank">Malaysia’s mental health helpline received more than 230,000 calls since launch, says Health Ministry</a></div>
-<div class="news-meta">
-<span class="news-entity">马来西亚</span> ·
-<span class="news-date">22 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.livemint.com/opinion/online-views/medical-tourism-india-world-top-hotspot-gccs-ai-thailand-turkey-healthcare-tourists-procedures-11783603872653.html" target="_blank">India could become the world’s top hotspot for medical tourism: here’s how policy could help</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">42 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.antaranews.com/news/422015/indonesia-eyes-100-pct-tb-contact-tracing-to-eliminate-disease-by-2030" target="_blank">Indonesia eyes 100 pct TB contact tracing to eliminate disease by 2030</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">18 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://sbr.com.sg/healthcare/news/health-ministry-unveils-homegrown-ai-model-built-patients" target="_blank">Health ministry unveils homegrown AI model built for patients</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://voi.id/en/amp/583938" target="_blank">BPOM: Dengue mRNA Vaccine Proof that RI is Capable of Strengthening Pharmaceutical Independence</a></div>
-<div class="news-meta">
-<span class="news-entity">印尼</span> ·
-<span class="news-date">21 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://vietnam.vnanet.vn/english/tin-tuc/prime-minister-le-minh-hung-urges-modern-restructuring-of-healthcare-network-456089.html" target="_blank">Prime Minister Le Minh Hung urges modern restructuring of healthcare network</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">1 hour ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://asianews.network/vietnams-ho-chi-minh-city-speeds-up-public-investment-for-gateway-hospitals/" target="_blank">Vietnam’s Ho Chi Minh City speeds up public investment for gateway hospitals</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.vietnamplus.vn/pm-calls-for-modern-restructuring-of-healthcare-network-post348067.vnp" target="_blank">PM calls for modern restructuring of healthcare network</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">12 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://news.tuoitre.vn/vietnam-does-not-require-mandatory-health-declarations-for-all-travelers-from-july-1-health-ministry-103260708172509585.htm" target="_blank">Vietnam does not require mandatory health declarations for all travelers from July 1: health ministry</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">20 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://en.qdnd.vn/military/intl-relations-and-cooperation/meaningful-support-activities-for-border-communities-592863" target="_blank">Meaningful support activities for border communities</a></div>
-<div class="news-meta">
-<span class="news-entity">越南</span> ·
-<span class="news-date">11 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://medicalbuyer.co.in/india-emerges-as-one-of-worlds-leading-mvt-hubs-hospitals-affordability-key-attractions/" target="_blank">India emerges as one of world’s leading MVT hubs; hospitals, affordability key attractions</a></div>
-<div class="news-meta">
-<span class="news-entity">印度</span> ·
-<span class="news-date">31 minutes ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://indiamedtoday.com/paras-healthcare-targets-36-expansion-in-bed-capacity-to-3011-by-fy28/" target="_blank">Paras Healthcare Targets 36% Expansion in Bed Capacity to 3,011 by FY28</a></div>
-<div class="news-meta">
-<span class="news-entity">印度</span> ·
-<span class="news-date">22 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.indexbox.io/store/thailand-flare-monitoring-system-market-analysis-forecast-size-trends-and-insights/" target="_blank">Thailand Flare Monitoring System - Market Analysis, Forecast, Size, Trends and Insights</a></div>
-<div class="news-meta">
-<span class="news-entity">泰国</span> ·
-<span class="news-date">16 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.straitstimes.com/tech/ai-models-tuned-to-spore-patients-clinical-data-being-built-under-new-national-drive?ref=latest" target="_blank">AI models tuned to S’pore patients’ clinical data being built under new national drive</a></div>
-<div class="news-meta">
-<span class="news-entity">新加坡</span> ·
-<span class="news-date">23 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://thenewsmill.com/2026/07/23-month-old-filipino-twins-receive-rare-paediatric-liver-transplants-in-new-delhi/" target="_blank">Rare twin liver transplants performed in New Delhi, India</a></div>
-<div class="news-meta">
-<span class="news-entity">印度</span> ·
-<span class="news-date">2 hours ago</span>
-</div>
-</li>
-<li class="news-item">
-<div class="news-title"><a href="https://www.businesstoday.com.my/2026/07/10/batik-air-ijn-take-malaysias-medical-tourism-ambitions-to-new-heights/" target="_blank">Batik Air, IJN Take Malaysia’s Medical Tourism Ambitions To New Heights</a></div>
-<div class="news-meta">
-<span class="news-entity">其他</span> ·
-<span class="news-date">2 hours ago</span>
-</div>
-</li>
-</ul>
-</div>
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
 
-<div class="section">
-<h2 class="section-title">数据统计</h2>
-<p>机构新闻总数: 153 条</p>
-<p>东南亚动态总数: 137 条</p>
-<p>date 字段有效率: 49.0%</p>
-</div>
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Pantai Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
 
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Subang Jaya Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- 隐藏的排行数据 -->
+        <div id="ranking-today-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 今日机构动态排行</div>
+                <div class="ranking-list">
+
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Phyathai Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Pantai Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Subang Jaya Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                </div>
+            </div>
 </div>
+        <div id="ranking-last3days-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 近3天机构动态排行</div>
+                <div class="ranking-list">
+
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Phyathai Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Pantai Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Subang Jaya Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                </div>
+            </div>
+</div>
+        <div id="ranking-lastweek-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 近1周机构动态排行</div>
+                <div class="ranking-list">
+
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Phyathai Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Pantai Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Subang Jaya Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                </div>
+            </div>
+</div>
+    </div>
+    <!-- 视图切换 -->
+    <div class="view-toggle">
+        <button class="view-btn active" onclick="switchView('list', this)">📋 列表视图</button>
+        <button class="view-btn" onclick="switchView('map', this)">🗺️ 地图视图</button>
+    </div>
+    
+    <!-- 地图视图 -->
+    <div id="map-view" class="map-container">
+        <div class="map-title">🌏 选择国家/地区查看动态</div>
+        
+        <!-- 地图内的时间选择 -->
+        <div class="map-tabs">
+            <button class="map-tab active" onclick="selectMapTime('today', this)">
+                📅 今天 <span class="count">15</span>
+            </button>
+            <button class="map-tab" onclick="selectMapTime('last3days', this)">
+                📆 近3天 <span class="count">15</span>
+            </button>
+            <button class="map-tab" onclick="selectMapTime('lastweek', this)">
+                📋 近1周 <span class="count">15</span>
+            </button>
+        </div>
+        
+        <div class="region-grid" id="region-grid">
+
+            <div class="region-card has-news" data-location="IHH集团" onclick="filterByLocation('IHH集团')">
+                <div class="region-flag">🌐</div>
+                <div class="region-name">IHH集团</div>
+                <div class="region-count"><span class="count-num">1</span> 条动态</div>
+            </div>
+
+            <div class="region-card has-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
+                <div class="region-flag">🇸🇬</div>
+                <div class="region-name">新加坡</div>
+                <div class="region-count"><span class="count-num">3</span> 条动态</div>
+            </div>
+
+            <div class="region-card has-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
+                <div class="region-flag">🇲🇾</div>
+                <div class="region-name">马来西亚</div>
+                <div class="region-count"><span class="count-num">5</span> 条动态</div>
+            </div>
+
+            <div class="region-card has-news" data-location="泰国" onclick="filterByLocation('泰国')">
+                <div class="region-flag">🇹🇭</div>
+                <div class="region-name">泰国</div>
+                <div class="region-count"><span class="count-num">3</span> 条动态</div>
+            </div>
+
+            <div class="region-card has-news" data-location="印度" onclick="filterByLocation('印度')">
+                <div class="region-flag">🇮🇳</div>
+                <div class="region-name">印度</div>
+                <div class="region-count"><span class="count-num">1</span> 条动态</div>
+            </div>
+
+            <div class="region-card no-news" data-location="土耳其" onclick="filterByLocation('土耳其')">
+                <div class="region-flag">🇹🇷</div>
+                <div class="region-name">土耳其</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+
+            <div class="region-card no-news" data-location="其他" onclick="filterByLocation('其他')">
+                <div class="region-flag">📍</div>
+                <div class="region-name">其他</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- 国家筛选提示 -->
+    <div id="country-filter" class="country-filter">
+        <span class="country-filter-name" id="filter-name">全部地区</span>
+        <button class="country-filter-close" onclick="clearFilter()">✕ 清除筛选</button>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('today', this)">
+            📅 今天 <span class="count">15</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('last3days', this)">
+            📆 近3天 <span class="count">15</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('lastweek', this)">
+            📋 近1周 <span class="count">15</span>
+        </button>
+    </div>
+
+    <!-- 今天 -->
+    <div id="tab-today" class="tab-content active">
+        
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/07/13/stock-picks-ihh-healthcare-and-press-metal/" target="_blank">Stock Picks: IHH Healthcare And Press Metal</a></h4>
+                <div class="news-summary">RHB研究推荐IHH医疗和Press Metal为技术面看好的股票。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">30分钟前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.newindianexpress.com/states/tamil-nadu/2026/Jul/13/senior-dmk-leader-velu-returns-from-singapore-says-ready-to-face-inquiry" target="_blank">Senior DMK leader Velu returns from Singapore, says ready to face inquiry</a></h4>
+                <div class="news-summary">前PWD部长Velu从新加坡返回 Chennai，表示愿意接受调查。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dtnext.in/news/tamilnadu/i-will-appear-before-the-dvac-on-july-15-ev-velu-returns-from-singapore-denies-evading-probe" target="_blank">I will appear before the DVAC on July 15: EV Velu returns from Singapore, denies evading probe</a></h4>
+                <div class="news-summary">EV Velu将配合调查，否认逃避，并将于7月15日出庭作证。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thehindu.com/news/national/tamil-nadu/i-am-neither-running-away-nor-hiding-dmk-leader-ev-velu/article71213625.ece/amp/" target="_blank">I am neither running away nor hiding: DMK leader E.V. Velu</a></h4>
+                <div class="news-summary">DMK领导人E.V. Velu称赴新加坡就医，并非逃避或藏匿。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">5 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Pantai Hospitals (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Pantai Hospitals</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4057449/novum-bangsar-south-for-rent-by-kamal-sinland" target="_blank">Novum @ Bangsar South Condo for Rent in Pantai Dalam/Kerinchi, Kuala Lumpur by KAMAL SINLAND</a></h4>
+                <div class="news-summary">吉隆坡南邦萨诺武公寓出租，947平方英尺，3房2卫，月租4700林吉特。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Subang Jaya Medical Centre</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/content/1916698/haus-15-ss15-subang-jaya-rare-freehold-gem-prime-education-hub-introduction" target="_blank">Haus on 15, SS15 Subang Jaya: A Rare Freehold Gem in a Prime Education Hub Introduction</a></h4>
+                <div class="news-summary">Haus on 15是吉隆坡SS15区由Gamuda Land开发的永久地契服务式住宅，位于成熟教育枢纽地段。</div>
+            </div>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="http://island.lk/batik-air-national-heart-institute-of-malaysia-and-tourism-malaysia-launch-medical-tourism-drive/" target="_blank">Batik Air, National Heart Institute of Malaysia and Tourism Malaysia launch Medical Tourism Drive</a></h4>
+                <div class="news-summary">马来西亚Batik Air、国家心脏研究所与旅游部合作，推动区域医疗旅游发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.klsescreener.com/v2/news/view/1753749/Bits_Bytes_A_Miscellany_Of_Technology" target="_blank">Bits + Bytes: A Miscellany Of Technology</a></h4>
+                <div class="news-summary">新加坡卫生部将推出医疗数据共享网络，计划2027年第一季度全面实现基层医疗数字化。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.iloveqatar.net/news/healthWellness/ministry-public-health-essential-services-national-mourning-period-working-hours" target="_blank">Ministry of Public Health continues essential services during national mourning period; working hours announced</a></h4>
+                <div class="news-summary">公共卫生部宣布全国哀悼期间继续提供必要服务，并公布工作时间。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Phyathai Hospital Group (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">10小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thedailystar.net/business/organisation-news/news/nrb-bank-partners-thailands-phyathai-2-hospital-healthcare-benefits-4222311" target="_blank">NRB Bank partners with Thailand’s Phyathai 2 Hospital for healthcare benefits</a></h4>
+                <div class="news-summary">NRB银行与泰国Phyathai 2医院合作，为客户提供医疗健康福利。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dhakatribune.com/business/banks/414940/nrb-bank-signs-strategic-agreement-with-phyathai-2" target="_blank">NRB Bank signs strategic agreement with Phyathai 2 Hospital Co Ltd</a></h4>
+                <div class="news-summary">NRB银行与泰国帕亚泰2医院签署战略合作协议，深化医疗金融合作。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 BDMS (Bangkok Dusit Medical Services) (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/die-bdms-aktie-bleibt-vom-gesundheitswachstum-in-thailand-gestuetzt/69752728" target="_blank">Die BDMS-Aktie bleibt vom Gesundheitswachstum in Thailand gestützt</a></h4>
+                <div class="news-summary">BDMS股价受泰国医疗行业增长支撑，公司运营泰国最大私立诊所网络之一。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://asianews.network/a-bhutanese-hospitals-radiotherapy-service-failure-who-is-accountable/" target="_blank">A Bhutanese hospital’s radiotherapy service failure: Who is accountable?</a></h4>
+                <div class="news-summary">不丹国家医院价值数百万努尔特的放疗服务闲置近五年，引发问责争议。</div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+    <!-- 过去3天 -->
+    <div id="tab-last3days" class="tab-content">
+        
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/07/13/stock-picks-ihh-healthcare-and-press-metal/" target="_blank">Stock Picks: IHH Healthcare And Press Metal</a></h4>
+                <div class="news-summary">RHB研究推荐IHH医疗和Press Metal为最新技术选股。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">30分钟前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.newindianexpress.com/states/tamil-nadu/2026/Jul/13/senior-dmk-leader-velu-returns-from-singapore-says-ready-to-face-inquiry" target="_blank">Senior DMK leader Velu returns from Singapore, says ready to face inquiry</a></h4>
+                <div class="news-summary">前PWD部长Velu从新加坡返回 Chennai，表示愿意接受调查。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dtnext.in/news/tamilnadu/i-will-appear-before-the-dvac-on-july-15-ev-velu-returns-from-singapore-denies-evading-probe" target="_blank">I will appear before the DVAC on July 15: EV Velu returns from Singapore, denies evading probe</a></h4>
+                <div class="news-summary">EV Velu将配合调查，否认逃避，并将于7月15日出庭作证。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thehindu.com/news/national/tamil-nadu/i-am-neither-running-away-nor-hiding-dmk-leader-ev-velu/article71213625.ece/amp/" target="_blank">I am neither running away nor hiding: DMK leader E.V. Velu</a></h4>
+                <div class="news-summary">DMK领袖E.V. Velu称赴新加坡就医，并非逃避或藏匿。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">5 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Pantai Hospitals (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Pantai Hospitals</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4057449/novum-bangsar-south-for-rent-by-kamal-sinland" target="_blank">Novum @ Bangsar South Condo for Rent in Pantai Dalam/Kerinchi, Kuala Lumpur by KAMAL SINLAND</a></h4>
+                <div class="news-summary">吉隆坡南邦萨诺武公寓出租，947平方英尺，3房2卫，月租4700林吉特。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Subang Jaya Medical Centre</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/content/1916698/haus-15-ss15-subang-jaya-rare-freehold-gem-prime-education-hub-introduction" target="_blank">Haus on 15, SS15 Subang Jaya: A Rare Freehold Gem in a Prime Education Hub Introduction</a></h4>
+                <div class="news-summary">Haus on 15是吉隆坡SS15区由Gamuda Land开发的永久地契服务式住宅，位于成熟教育枢纽，稀缺且具投资价值。</div>
+            </div>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="http://island.lk/batik-air-national-heart-institute-of-malaysia-and-tourism-malaysia-launch-medical-tourism-drive/" target="_blank">Batik Air, National Heart Institute of Malaysia and Tourism Malaysia launch Medical Tourism Drive</a></h4>
+                <div class="news-summary">马来西亚Batik Air、国家心脏研究所与旅游部合作，推动区域医疗旅游发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.klsescreener.com/v2/news/view/1753749/Bits_Bytes_A_Miscellany_Of_Technology" target="_blank">Bits + Bytes: A Miscellany Of Technology</a></h4>
+                <div class="news-summary">新加坡卫生部将推出医疗数据共享网络，计划2027年第一季度全面实现基层医疗数字化。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.iloveqatar.net/news/healthWellness/ministry-public-health-essential-services-national-mourning-period-working-hours" target="_blank">Ministry of Public Health continues essential services during national mourning period; working hours announced</a></h4>
+                <div class="news-summary">公共卫生部宣布全国哀悼期间继续提供必要服务，并公布工作时间。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Phyathai Hospital Group (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">10小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thedailystar.net/business/organisation-news/news/nrb-bank-partners-thailands-phyathai-2-hospital-healthcare-benefits-4222311" target="_blank">NRB Bank partners with Thailand’s Phyathai 2 Hospital for healthcare benefits</a></h4>
+                <div class="news-summary">NRB银行与泰国Phyathai 2医院合作，为客户提供医疗健康福利。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dhakatribune.com/business/banks/414940/nrb-bank-signs-strategic-agreement-with-phyathai-2" target="_blank">NRB Bank signs strategic agreement with Phyathai 2 Hospital Co Ltd</a></h4>
+                <div class="news-summary">NRB银行与泰国帕亚泰2医院签署战略合作协议，深化医疗金融合作。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 BDMS (Bangkok Dusit Medical Services) (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/die-bdms-aktie-bleibt-vom-gesundheitswachstum-in-thailand-gestuetzt/69752728" target="_blank">Die BDMS-Aktie bleibt vom Gesundheitswachstum in Thailand gestützt</a></h4>
+                <div class="news-summary">BDMS股价受泰国医疗行业增长支撑，公司运营泰国最大私立诊所网络之一。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://asianews.network/a-bhutanese-hospitals-radiotherapy-service-failure-who-is-accountable/" target="_blank">A Bhutanese hospital’s radiotherapy service failure: Who is accountable?</a></h4>
+                <div class="news-summary">不丹国家医院价值数百万努尔特姆的放疗服务闲置近五年，引发问责争议。</div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+    <!-- 过去1周 -->
+    <div id="tab-lastweek" class="tab-content">
+        
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/07/13/stock-picks-ihh-healthcare-and-press-metal/" target="_blank">Stock Picks: IHH Healthcare And Press Metal</a></h4>
+                <div class="news-summary">RHB研究推荐IHH医疗和Press Metal为最新技术选股。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">30分钟前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.newindianexpress.com/states/tamil-nadu/2026/Jul/13/senior-dmk-leader-velu-returns-from-singapore-says-ready-to-face-inquiry" target="_blank">Senior DMK leader Velu returns from Singapore, says ready to face inquiry</a></h4>
+                <div class="news-summary">DMK资深领导人韦卢从新加坡返回，表示愿意接受调查。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dtnext.in/news/tamilnadu/i-will-appear-before-the-dvac-on-july-15-ev-velu-returns-from-singapore-denies-evading-probe" target="_blank">I will appear before the DVAC on July 15: EV Velu returns from Singapore, denies evading probe</a></h4>
+                <div class="news-summary">EV Velu将配合调查，否认逃避，并将于7月15日出庭作证。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thehindu.com/news/national/tamil-nadu/i-am-neither-running-away-nor-hiding-dmk-leader-ev-velu/article71213625.ece/amp/" target="_blank">I am neither running away nor hiding: DMK leader E.V. Velu</a></h4>
+                <div class="news-summary">DMK领袖E.V. Velu称赴新加坡就医，并非逃避或藏匿。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">5 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Pantai Hospitals (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Pantai Hospitals</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4057449/novum-bangsar-south-for-rent-by-kamal-sinland" target="_blank">Novum @ Bangsar South Condo for Rent in Pantai Dalam/Kerinchi, Kuala Lumpur by KAMAL SINLAND</a></h4>
+                <div class="news-summary">吉隆坡南邦萨诺武公寓出租，947平方英尺，3房2卫，月租4700林吉特。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Subang Jaya Medical Centre (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Subang Jaya Medical Centre</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.edgeprop.my/content/1916698/haus-15-ss15-subang-jaya-rare-freehold-gem-prime-education-hub-introduction" target="_blank">Haus on 15, SS15 Subang Jaya: A Rare Freehold Gem in a Prime Education Hub Introduction</a></h4>
+                <div class="news-summary">Haus on 15是吉隆坡SS15区由Gamuda Land开发的永久地契服务式住宅，位于成熟教育枢纽，稀缺且具投资价值。</div>
+            </div>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="http://island.lk/batik-air-national-heart-institute-of-malaysia-and-tourism-malaysia-launch-medical-tourism-drive/" target="_blank">Batik Air, National Heart Institute of Malaysia and Tourism Malaysia launch Medical Tourism Drive</a></h4>
+                <div class="news-summary">马来西亚Batik Air、国家心脏研究所与旅游部合作，推动区域医疗旅游发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.klsescreener.com/v2/news/view/1753749/Bits_Bytes_A_Miscellany_Of_Technology" target="_blank">Bits + Bytes: A Miscellany Of Technology</a></h4>
+                <div class="news-summary">新加坡卫生部将推出医疗数据共享网络，计划2027年第一季度全面实现基层医疗数字化。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.iloveqatar.net/news/healthWellness/ministry-public-health-essential-services-national-mourning-period-working-hours" target="_blank">Ministry of Public Health continues essential services during national mourning period; working hours announced</a></h4>
+                <div class="news-summary">公共卫生部宣布全国哀悼期间继续提供必要服务，并公布了工作时间安排。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Phyathai Hospital Group (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">10小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thedailystar.net/business/organisation-news/news/nrb-bank-partners-thailands-phyathai-2-hospital-healthcare-benefits-4222311" target="_blank">NRB Bank partners with Thailand’s Phyathai 2 Hospital for healthcare benefits</a></h4>
+                <div class="news-summary">NRB银行与泰国Phyathai 2医院合作，为客户提供医疗健康福利。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Phyathai Hospital Group</span>
+                    <span class="date-tag">17小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.dhakatribune.com/business/banks/414940/nrb-bank-signs-strategic-agreement-with-phyathai-2" target="_blank">NRB Bank signs strategic agreement with Phyathai 2 Hospital Co Ltd</a></h4>
+                <div class="news-summary">NRB银行与泰国帕亚泰2医院签署战略合作协议，深化医疗金融合作。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 BDMS (Bangkok Dusit Medical Services) (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/die-bdms-aktie-bleibt-vom-gesundheitswachstum-in-thailand-gestuetzt/69752728" target="_blank">Die BDMS-Aktie bleibt vom Gesundheitswachstum in Thailand gestützt</a></h4>
+                <div class="news-summary">BDMS股价受泰国医疗行业增长支撑，公司运营泰国最大私立诊所网络之一。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://asianews.network/a-bhutanese-hospitals-radiotherapy-service-failure-who-is-accountable/" target="_blank">A Bhutanese hospital’s radiotherapy service failure: Who is accountable?</a></h4>
+                <div class="news-summary">不丹国家医院价值数百万努尔特姆的放疗服务闲置近五年，引发问责争议。</div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+    <script>
+        // 时间段统计数据
+        const statsData = {
+            today: { label: '今日动态', value: '5 家机构' },
+            last3days: { label: '近3天动态', value: '5 家机构' },
+            lastweek: { label: '近1周动态', value: '5 家机构' }
+        };
+        
+        // 各时间段的国家新闻数量
+        const locationCounts = {
+            today: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 5, "\u6cf0\u56fd": 3, "\u5370\u5ea6": 1, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            last3days: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 5, "\u6cf0\u56fd": 3, "\u5370\u5ea6": 1, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            lastweek: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 5, "\u6cf0\u56fd": 3, "\u5370\u5ea6": 1, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
+        };
+        
+        let currentView = 'list';
+        let currentFilter = null;
+        let currentTab = 'today';
+        
+        // 切换视图
+        function switchView(view, btn) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (view === 'map') {
+                document.getElementById('map-view').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+                document.querySelector('.tabs').style.display = 'none';
+                // 同步地图内的时间选择
+                document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+                document.querySelector('.map-tab[onclick*="' + currentTab + '"]').classList.add('active');
+                updateMapData(currentTab);
+            } else {
+                document.getElementById('map-view').classList.remove('active');
+                document.querySelectorAll('.tab-content').forEach(el => {
+                    el.style.display = el.classList.contains('active') ? 'block' : 'none';
+                });
+                document.querySelector('.tabs').style.display = 'flex';
+            }
+        }
+        
+        // 更新地图数据
+        function updateMapData(tabName) {
+            const counts = locationCounts[tabName];
+            document.querySelectorAll('.region-card').forEach(card => {
+                const location = card.getAttribute('data-location');
+                const count = counts[location] || 0;
+                card.querySelector('.count-num').textContent = count;
+                card.classList.remove('has-news', 'no-news');
+                card.classList.add(count > 0 ? 'has-news' : 'no-news');
+            });
+        }
+        
+        // 地图内时间选择
+        function selectMapTime(tabName, btn) {
+            currentTab = tabName;
+            document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            updateMapData(tabName);
+        }
+        
+        // 按国家筛选
+        function filterByLocation(location) {
+            currentFilter = location;
+            
+            // 切换到列表视图
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            document.querySelector('.view-btn').classList.add('active');
+            document.getElementById('map-view').classList.remove('active');
+            document.querySelector('.tabs').style.display = 'flex';
+            
+            // 同步时间选择到列表视图
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // 激活当前时间对应的标签页
+            const activeTab = document.getElementById('tab-' + currentTab);
+            activeTab.classList.add('active');
+            activeTab.style.display = 'block';
+            document.querySelector('.tab-btn[onclick*="' + currentTab + '"]').classList.add('active');
+            
+            // 更新统计和排行榜
+            document.getElementById('stat-label').textContent = statsData[currentTab].label;
+            document.getElementById('stat-value').textContent = statsData[currentTab].value;
+            const rankingHtml = document.getElementById('ranking-' + currentTab + '-data').innerHTML;
+            document.getElementById('ranking-container').innerHTML = rankingHtml;
+            
+            // 显示国家筛选提示
+            document.getElementById('country-filter').classList.add('active');
+            document.getElementById('filter-name').textContent = location + ' 动态';
+            
+            // 筛选对应国家的新闻
+            document.querySelectorAll('.group-section').forEach(el => {
+                const headerText = el.querySelector('.group-header h2').textContent;
+                if (headerText.includes(location)) {
+                    el.style.display = 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+        
+        // 清除筛选
+        function clearFilter() {
+            currentFilter = null;
+            document.getElementById('country-filter').classList.remove('active');
+            document.querySelectorAll('.group-section').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+        
+        function showTab(tabName, btn) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+            const activeContent = document.getElementById('tab-' + tabName);
+            activeContent.classList.add('active');
+            activeContent.style.display = 'block';
+            btn.classList.add('active');
+            
+            document.getElementById('stat-label').textContent = statsData[tabName].label;
+            document.getElementById('stat-value').textContent = statsData[tabName].value;
+            
+            const rankingHtml = document.getElementById('ranking-' + tabName + '-data').innerHTML;
+            document.getElementById('ranking-container').innerHTML = rankingHtml;
+            
+            if (currentFilter) clearFilter();
+        }
+    </script>
+    
+    <div class="footer">
+        📌 数据来源：Firecrawl 搜索引擎 | 自动采集，每日更新
+    </div>
 </body>
 </html>
