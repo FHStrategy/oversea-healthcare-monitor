@@ -483,7 +483,7 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-label">更新时间</span>
-                <span class="stat-value">2026年08月07日 11:05</span>
+                <span class="stat-value">2026年08月07日 12:12</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">监测范围</span>
@@ -491,7 +491,7 @@
             </div>
             <div class="stat-item" id="stat-active">
                 <span class="stat-label" id="stat-label">今日动态</span>
-                <span class="stat-value" id="stat-value">4 条新闻</span>
+                <span class="stat-value" id="stat-value">3 条新闻</span>
             </div>
         </div>
 
@@ -537,7 +537,7 @@
 
                     <div class="ranking-item">
                         <span class="rank">3</span>
-                        <span class="entity-name">IHH Healthcare</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
                         </div>
@@ -546,7 +546,16 @@
 
                     <div class="ranking-item">
                         <span class="rank">4</span>
-                        <span class="entity-name">Pantai Hospitals</span>
+                        <span class="entity-name">Sunway Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">IHH Healthcare</span>
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
                         </div>
@@ -597,6 +606,15 @@
                         <span class="bar-count">1 条</span>
                     </div>
 
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 20%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+
                 </div>
             </div>
 </div>
@@ -614,13 +632,13 @@
         <!-- 地图内的时间选择 -->
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMapTime('today', this)">
-                📅 今天 <span class="count">4</span>
+                📅 今天 <span class="count">3</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('last3days', this)">
-                📆 近3天 <span class="count">15</span>
+                📆 近3天 <span class="count">18</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('lastweek', this)">
-                📋 近1周 <span class="count">28</span>
+                📋 近1周 <span class="count">31</span>
             </button>
         </div>
         
@@ -632,10 +650,10 @@
                 <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
-            <div class="region-card has-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
+            <div class="region-card no-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
                 <div class="region-flag">🇸🇬</div>
                 <div class="region-name">新加坡</div>
-                <div class="region-count"><span class="count-num">1</span> 条动态</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
             <div class="region-card has-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
@@ -679,41 +697,19 @@
     
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('today', this)">
-            📅 今天 <span class="count">4</span>
+            📅 今天 <span class="count">3</span>
         </button>
         <button class="tab-btn" onclick="showTab('last3days', this)">
-            📆 近3天 <span class="count">15</span>
+            📆 近3天 <span class="count">18</span>
         </button>
         <button class="tab-btn" onclick="showTab('lastweek', this)">
-            📋 近1周 <span class="count">28</span>
+            📋 近1周 <span class="count">31</span>
         </button>
     </div>
 
     <!-- 今天 -->
     <div id="tab-today" class="tab-content active">
         
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇸🇬 新加坡</h2>
-            <span class="count">1 条动态</span>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">9小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.ctvnews.ca/montreal/article/quebec-psychiatrists-call-for-a-dedicated-mental-health-minister/" target="_blank">Quebec psychiatrists call for a dedicated mental health minister</a></h4>
-                <div class="news-summary">魁北克精神科医生呼吁下一届政府设立专职心理健康部长。</div>
-            </div>
-        </div>
-    </div>
-
     <div class="group-section">
         <div class="group-header">
             <h2>🇲🇾 马来西亚</h2>
@@ -728,7 +724,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">59分钟前</span>
+                    <span class="date-tag">1小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/08/06/healthcare-reform-to-restore-balance-between-insurers-and-medical-costs/" target="_blank">Healthcare Reform To Restore Balance Between Insurers And Medical Costs</a></h4>
                 <div class="news-summary">马来西亚私人医疗行业长期看好，医疗改革将平衡保险公司与医疗成本关系。</div>
@@ -753,7 +749,7 @@
                     <span class="date-tag">5小时前</span>
                 </div>
                 <h4 class="news-title"><a href="http://www.bangkokpost.com/thailand/general/3297187/60bn-gold-card-budget-reviewed" target="_blank">60bn gold card budget reviewed</a></h4>
-                <div class="news-summary">泰国金卡预算中600亿泰铢需进一步说明，部分资金已拨至医院。</div>
+                <div class="news-summary">泰国金卡预算600亿铢需进一步说明，部分资金已拨至医院。</div>
             </div>
 
             <div class="news-item">
@@ -808,19 +804,19 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2天前</span>
+                    <span class="date-tag">20小时前</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/politics/besides-national-cancer-centre-11-other-moh-projects-have-undeclared-savings-ong-ye-kung" target="_blank">Besides National Cancer Centre, 11 other MOH projects have undeclared savings: Ong Ye Kung</a></h4>
-                <div class="news-summary">新加坡卫生部长张志贤表示，除国家癌症中心外，还有11个卫生部项目未申报节省的费用。</div>
+                <h4 class="news-title"><a href="https://www.media-outreach.com/news/singapore/2026/08/06/479894/singapore-led-platform-leads-regional-collaboration-for-the-first-successful-implantation-of-the-worlds-smallest-and-lightest-artificial-heart-assist-device/" target="_blank">Singapore-led Platform Leads Regional Collaboration for the First Successful Implantation of the World's Smallest and Lightest Artificial Heart Assist Device #medtech #medicaltechnology #cardiovascular #surgery</a></h4>
+                <div class="news-summary">新加坡主导的平台成功植入全球最小最轻人工心脏辅助设备，开启心脏病治疗新纪元。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">9小时前</span>
+                    <span class="date-tag">2天前</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.ctvnews.ca/montreal/article/quebec-psychiatrists-call-for-a-dedicated-mental-health-minister/" target="_blank">Quebec psychiatrists call for a dedicated mental health minister</a></h4>
-                <div class="news-summary">魁北克精神科医生呼吁新一届政府设立专职心理健康部长。</div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/politics/besides-national-cancer-centre-11-other-moh-projects-have-undeclared-savings-ong-ye-kung" target="_blank">Besides National Cancer Centre, 11 other MOH projects have undeclared savings: Ong Ye Kung</a></h4>
+                <div class="news-summary">新加坡卫生部长张志贤表示，除国家癌症中心外，还有11个卫生部项目未申报节省的费用。</div>
             </div>
 
             <div class="news-item">
@@ -837,7 +833,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇲🇾 马来西亚</h2>
-            <span class="count">5 条动态</span>
+            <span class="count">7 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -857,6 +853,21 @@
 
         <div class="entity-section">
             <div class="entity-header">
+                <h3>📍 Sunway Medical Centre (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/08/06/sunway-healthcare-to-release-second-quatter-results-on-august-20/" target="_blank">Sunway Healthcare To Release Second Quarter Results On August 20</a></h4>
+                <div class="news-summary">Sunway Healthcare将于2026年8月20日发布第二季度未经审计财报。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
                 <h3>📍 Pantai Hospitals (1 条)</h3>
             </div>
 
@@ -866,19 +877,19 @@
                     <span class="date-tag">3天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.edgeprop.my/listing/sale/4099456/pantai-hillpark-3-for-sale-by-hazim-rozmi" target="_blank">Pantai Hillpark 3 Condo for Sale in Pantai Dalam/Kerinchi, Kuala Lumpur by HAZIM ROZMI</a></h4>
-                <div class="news-summary">吉隆坡潘达兰/金吉拉区海景山景3房2卫公寓出售，面积1356平方尺，全装修，售价63万林吉特。</div>
+                <div class="news-summary">吉隆坡潘达兰/金吉拉区海景山景3房2卫公寓出售，面积1356平方尺，全装修，售价63万马币。</div>
             </div>
         </div>
 
         <div class="entity-section sea-health-section">
             <div class="entity-header">
-                <h3>🌏 卫生动态 (3 条)</h3>
+                <h3>🌏 卫生动态 (4 条)</h3>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">59分钟前</span>
+                    <span class="date-tag">1小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/08/06/healthcare-reform-to-restore-balance-between-insurers-and-medical-costs/" target="_blank">Healthcare Reform To Restore Balance Between Insurers And Medical Costs</a></h4>
                 <div class="news-summary">马来西亚私人医疗行业长期看好，医疗改革将平衡保险公司与医疗成本关系。</div>
@@ -890,7 +901,7 @@
                     <span class="date-tag">21小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/malaysia/2026/08/05/moh-upgrading-health-facilities-in-sabah-sarawak-interior-based-on-local-needs-says-deputy-minister/230314" target="_blank">MOH upgrading health facilities in Sabah, Sarawak interior based on local needs, says deputy minister</a></h4>
-                <div class="news-summary">马来西亚卫生部正根据沙巴和砂拉越内陆地区需求，定制化升级医疗设施。</div>
+                <div class="news-summary">马来西亚卫生部正根据沙巴和砂拉越内陆地区需求，定制升级当地医疗设施。</div>
             </div>
 
             <div class="news-item">
@@ -901,13 +912,37 @@
                 <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/money/2026/08/04/healthcare-and-financial-counters-lift-bursa-malaysia-higher-at-close/230222" target="_blank">Healthcare and financial counters lift Bursa Malaysia higher at close</a></h4>
                 <div class="news-summary">马来西亚股市因金融和医疗板块上涨而收高。</div>
             </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://rankings.newsweek.com/worlds-greenest-hospitals-2026" target="_blank">World’s Greenest Hospitals 2026</a></h4>
+                <div class="news-summary">《新闻周刊》联合Statista发布2026年全球最绿色医院榜单，推动医疗行业减少环境影响。</div>
+            </div>
         </div>
     </div>
 
     <div class="group-section">
         <div class="group-header">
             <h2>🇹🇭 泰国</h2>
-            <span class="count">3 条动态</span>
+            <span class="count">4 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bangkok Hospital Group (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bangkokpost.com/thailand/pr/3296922/bdms-opens-bangkokphuket-cancer-institute" target="_blank">BDMS Opens Bangkok-Phuket Cancer Institute</a></h4>
+                <div class="news-summary">泰国普吉岛的 Bangkok-Phuket 肿瘤研究所正式启用，提升当地癌症诊疗水平。</div>
+            </div>
         </div>
 
         <div class="entity-section sea-health-section">
@@ -921,7 +956,7 @@
                     <span class="date-tag">13小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.who.int/philippines/news/detail-global/05-08-2026-thailand-to-host-third-who-global-summit-on-traditional-medicine-in-2027" target="_blank">Thailand to host Third WHO Global Summit on Traditional Medicine in 2027</a></h4>
-                <div class="news-summary">泰国将主办2027年第三届世卫传统医学全球峰会，彰显其在传统医学领域的国际认可。</div>
+                <div class="news-summary">泰国将举办2027年第三届世卫传统医学全球峰会，彰显其在传统医学领域的国际认可。</div>
             </div>
 
             <div class="news-item">
@@ -1012,7 +1047,7 @@
                     <span class="date-tag">昨天</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.freemalaysiatoday.com/category/business/2026/08/04/bursa-ends-at-intraday-high-led-by-financial-and-healthcare-sectors" target="_blank">Bursa ends at intraday high, led by financial and healthcare sectors</a></h4>
-                <div class="news-summary">富达指数以盘中高点收盘，金融和医疗板块领涨。</div>
+                <div class="news-summary">吉隆坡股市在金融和医疗板块带动下收于盘中高点。</div>
             </div>
 
             <div class="news-item">
@@ -1045,7 +1080,7 @@
                     <span class="date-tag">5天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.digitalhealthnews.com/ihh-healthcare-to-advance-technology-based-healthcare-expansion-in-india-through-fortis" target="_blank">IHH Healthcare to Advance Technology-based Healthcare Expansion in India Through Fortis</a></h4>
-                <div class="news-summary">IHH医疗集团将通过Fortis在印度推进技术驱动的医疗扩张。</div>
+                <div class="news-summary">IHH医疗集团将通过Fortis在印度推进技术驱动的医疗业务扩展。</div>
             </div>
         </div>
     </div>
@@ -1064,10 +1099,19 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">20小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.media-outreach.com/news/singapore/2026/08/06/479894/singapore-led-platform-leads-regional-collaboration-for-the-first-successful-implantation-of-the-worlds-smallest-and-lightest-artificial-heart-assist-device/" target="_blank">Singapore-led Platform Leads Regional Collaboration for the First Successful Implantation of the World's Smallest and Lightest Artificial Heart Assist Device #medtech #medicaltechnology #cardiovascular #surgery</a></h4>
+                <div class="news-summary">新加坡主导的平台成功植入全球最小最轻人工心脏辅助设备，开启心脏病治疗新纪元。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
                     <span class="date-tag">2天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/politics/besides-national-cancer-centre-11-other-moh-projects-have-undeclared-savings-ong-ye-kung" target="_blank">Besides National Cancer Centre, 11 other MOH projects have undeclared savings: Ong Ye Kung</a></h4>
-                <div class="news-summary">新加坡卫生部长张志贤表示，除国家癌症中心外，还有11个卫生部项目未申报节省的开支。</div>
+                <div class="news-summary">新加坡卫生部长张志贤表示，除国家癌症中心外，还有11个卫生部项目未申报节省的费用。</div>
             </div>
 
             <div class="news-item">
@@ -1094,16 +1138,7 @@
                     <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://sbr.com.sg/insurance/news/fwd-adds-repeat-claims-cancer-survival-reaches-61" target="_blank">FWD adds repeat claims as cancer survival reaches 61%</a></h4>
-                <div class="news-summary">FWD新加坡推出新型重疾险FWD MultiCover CI，提供持续赔付，应对癌症等高复发疾病。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">9小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.ctvnews.ca/montreal/article/quebec-psychiatrists-call-for-a-dedicated-mental-health-minister/" target="_blank">Quebec psychiatrists call for a dedicated mental health minister</a></h4>
-                <div class="news-summary">魁北克精神科医生呼吁新一届政府设立专职心理健康部长。</div>
+                <div class="news-summary">FWD新加坡推出新重疾险，提供持续赔付，应对癌症等高复发疾病。</div>
             </div>
 
             <div class="news-item">
@@ -1120,7 +1155,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇲🇾 马来西亚</h2>
-            <span class="count">7 条动态</span>
+            <span class="count">9 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -1134,7 +1169,7 @@
                     <span class="date-tag">3天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.edgeprop.my/listing/sale/4099456/pantai-hillpark-3-for-sale-by-hazim-rozmi" target="_blank">Pantai Hillpark 3 Condo for Sale in Pantai Dalam/Kerinchi, Kuala Lumpur by HAZIM ROZMI</a></h4>
-                <div class="news-summary">吉隆坡潘达兰/金吉拉区海景山公园3号公寓，3房2卫精装公寓出售，售价63万马币。</div>
+                <div class="news-summary">吉隆坡潘太希尔公园3号公寓，3房2卫精装公寓出售，面积1356平方尺，售价63万林吉特。</div>
             </div>
 
             <div class="news-item">
@@ -1152,7 +1187,7 @@
                     <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.edgeprop.my/listing/auction/4093673/kuala_lumpur/pantai/commercial/shop/investment-opportunity-business-suite-7-mins-to-mid-valley-megamall-4-mins-walk-to-lrt-kerinchi-station" target="_blank">Shop/Retail Space for Auction in Pantai, Kuala Lumpur by Owner Auction</a></h4>
-                <div class="news-summary">吉隆坡潘太一业主拍卖463平方英尺商铺，底价27万林吉特。</div>
+                <div class="news-summary">吉隆坡潘太一业主拍卖463平方英尺商铺，保留价27万林吉特。</div>
             </div>
         </div>
 
@@ -1167,13 +1202,28 @@
                     <span class="date-tag">23小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.edgeprop.my/listing/rental/4102548/selangor/subang_jaya/commercial/shop/subang-jaya-ss15-ground-floor-shop-lot-for-rent" target="_blank">SS15 Shop/Retail Space for Rent in Subang Jaya, Selangor by Charmaine Loo</a></h4>
-                <div class="news-summary">雪兰莪梳邦再也SS15三层商铺招租，面积3450平方英尺，位于一楼，适合商业用途。</div>
+                <div class="news-summary">雪兰莪梳邦再也SS15三层商铺招租，面积3450平方英尺，位于一楼，适合零售用途。</div>
+            </div>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Sunway Medical Centre (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">18小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/08/06/sunway-healthcare-to-release-second-quatter-results-on-august-20/" target="_blank">Sunway Healthcare To Release Second Quarter Results On August 20</a></h4>
+                <div class="news-summary">Sunway Healthcare将于2026年8月20日发布第二季度未经审计财报。</div>
             </div>
         </div>
 
         <div class="entity-section sea-health-section">
             <div class="entity-header">
-                <h3>🌏 卫生动态 (3 条)</h3>
+                <h3>🌏 卫生动态 (4 条)</h3>
             </div>
 
             <div class="news-item">
@@ -1202,13 +1252,37 @@
                 <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/money/2026/08/04/healthcare-and-financial-counters-lift-bursa-malaysia-higher-at-close/230222" target="_blank">Healthcare and financial counters lift Bursa Malaysia higher at close</a></h4>
                 <div class="news-summary">马来西亚股市因金融和医疗板块上涨而收高。</div>
             </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://rankings.newsweek.com/worlds-greenest-hospitals-2026" target="_blank">World’s Greenest Hospitals 2026</a></h4>
+                <div class="news-summary">《新闻周刊》联合Statista发布2026年全球最绿色医院榜单，推动医疗行业减少环境影响。</div>
+            </div>
         </div>
     </div>
 
     <div class="group-section">
         <div class="group-header">
             <h2>🇹🇭 泰国</h2>
-            <span class="count">3 条动态</span>
+            <span class="count">4 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bangkok Hospital Group (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bangkokpost.com/thailand/pr/3296922/bdms-opens-bangkokphuket-cancer-institute" target="_blank">BDMS Opens Bangkok-Phuket Cancer Institute</a></h4>
+                <div class="news-summary">泰国普吉岛的 Bangkok-Phuket 肿瘤研究所正式启用，提升当地癌症诊疗水平。</div>
+            </div>
         </div>
 
         <div class="entity-section sea-health-section">
@@ -1222,7 +1296,7 @@
                     <span class="date-tag">13小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.who.int/philippines/news/detail-global/05-08-2026-thailand-to-host-third-who-global-summit-on-traditional-medicine-in-2027" target="_blank">Thailand to host Third WHO Global Summit on Traditional Medicine in 2027</a></h4>
-                <div class="news-summary">泰国将举办2027年第三届世卫传统医学全球峰会，彰显其在传统医学领域的国际认可。</div>
+                <div class="news-summary">泰国将主办2027年第三届世卫传统医学全球峰会，彰显其在该领域的国际认可。</div>
             </div>
 
             <div class="news-item">
@@ -1262,7 +1336,7 @@
                     <span class="date-tag">15小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESvQEB7keqTXk-ArDYpElRBRwwvh7-_h8SMk5KU6MnVjLwCFhobHMnJ-KpCdMS8ys_8jGvR3N9LfqP47RugF_i2nc3TaIhKJ27IjM0KXEHbFxUuhn3acfJR1fO5j3bBJGU4cUw6l6r76tS3cOGQa2Q2cO3POtkpz3RtjBFH0-JQc-ikwCBY_pqOGu2uHBiSJSALeR4yzUlw4KDCsNk8I_ma0oN2-dHTP9ZWtTJv0i9qJoLRG9Ktm3-JAxufoq3_84=" target="_blank">Fortis Healthcare subsidiary Agilus Diagnostics approves intra-group merger</a></h4>
-                <div class="news-summary">福塔is医疗旗下Agilus Diagnostics批准全资子公司合并。</div>
+                <div class="news-summary">福塔伊斯医疗旗下阿吉卢斯诊断公司批准全资子公司合并。</div>
             </div>
 
             <div class="news-item">
@@ -1304,7 +1378,7 @@
                     <span class="date-tag">17小时前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESngEB7keqTQ4hNSeU8g2BPCI54nyBESz0tTdnEvS4D3pFw5fMAB0Ma9uNTM_XELdgGnwYoiwG11nGHR3bgCg1Lawaf9i6tUiWXcwIkjNxY45tLvcyjWKMPkREovgIPxtPNc7wOmkFYe6l_5zEa_Rv7hErgQo50KKCkTi9vFwWlM8K7bRzFpxT4MuC8ByRwuhJJaABZiyvXAV5T8mNcB9XYA==" target="_blank">India’s Manipal Health jumps on market debut, valuing hospital chain at $9 billion</a></h4>
-                <div class="news-summary">印度曼帕尔健康企业在上市首日股价大幅上涨，估值约90亿美元。</div>
+                <div class="news-summary">印度曼尼帕尔健康企业在上市首日股价大幅上涨，估值约90亿美元。</div>
             </div>
 
             <div class="news-item">
@@ -1328,7 +1402,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">3天前</span>
+                    <span class="date-tag">4天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://businessnewsthisweek.com/business/rela-hospital-hosts-3-km-walkathon-to-observe-world-breastfeeding-week/" target="_blank">Rela Hospital Hosts 3-Km Walkathon to Observe World Breastfeeding Week</a></h4>
                 <div class="news-summary">瑞拉医院为纪念世界母乳喂养周举办3公里健行活动。</div>
@@ -1341,16 +1415,16 @@
     <script>
         // 时间段统计数据
         const statsData = {
-            today: { label: '今日动态', value: '4 条新闻' },
-            last3days: { label: '近3天动态', value: '15 条新闻' },
-            lastweek: { label: '近1周动态', value: '28 条新闻' }
+            today: { label: '今日动态', value: '3 条新闻' },
+            last3days: { label: '近3天动态', value: '18 条新闻' },
+            lastweek: { label: '近1周动态', value: '31 条新闻' }
         };
         
         // 各时间段的国家新闻数量
         const locationCounts = {
-            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 1, "\u9a6c\u6765\u897f\u4e9a": 1, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            last3days: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 5, "\u6cf0\u56fd": 3, "\u5370\u5ea6": 3, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            lastweek: {"IHH\u96c6\u56e2": 4, "\u65b0\u52a0\u5761": 6, "\u9a6c\u6765\u897f\u4e9a": 7, "\u6cf0\u56fd": 3, "\u5370\u5ea6": 8, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
+            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 1, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            last3days: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 7, "\u6cf0\u56fd": 4, "\u5370\u5ea6": 3, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            lastweek: {"IHH\u96c6\u56e2": 4, "\u65b0\u52a0\u5761": 6, "\u9a6c\u6765\u897f\u4e9a": 9, "\u6cf0\u56fd": 4, "\u5370\u5ea6": 8, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
         };
         
         let currentView = 'list';
