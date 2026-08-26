@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海外医疗集团动态监测 - 2026-08-25</title>
+    <title>海外医疗集团动态监测 - 2026-08-26</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -483,7 +483,7 @@
         <div class="summary-stats">
             <div class="stat-item">
                 <span class="stat-label">更新时间</span>
-                <span class="stat-value">2026年08月25日 12:15</span>
+                <span class="stat-value">2026年08月26日 12:17</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">监测范围</span>
@@ -491,7 +491,7 @@
             </div>
             <div class="stat-item" id="stat-active">
                 <span class="stat-label" id="stat-label">今日动态</span>
-                <span class="stat-value" id="stat-value">1 条新闻</span>
+                <span class="stat-value" id="stat-value">4 条新闻</span>
             </div>
         </div>
 
@@ -500,18 +500,7 @@
             
             <div class="ranking-section">
                 <div class="ranking-title">📈 今日机构动态排行</div>
-                <div class="ranking-list">
-
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">1 条</span>
-                    </div>
-
-                </div>
+                <div class="ranking-empty">暂无动态</div>
             </div>
 
         </div>
@@ -520,18 +509,7 @@
         <div id="ranking-today-data" style="display:none;">
             <div class="ranking-section">
                 <div class="ranking-title">📈 今日机构动态排行</div>
-                <div class="ranking-list">
-
-                    <div class="ranking-item">
-                        <span class="rank">1</span>
-                        <span class="entity-name">IHH Healthcare</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 100%"></div>
-                        </div>
-                        <span class="bar-count">1 条</span>
-                    </div>
-
-                </div>
+                <div class="ranking-empty">暂无动态</div>
             </div>
 </div>
         <div id="ranking-last3days-data" style="display:none;">
@@ -545,16 +523,16 @@
                         <div class="bar-container">
                             <div class="bar" style="width: 100%"></div>
                         </div>
-                        <span class="bar-count">6 条</span>
+                        <span class="bar-count">3 条</span>
                     </div>
 
                     <div class="ranking-item">
                         <span class="rank">2</span>
                         <span class="entity-name">IHH Healthcare</span>
                         <div class="bar-container">
-                            <div class="bar" style="width: 50%"></div>
+                            <div class="bar" style="width: 66%"></div>
                         </div>
-                        <span class="bar-count">3 条</span>
+                        <span class="bar-count">2 条</span>
                     </div>
 
                 </div>
@@ -576,20 +554,20 @@
 
                     <div class="ranking-item">
                         <span class="rank">2</span>
-                        <span class="entity-name">Apollo Hospitals</span>
+                        <span class="entity-name">IHH Healthcare</span>
                         <div class="bar-container">
-                            <div class="bar" style="width: 85%"></div>
+                            <div class="bar" style="width: 57%"></div>
                         </div>
-                        <span class="bar-count">6 条</span>
+                        <span class="bar-count">4 条</span>
                     </div>
 
                     <div class="ranking-item">
                         <span class="rank">3</span>
-                        <span class="entity-name">IHH Healthcare</span>
+                        <span class="entity-name">Apollo Hospitals</span>
                         <div class="bar-container">
-                            <div class="bar" style="width: 71%"></div>
+                            <div class="bar" style="width: 57%"></div>
                         </div>
-                        <span class="bar-count">5 条</span>
+                        <span class="bar-count">4 条</span>
                     </div>
 
                     <div class="ranking-item">
@@ -618,10 +596,10 @@
         <!-- 地图内的时间选择 -->
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMapTime('today', this)">
-                📅 今天 <span class="count">1</span>
+                📅 今天 <span class="count">4</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('last3days', this)">
-                📆 近3天 <span class="count">11</span>
+                📆 近3天 <span class="count">10</span>
             </button>
             <button class="map-tab" onclick="selectMapTime('lastweek', this)">
                 📋 近1周 <span class="count">34</span>
@@ -630,16 +608,16 @@
         
         <div class="region-grid" id="region-grid">
 
-            <div class="region-card has-news" data-location="IHH集团" onclick="filterByLocation('IHH集团')">
+            <div class="region-card no-news" data-location="IHH集团" onclick="filterByLocation('IHH集团')">
                 <div class="region-flag">🌐</div>
                 <div class="region-name">IHH集团</div>
-                <div class="region-count"><span class="count-num">1</span> 条动态</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
-            <div class="region-card no-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
+            <div class="region-card has-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
                 <div class="region-flag">🇸🇬</div>
                 <div class="region-name">新加坡</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+                <div class="region-count"><span class="count-num">3</span> 条动态</div>
             </div>
 
             <div class="region-card no-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
@@ -654,10 +632,10 @@
                 <div class="region-count"><span class="count-num">0</span> 条动态</div>
             </div>
 
-            <div class="region-card no-news" data-location="印度" onclick="filterByLocation('印度')">
+            <div class="region-card has-news" data-location="印度" onclick="filterByLocation('印度')">
                 <div class="region-flag">🇮🇳</div>
                 <div class="region-name">印度</div>
-                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+                <div class="region-count"><span class="count-num">1</span> 条动态</div>
             </div>
 
             <div class="region-card no-news" data-location="土耳其" onclick="filterByLocation('土耳其')">
@@ -683,10 +661,10 @@
     
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('today', this)">
-            📅 今天 <span class="count">1</span>
+            📅 今天 <span class="count">4</span>
         </button>
         <button class="tab-btn" onclick="showTab('last3days', this)">
-            📆 近3天 <span class="count">11</span>
+            📆 近3天 <span class="count">10</span>
         </button>
         <button class="tab-btn" onclick="showTab('lastweek', this)">
             📋 近1周 <span class="count">34</span>
@@ -698,22 +676,62 @@
         
     <div class="group-section">
         <div class="group-header">
-            <h2>🌐 IHH集团</h2>
-            <span class="count">1 条动态</span>
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">3 条动态</span>
         </div>
 
-        <div class="entity-section">
+        <div class="entity-section sea-health-section">
             <div class="entity-header">
-                <h3>📍 IHH Healthcare (1 条)</h3>
+                <h3>🌏 卫生动态 (3 条)</h3>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">7小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sg.finance.yahoo.com/news/perceptra-thai-startup-brings-medical-204400237.html" target="_blank">Perceptra, a Thai Startup, Brings Medical AI to International Markets to Enhance Regional Patient Screening</a></h4>
+                <div class="news-summary">泰国初创公司Perceptra推出医疗AI，进军国际市场，提升区域患者筛查效率。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
                     <span class="date-tag">4小时前</span>
                 </div>
-                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-fine-tunes-its-13-stake-in-ihh-healthcare" target="_blank">EPF Fine-Tunes Its 13% Stake in IHH Healthcare</a></h4>
-                <div class="news-summary">EPF于2026年8月18日调整其持有的IHH Healthcare 13%股份，出售437,900股，购入50,400股。</div>
+                <h4 class="news-title"><a href="https://fortune.com/2026/08/25/ihh-healthcare-ceo-prem-kumar-nair-longevity-covid/" target="_blank">How IHH Healthcare CEO Prem Kumar Nair is planning for a longer-lived Asia</a></h4>
+                <div class="news-summary">亚洲最大私立医疗集团CEO普雷姆·库马尔·奈尔正推动临床长寿、癌症护理、AI和社区医疗发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.wionews.com/videos/singapore-govt-expands-financial-support-for-expecting-families-1787678755871/amp" target="_blank">Singapore govt expands financial support for expecting families</a></h4>
+                <div class="news-summary">新加坡政府扩大对准家庭的财政支持，以应对创新低的生育率和人口老龄化问题。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/niti-aayog-proposes-interstate-licence-portability-for-healthcare-professionals-620631" target="_blank">NITI Aayog Proposes Interstate Licence Portability For Healthcare Professionals</a></h4>
+                <div class="news-summary">NITI Aayog提议医疗专业人员跨州执照通用，以提升医疗人才流动性，助力印度医疗旅游业发展。</div>
             </div>
         </div>
     </div>
@@ -726,206 +744,30 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🌐 IHH集团</h2>
-            <span class="count">3 条动态</span>
+            <span class="count">2 条动态</span>
         </div>
 
         <div class="entity-section">
             <div class="entity-header">
-                <h3>📍 IHH Healthcare (3 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">4小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-fine-tunes-its-13-stake-in-ihh-healthcare" target="_blank">EPF Fine-Tunes Its 13% Stake in IHH Healthcare</a></h4>
-                <div class="news-summary">EPF于2026年8月18日调整其持有的IHH Healthcare 13%股份，出售437,900股，购入50,400股。</div>
+                <h3>📍 IHH Healthcare (2 条)</h3>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">IHH Healthcare</span>
                     <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-fine-tunes-its-13-stake-in-ihh-healthcare" target="_blank">EPF Fine-Tunes Its 13% Stake in IHH Healthcare</a></h4>
+                <div class="news-summary">EPF于2026年8月18日调整其持有的IHH Healthcare 13%股份，卖出437,900股，买入50,400股。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://thesun.my/sports/ihh-ceo-dr-kamal-amzan-climbs-2845-steps-at-merdeka-118-leaders-should-walk-the-talk/" target="_blank">IHH CEO Dr Kamal Amzan climbs 2,845 steps at Merdeka 118: ‘Leaders should walk the talk’</a></h4>
                 <div class="news-summary">IHH医疗集团CEO卡马尔·阿姆赞登顶默迪卡118大楼，强调领导者应以身作则。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">2天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.businessoutreach.in/fortis-healthcare-success-story/" target="_blank">Fortis Healthcare Success Story: Rise, Fall & Revival Explained</a></h4>
-                <div class="news-summary">Fortis Healthcare经历崛起、危机与IHH Healthcare接管后的复兴，为现代企业提供了重要经验。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇲🇾 马来西亚</h2>
-            <span class="count">1 条动态</span>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">21小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESyAEB6zswFb_5tsdqsNxvalIXOncfvUEsrLq3Kv69ewgcV8XON2mDSQC0kVkEnD1GgsZ71IgwiKEA6LE-R5OXMXIpXCEepVXj5XBHo1ILjMACFhgYCLWZBz-6swXilrsThe1zCWrcMCFQv93LSas6w6UDx_llXM5tqeZIpit7tWghNC5DZ7KIYyL2xFYTWqAB9apz0gUdcHv9_rulKirCqK1CPdk8PH4Lijw-S04Oc8Be8vu3hA1v2hpSG4CstDh5DVOArazZqCetww" target="_blank">INDONESIAN HEALTHCARE TRAVEL TO MALAYSIA HITS RECORD RM2.2 BILLION AS MHX RETURNS TO YOGYAKARTA</a></h4>
-                <div class="news-summary">印尼赴马医疗旅游收入达22亿林吉特新高，马医旅会重返日惹加强合作。</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🇮🇳 印度</h2>
-            <span class="count">7 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 Fortis Healthcare (6 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">15小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.indianpharmapost.com/people/bindu-sharma-appointed-facility-director-at-fortis-healthcares-greater-noida-facility-21532" target="_blank">Bindu Sharma appointed Facility Director at Fortis Healthcare’s Greater Noida facility</a></h4>
-                <div class="news-summary">Bindu Sharma被任命为Fortis Healthcare Greater Noida设施总监，此前曾在Max医院担任领导职务。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">19小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://indiatechnologynews.in/fortis-hospital-bannerghatta-road-launches-dedicated-spine-deformity-clinic-for-comprehensive-care-of-complex-spinal-conditions/" target="_blank">Fortis Hospital Bannerghatta Road Launches Dedicated Spine Deformity Clinic for Comprehensive Care of Complex Spinal Conditions</a></h4>
-                <div class="news-summary">Fortis医院推出脊柱畸形专科诊所，由Dr. Umesh Srikanta领衔多学科团队，提供复杂脊柱疾病的综合诊疗。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">昨天</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESqwEB6zswFe1EE3oyVpBBMYvKwh9zLOWZh9XxK4bItByXsRxwNSx4UPocCB5UtO04mWmPjQijtrPXpoJrqvJq312iKpALyzLDqb7HqbWTGn1RP_guGHAjM8XkLQwCdveD2IeSwomdTsIb0ZQPam4-uB7pKQBjvBGAcUTI0wikdpsjeSNwHWF0OcMRyehWebEG6_OO7bZlr3IZqOCRE4y6_L-IN5QJKSaXdx3Ncds" target="_blank">Fortis ties up with Ekana Group for 550-bedded hospital in Lucknow</a></h4>
-                <div class="news-summary">福蒂斯医疗与勒克瑙埃卡纳集团合作，将运营一家550张病床的医院。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">2天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESZAHrOzAV9DqLwdiGpJnulZ-JMPw02B5lFEa-7dL4qRe6ZPPiEncx1bIov3q9BDYYZAOQBbUvymJkG1YYZR4l-lrk6dd2OygEzkEmeez6p6H67ZWRF_oZ9z1ekKXX7a_D5P52mx8" target="_blank">UNITED NEWS OF INDIA</a></h4>
-                <div class="news-summary">印度商业部长普伊优什·戈亚尔会见了Fortis Healthcare负责人，讨论医疗合作事宜。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">2天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESoQEB6zswFVtxI_D1DuXGevfTY9PjdKOsShG32ad76Y6aDOKGiVWNbZXwQytcVRoP_gOJUvUKWy4CxYU5ILNHz6o14h1RnRPAgNZJqjKRs6zKfwK_it94mmcI74gGV3w_r3hdp2NKsugs4Xe08EH8sNdB-fo_RywhQeMuvF5gSRH5OEdJ-4afIryAPa7_HI3LkndYiPqYGOO4LfNE4VAtVIRKIA" target="_blank">Fortis Hospital: Excellence In Comprehensive Cancer Care</a></h4>
-                <div class="news-summary">福蒂斯医院班加罗特路分院凭借临床专业优势，成为综合癌症护理的领先机构。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">3天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESxwEB6zswFZ2BgYr0ghaX8inMSLecbR435RANrbuIQJCgqTTr1Qhplo24wCXTm3mB2aXmtyZSsUzDJC3KKH4JkfRfdGNoVGrnz1phg9ekEW1qdInmbeUr-qhxdgjO0SYHkPjUMxHU33TzHCz5JRIaPscD3MjIHpdnCow_YFh5vafXwccZpd7nnwsWmxRei0fdZrrN9qNCEyZuBNy-7f2CvDdnBsKaBDtpCfUyEVkzvF_IF6FOgp1yhi4JrjUoNW_abeFXpEtm_8gp" target="_blank">Gleneagles Hospital Chennai Successfully Treats Two Rare Food-Pipe Disorders Through Advanced Endoscopy</a></h4>
-                <div class="news-summary">格伦艾格尔斯医院成功通过先进内镜技术治疗两名罕见食管疾病患者。</div>
-            </div>
-        </div>
-
-        <div class="entity-section sea-health-section">
-            <div class="entity-header">
-                <h3>🌏 卫生动态 (1 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAES0QEB6zswFbSdJs6ZvHNDKTJ2rsG2PIaHKBYddY-6Ly641eXbB5LRRNQGadC4qesit1eKwpsRDSuOLLf-rTrNIXAXXrnpvZYr79_zHmxEnelY01I22Aq_xLb5pWPqUDTZWDhItDz7GFgZa5ciV-bYCFslK0T8Jo2ktYaVZ_E1PVuhORZ8VW9glemK0q6P8nxrDRAIzzyJ-J7b6mQfeizReNdvP5EQv5X8upH9Nb1IGHVfWdMlq1iY6SZ9jPEVakoHrJRid1QTFrB7pk8WTP0E0JS2NA" target="_blank">Redcliffe Labs Appoints Ramesh Krishnan as Independent Director to Accelerate Next Phase of Integrated Healthcare Growth</a></h4>
-                <div class="news-summary">Redcliffe Labs任命资深医疗高管Ramesh Krishnan为独立董事，推动其整合型医疗业务下一阶段发展。</div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    
-    <!-- 过去1周 -->
-    <div id="tab-lastweek" class="tab-content">
-        
-    <div class="group-section">
-        <div class="group-header">
-            <h2>🌐 IHH集团</h2>
-            <span class="count">5 条动态</span>
-        </div>
-
-        <div class="entity-section">
-            <div class="entity-header">
-                <h3>📍 IHH Healthcare (5 条)</h3>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">4小时前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-fine-tunes-its-13-stake-in-ihh-healthcare" target="_blank">EPF Fine-Tunes Its 13% Stake in IHH Healthcare</a></h4>
-                <div class="news-summary">EPF于2026年8月18日调整持有IHH Healthcare的13%股权，出售437,900股，购入50,400股。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">昨天</span>
-                </div>
-                <h4 class="news-title"><a href="https://thesun.my/sports/ihh-ceo-dr-kamal-amzan-climbs-2845-steps-at-merdeka-118-leaders-should-walk-the-talk/" target="_blank">IHH CEO Dr Kamal Amzan climbs 2,845 steps at Merdeka 118: ‘Leaders should walk the talk’</a></h4>
-                <div class="news-summary">IHH医疗集团CEO卡马尔·阿姆赞登顶默迪卡118大楼，强调领导者应以身作则。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">2天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.businessoutreach.in/fortis-healthcare-success-story/" target="_blank">Fortis Healthcare Success Story: Rise, Fall & Revival Explained</a></h4>
-                <div class="news-summary">Fortis Healthcare经历崛起、危机与IHH Healthcare接管后的复兴，为现代企业提供了重要经验。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">5天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-boosts-substantial-stake-in-ihh-healthcare" target="_blank">EPF Boosts Substantial Stake in IHH Healthcare</a></h4>
-                <div class="news-summary">马来西亚公积金局大幅增持IHH医疗集团股份。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">IHH Healthcare</span>
-                    <span class="date-tag">6天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-raises-stake-in-ihh-healthcare-to-over-13" target="_blank">EPF Raises Stake in IHH Healthcare to Over 13%</a></h4>
-                <div class="news-summary">马来西亚公积金局增持IHH Healthcare股份至13.247%。</div>
             </div>
         </div>
     </div>
@@ -944,7 +786,187 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
+                    <span class="date-tag">7小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sg.finance.yahoo.com/news/perceptra-thai-startup-brings-medical-204400237.html" target="_blank">Perceptra, a Thai Startup, Brings Medical AI to International Markets to Enhance Regional Patient Screening</a></h4>
+                <div class="news-summary">泰国初创公司Perceptra推出医疗AI，进军国际市场，提升区域患者筛查效率。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://fortune.com/2026/08/25/ihh-healthcare-ceo-prem-kumar-nair-longevity-covid/" target="_blank">How IHH Healthcare CEO Prem Kumar Nair is planning for a longer-lived Asia</a></h4>
+                <div class="news-summary">亚洲最大私立医疗集团CEO普雷姆·库马尔·奈尔正推动临床长寿、癌症护理、AI和社区医疗发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.wionews.com/videos/singapore-govt-expands-financial-support-for-expecting-families-1787678755871/amp" target="_blank">Singapore govt expands financial support for expecting families</a></h4>
+                <div class="news-summary">新加坡政府扩大对准家庭的财政支持，以应对创新低的生育率和人口老龄化问题。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">1 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESyAEB6zswFb_5tsdqsNxvalIXOncfvUEsrLq3Kv69ewgcV8XON2mDSQC0kVkEnD1GgsZ71IgwiKEA6LE-R5OXMXIpXCEepVXj5XBHo1ILjMACFhgYCLWZBz-6swXilrsThe1zCWrcMCFQv93LSas6w6UDx_llXM5tqeZIpit7tWghNC5DZ7KIYyL2xFYTWqAB9apz0gUdcHv9_rulKirCqK1CPdk8PH4Lijw-S04Oc8Be8vu3hA1v2hpSG4CstDh5DVOArazZqCetww" target="_blank">INDONESIAN HEALTHCARE TRAVEL TO MALAYSIA HITS RECORD RM2.2 BILLION AS MHX RETURNS TO YOGYAKARTA</a></h4>
+                <div class="news-summary">印尼赴马医疗旅游收入达22亿林吉特新高，马方重返日惹加强合作。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">4 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Fortis Healthcare (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.indianpharmapost.com/people/bindu-sharma-appointed-facility-director-at-fortis-healthcares-greater-noida-facility-21532" target="_blank">Bindu Sharma appointed Facility Director at Fortis Healthcare’s Greater Noida facility</a></h4>
+                <div class="news-summary">Bindu Sharma被任命为Fortis Healthcare Greater Noida设施总监，此前曾在Max医院担任领导职务。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://indiatechnologynews.in/fortis-hospital-bannerghatta-road-launches-dedicated-spine-deformity-clinic-for-comprehensive-care-of-complex-spinal-conditions/" target="_blank">Fortis Hospital Bannerghatta Road Launches Dedicated Spine Deformity Clinic for Comprehensive Care of Complex Spinal Conditions</a></h4>
+                <div class="news-summary">Fortis医院开设脊柱畸形专科诊所，由Dr. Umesh Srikanta领衔多学科团队，提供复杂脊柱疾病的综合诊疗。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESqwEB6zswFe1EE3oyVpBBMYvKwh9zLOWZh9XxK4bItByXsRxwNSx4UPocCB5UtO04mWmPjQijtrPXpoJrqvJq312iKpALyzLDqb7HqbWTGn1RP_guGHAjM8XkLQwCdveD2IeSwomdTsIb0ZQPam4-uB7pKQBjvBGAcUTI0wikdpsjeSNwHWF0OcMRyehWebEG6_OO7bZlr3IZqOCRE4y6_L-IN5QJKSaXdx3Ncds" target="_blank">Fortis ties up with Ekana Group for 550-bedded hospital in Lucknow</a></h4>
+                <div class="news-summary">福蒂斯医疗与勒克瑙埃卡纳集团合作，将运营一家550张病床的医院。</div>
+            </div>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/niti-aayog-proposes-interstate-licence-portability-for-healthcare-professionals-620631" target="_blank">NITI Aayog Proposes Interstate Licence Portability For Healthcare Professionals</a></h4>
+                <div class="news-summary">NITI Aayog提议医疗专业人员跨州执照通用，以提升医疗人才流动性，助力印度医疗旅游业发展。</div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+    <!-- 过去1周 -->
+    <div id="tab-lastweek" class="tab-content">
+        
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">4 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (4 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-fine-tunes-its-13-stake-in-ihh-healthcare" target="_blank">EPF Fine-Tunes Its 13% Stake in IHH Healthcare</a></h4>
+                <div class="news-summary">EPF于2026年8月18日调整其持有的IHH Healthcare 13%股份，出售437,900股，购入50,400股。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://thesun.my/sports/ihh-ceo-dr-kamal-amzan-climbs-2845-steps-at-merdeka-118-leaders-should-walk-the-talk/" target="_blank">IHH CEO Dr Kamal Amzan climbs 2,845 steps at Merdeka 118: ‘Leaders should walk the talk’</a></h4>
+                <div class="news-summary">IHH医疗集团CEO卡马尔·阿姆赞登顶默迪卡118大楼，强调领导者应以身作则。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businessoutreach.in/fortis-healthcare-success-story/" target="_blank">Fortis Healthcare Success Story: Rise, Fall & Revival Explained</a></h4>
+                <div class="news-summary">Fortis Healthcare经历崛起、危机、IHH Healthcare接管及复兴，为现代企业提供了重要经验。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-boosts-substantial-stake-in-ihh-healthcare" target="_blank">EPF Boosts Substantial Stake in IHH Healthcare</a></h4>
+                <div class="news-summary">马来西亚公积金局大幅增持IHH医疗集团股份。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇸🇬 新加坡</h2>
+            <span class="count">6 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 卫生动态 (6 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">7小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sg.finance.yahoo.com/news/perceptra-thai-startup-brings-medical-204400237.html" target="_blank">Perceptra, a Thai Startup, Brings Medical AI to International Markets to Enhance Regional Patient Screening</a></h4>
+                <div class="news-summary">泰国初创公司Perceptra推出医疗AI，进军国际市场，提升东南亚患者筛查效率。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">5天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.humanresourcesonline.net/winning-secrets-how-ministry-of-health-singapore-turned-career-growth-concerns-into-a-more-connected-employee-experience" target="_blank">Winning Secrets: How Ministry of Health (Singapore) turned career-growth concerns into a more connected employee</a></h4>
                 <div class="news-summary">新加坡卫生部通过系统性人力资源策略，将员工职业发展关切转化为更强的组织连接感。</div>
@@ -953,7 +975,25 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
+                    <span class="date-tag">4小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://fortune.com/2026/08/25/ihh-healthcare-ceo-prem-kumar-nair-longevity-covid/" target="_blank">How IHH Healthcare CEO Prem Kumar Nair is planning for a longer-lived Asia</a></h4>
+                <div class="news-summary">亚洲最大私立医疗集团CEO普雷姆·库马尔·奈尔正推动临床长寿、癌症护理、AI和社区医疗发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.wionews.com/videos/singapore-govt-expands-financial-support-for-expecting-families-1787678755871/amp" target="_blank">Singapore govt expands financial support for expecting families</a></h4>
+                <div class="news-summary">新加坡政府扩大对准家庭的财政支持，以应对创新低的生育率和人口老龄化问题。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">5天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://sg.finance.yahoo.com/news/mental-health-america-conference-aims-142300204.html" target="_blank">Mental Health America Conference aims to create more good days, together</a></h4>
                 <div class="news-summary">2026年美国家庭心理健康大会将于10月8日至9日在华盛顿特区举行，汇聚数百名倡导者和领袖，共同推动心理健康改善。</div>
@@ -962,10 +1002,10 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
+                    <span class="date-tag">5天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://newsonair.gov.in/health-minister-j-p-nadda-launches-integrated-training-for-primary-healthcare-teams-to-strengthen-frontline-healthcare-delivery/" target="_blank">Health Minister J P Nadda launches Integrated Training for Primary Healthcare Teams to strengthen frontline healthcare delivery | Akashvani News</a></h4>
-                <div class="news-summary">印度卫生部长JP纳达启动基层医疗团队综合培训，强化一线医疗服务。</div>
+                <div class="news-summary">印度卫生部长JP纳达启动基层医疗团队综合培训，以强化一线医疗服务。</div>
             </div>
         </div>
     </div>
@@ -984,34 +1024,34 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">21小时前</span>
+                    <span class="date-tag">昨天</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESyAEB6zswFb_5tsdqsNxvalIXOncfvUEsrLq3Kv69ewgcV8XON2mDSQC0kVkEnD1GgsZ71IgwiKEA6LE-R5OXMXIpXCEepVXj5XBHo1ILjMACFhgYCLWZBz-6swXilrsThe1zCWrcMCFQv93LSas6w6UDx_llXM5tqeZIpit7tWghNC5DZ7KIYyL2xFYTWqAB9apz0gUdcHv9_rulKirCqK1CPdk8PH4Lijw-S04Oc8Be8vu3hA1v2hpSG4CstDh5DVOArazZqCetww" target="_blank">INDONESIAN HEALTHCARE TRAVEL TO MALAYSIA HITS RECORD RM2.2 BILLION AS MHX RETURNS TO YOGYAKARTA</a></h4>
-                <div class="news-summary">印尼医疗旅游至马来西亚达22亿林吉特新高，MHX重返日惹扩大影响力。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.heraldmalaysia.com/news/nurses-called-to-make-their-presence-a-liturgy-at-the-bedside/91159/1" target="_blank">Nurses called to make their presence “a liturgy at the bedside”</a></h4>
-                <div class="news-summary">护士被呼吁在病床前以服务践行“礼仪”，体现信仰与护理的结合。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.asiaone.com/malaysia/dengue-cases-surge-malaysias-klang-valley-says-health-ministry" target="_blank">Dengue cases surge in Malaysia's Klang Valley, says health ministry, Malaysia News</a></h4>
-                <div class="news-summary">马来西亚卫生部称，吉隆坡及巴生谷地区登革热病例激增。</div>
+                <div class="news-summary">印尼赴马医疗旅游收入达22亿林吉特新高，马医旅会重返日惹加强合作。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
                     <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.heraldmalaysia.com/news/nurses-called-to-make-their-presence-a-liturgy-at-the-bedside/91159/1" target="_blank">Nurses called to make their presence “a liturgy at the bedside”</a></h4>
+                <div class="news-summary">护士被呼吁在病床前以服务践行“礼仪般的临在”。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.asiaone.com/malaysia/dengue-cases-surge-malaysias-klang-valley-says-health-ministry" target="_blank">Dengue cases surge in Malaysia's Klang Valley, says health ministry, Malaysia News</a></h4>
+                <div class="news-summary">马来西亚卫生部表示，吉隆坡及巴生谷地区登革热病例激增。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">6天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.manilatimes.net/2026/08/19/tmt-newswire/pr-newswire/malaysia-and-bangladesh-translate-leaders-commitment-into-healthcare-cooperation/2408222" target="_blank">MALAYSIA AND BANGLADESH TRANSLATE LEADERS' COMMITMENT INTO HEALTHCARE COOPERATION</a></h4>
                 <div class="news-summary">马来西亚与孟加拉国将领导人承诺转化为医疗合作，马来西亚正寻求为孟加拉患者提供可负担的医疗服务。</div>
@@ -1033,7 +1073,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">5天前</span>
+                    <span class="date-tag">6天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.nationthailand.com/health-wellness/40069991" target="_blank">Thailand tightens border surveillance over Yangon cholera outbreak</a></h4>
                 <div class="news-summary">泰国加强边境防控，应对仰光霍乱疫情。</div>
@@ -1042,7 +1082,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">5天前</span>
+                    <span class="date-tag">6天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://voi.id/en/lifestyle/590166" target="_blank">Thailand and Indonesia Strengthen Cooperation in the Field of Education</a></h4>
                 <div class="news-summary">泰国与印尼加强教育合作，为学生提供更多海外高等教育选择。</div>
@@ -1053,7 +1093,7 @@
     <div class="group-section">
         <div class="group-header">
             <h2>🇮🇳 印度</h2>
-            <span class="count">20 条动态</span>
+            <span class="count">18 条动态</span>
         </div>
 
         <div class="entity-section">
@@ -1064,7 +1104,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">15小时前</span>
+                    <span class="date-tag">昨天</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.indianpharmapost.com/people/bindu-sharma-appointed-facility-director-at-fortis-healthcares-greater-noida-facility-21532" target="_blank">Bindu Sharma appointed Facility Director at Fortis Healthcare’s Greater Noida facility</a></h4>
                 <div class="news-summary">Bindu Sharma被任命为Fortis Healthcare Greater Noida设施总监，此前曾在Max医院担任领导职务。</div>
@@ -1073,7 +1113,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">19小时前</span>
+                    <span class="date-tag">昨天</span>
                 </div>
                 <h4 class="news-title"><a href="https://indiatechnologynews.in/fortis-hospital-bannerghatta-road-launches-dedicated-spine-deformity-clinic-for-comprehensive-care-of-complex-spinal-conditions/" target="_blank">Fortis Hospital Bannerghatta Road Launches Dedicated Spine Deformity Clinic for Comprehensive Care of Complex Spinal Conditions</a></h4>
                 <div class="news-summary">Fortis医院开设脊柱畸形专科诊所，由Dr. Umesh Srikanta领衔多学科团队，提供复杂脊柱疾病的综合诊疗。</div>
@@ -1082,16 +1122,16 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">昨天</span>
+                    <span class="date-tag">2天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESqwEB6zswFe1EE3oyVpBBMYvKwh9zLOWZh9XxK4bItByXsRxwNSx4UPocCB5UtO04mWmPjQijtrPXpoJrqvJq312iKpALyzLDqb7HqbWTGn1RP_guGHAjM8XkLQwCdveD2IeSwomdTsIb0ZQPam4-uB7pKQBjvBGAcUTI0wikdpsjeSNwHWF0OcMRyehWebEG6_OO7bZlr3IZqOCRE4y6_L-IN5QJKSaXdx3Ncds" target="_blank">Fortis ties up with Ekana Group for 550-bedded hospital in Lucknow</a></h4>
-                <div class="news-summary">福蒂斯医疗与卢克瑙埃卡纳集团合作，将运营一家550张病床的医院。</div>
+                <div class="news-summary">福蒂斯医疗与卢克瑙埃卡纳集团合作，将运营一家550张床位的医院。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">2天前</span>
+                    <span class="date-tag">3天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESZAHrOzAV9DqLwdiGpJnulZ-JMPw02B5lFEa-7dL4qRe6ZPPiEncx1bIov3q9BDYYZAOQBbUvymJkG1YYZR4l-lrk6dd2OygEzkEmeez6p6H67ZWRF_oZ9z1ekKXX7a_D5P52mx8" target="_blank">UNITED NEWS OF INDIA</a></h4>
                 <div class="news-summary">印度商业部长普伊优什·戈亚尔会见了Fortis Healthcare负责人，讨论医疗合作事宜。</div>
@@ -1100,16 +1140,16 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">2天前</span>
+                    <span class="date-tag">3天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESoQEB6zswFVtxI_D1DuXGevfTY9PjdKOsShG32ad76Y6aDOKGiVWNbZXwQytcVRoP_gOJUvUKWy4CxYU5ILNHz6o14h1RnRPAgNZJqjKRs6zKfwK_it94mmcI74gGV3w_r3hdp2NKsugs4Xe08EH8sNdB-fo_RywhQeMuvF5gSRH5OEdJ-4afIryAPa7_HI3LkndYiPqYGOO4LfNE4VAtVIRKIA" target="_blank">Fortis Hospital: Excellence In Comprehensive Cancer Care</a></h4>
-                <div class="news-summary">福蒂斯医院班加罗特路分院凭借临床专业优势，成为综合性癌症治疗的领先医疗机构。</div>
+                <div class="news-summary">福蒂斯医院班加罗特路分院凭借临床专业优势，成为综合癌症护理的领先机构。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">3天前</span>
+                    <span class="date-tag">4天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAESxwEB6zswFZ2BgYr0ghaX8inMSLecbR435RANrbuIQJCgqTTr1Qhplo24wCXTm3mB2aXmtyZSsUzDJC3KKH4JkfRfdGNoVGrnz1phg9ekEW1qdInmbeUr-qhxdgjO0SYHkPjUMxHU33TzHCz5JRIaPscD3MjIHpdnCow_YFh5vafXwccZpd7nnwsWmxRei0fdZrrN9qNCEyZuBNy-7f2CvDdnBsKaBDtpCfUyEVkzvF_IF6FOgp1yhi4JrjUoNW_abeFXpEtm_8gp" target="_blank">Gleneagles Hospital Chennai Successfully Treats Two Rare Food-Pipe Disorders Through Advanced Endoscopy</a></h4>
                 <div class="news-summary">格伦艾格尔斯医院成功通过先进内镜技术治疗两名罕见食管疾病患者。</div>
@@ -1118,7 +1158,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Fortis Healthcare</span>
-                    <span class="date-tag">5天前</span>
+                    <span class="date-tag">6天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://pioneeredge.in/fortis-healthcare-launches-first-super-specialty-medical-centre-in-dehradun/" target="_blank">Fortis Healthcare launches first super-specialty medical centre in Dehradun</a></h4>
                 <div class="news-summary">福泰医疗在德里敦开设首个超级专科医疗中心。</div>
@@ -1127,22 +1167,13 @@
 
         <div class="entity-section">
             <div class="entity-header">
-                <h3>📍 Apollo Hospitals (6 条)</h3>
+                <h3>📍 Apollo Hospitals (4 条)</h3>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/apollo-hospitals-expands-sunday-access-to-routine-and-preventive-healthcare-619842" target="_blank">Apollo Hospitals Expands Sunday Access To Routine And Preventive Healthcare</a></h4>
-                <div class="news-summary">阿波罗医院扩大周日常规及预防性医疗服务。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.tribuneindia.com/news/delhi/apollo-hospitals-extends-routine-care-to-sundays/" target="_blank">Apollo Hospitals extends routine care to Sundays</a></h4>
                 <div class="news-summary">阿波罗医院推出“始终开放，始终在”服务，将常规医疗扩展至每周七天，包括周日。</div>
@@ -1151,7 +1182,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.hindustantimes.com/cities/delhi-news/apollo-hospitals-to-offer-routine-services-seven-days-a-week-101787076844506-amp.html" target="_blank">Apollo hospitals to offer routine services seven days a week | Latest News Delhi</a></h4>
                 <div class="news-summary">Apollo医院宣布常规医疗服务将每周七天开放。</div>
@@ -1160,7 +1191,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.lotustimes.org/2026/08/19/apollo-hospitals-launches-always-open-always-here-making-health-checkups-op-consultation-etc-available-on-sundays-also-across-india/" target="_blank">Apollo Hospitals launches ‘Always Open, Always Here’ making health checkups, OP consultation etc available on Sundays also across India</a></h4>
                 <div class="news-summary">Apollo Hospitals 推出“Always Open, Always Here”计划，全印度周日也提供健康检查和门诊服务。</div>
@@ -1169,19 +1200,10 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.reutersconnect.com/item/launch-of-apollos-always-open-always-here-initiative/dGFnOnJldXRlcnMuY29tLDIwMjY6bmV3c21sX01UMUFTTkVXUzIwMjYwODE4MzU5TA" target="_blank">Licensable picture: Launch of Apollo’s ‘Always Open. Always Here.’ Initiative</a></h4>
                 <div class="news-summary">Apollo医院集团启动“Always Open. Always Here.”倡议，致力于持续提供医疗服务。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag">Apollo Hospitals</span>
-                    <span class="date-tag">6天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://www.fortuneindia.com/business-news/apollo-hospitals-to-add-5-10-hospitals-over-next-5-years-says-prathap-c-reddy/154576" target="_blank">Apollo Hospitals to add 5-10 hospitals over next 5 years, says Prathap C. Reddy</a></h4>
-                <div class="news-summary">阿波罗医院计划未来五年新增5至10家医院，并推出“始终开放”计划，周末提供常规医疗服务。</div>
             </div>
         </div>
 
@@ -1193,7 +1215,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.tradingview.com/news/cnbctv:4c6101e40094b:0/" target="_blank">News by CNBC TV18 on TradingView, 2026-08-18 — cnbctv:4c6101e40094b:0</a></h4>
                 <div class="news-summary">Centella Mauritius拟出售其持有的印度最大综合医疗保健公司Aster DM Quality Care 7.2%股份。</div>
@@ -1202,7 +1224,7 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.indiaipo.in/news/detail/aster-dm-quality-care-block-deal-tpg-likely-to-sell-72-stake-for-4780-crore" target="_blank">Aster DM Quality Care Block Deal: TPG likely to sell 7.2% stake for ₹4,780 crore</a></h4>
                 <div class="news-summary">TPG拟通过大宗交易减持其持有的印度最大综合医疗保健提供商Aster DM Quality Care 7.2%股份，价值约4780亿卢比。</div>
@@ -1211,16 +1233,16 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.livemint.com/market/stock-market-news/stocks-to-watch-bpcl-railtel-ongc-among-shares-in-focus-today-check-list-here-11787105168182.html" target="_blank">Stocks to watch: BPCL, RailTel, ONGC among shares in focus today; check list here</a></h4>
-                <div class="news-summary">印度多只股票受关注，包括BPCL、RailTel和ONGC，其中Aster DM Quality Care拟通过大宗交易减持7.2%股份。</div>
+                <div class="news-summary">印度多只股票受关注，包括BPCL、RailTel和ONGC，其中Aster DM Quality Care拟减持7.2%股份。</div>
             </div>
 
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag">Aster DM Healthcare</span>
-                    <span class="date-tag">6天前</span>
+                    <span class="date-tag">1周前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.whalesbook.com/news/English/bankingfinance/TPG-to-Sell-72percent-Stake-in-Aster-DM-Quality-Care-for-indian-rupee4780-Crore/6a848539041a92921607117a" target="_blank">TPG to Sell 7.2% Stake in Aster DM Quality Care for ₹4,780 Crore</a></h4>
                 <div class="news-summary">TPG以4780亿卢比出售其持有的Aster DM Quality Care 7.2%股份。</div>
@@ -1235,7 +1257,16 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">2天前</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/niti-aayog-proposes-interstate-licence-portability-for-healthcare-professionals-620631" target="_blank">NITI Aayog Proposes Interstate Licence Portability For Healthcare Professionals</a></h4>
+                <div class="news-summary">NITI Aayog提议医疗专业人员跨州执照通用，以提升医疗人才流动性，助力印度医疗旅游业发展。</div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策动态</span>
+                    <span class="date-tag">3天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://www.google.com/goto?url=CAES0QEB6zswFbSdJs6ZvHNDKTJ2rsG2PIaHKBYddY-6Ly641eXbB5LRRNQGadC4qesit1eKwpsRDSuOLLf-rTrNIXAXXrnpvZYr79_zHmxEnelY01I22Aq_xLb5pWPqUDTZWDhItDz7GFgZa5ciV-bYCFslK0T8Jo2ktYaVZ_E1PVuhORZ8VW9glemK0q6P8nxrDRAIzzyJ-J7b6mQfeizReNdvP5EQv5X8upH9Nb1IGHVfWdMlq1iY6SZ9jPEVakoHrJRid1QTFrB7pk8WTP0E0JS2NA" target="_blank">Redcliffe Labs Appoints Ramesh Krishnan as Independent Director to Accelerate Next Phase of Integrated Healthcare Growth</a></h4>
                 <div class="news-summary">Redcliffe Labs任命Ramesh Krishnan为独立董事，推动其在印度整合医疗领域的下一阶段增长。</div>
@@ -1244,19 +1275,10 @@
             <div class="news-item">
                 <div class="news-meta">
                     <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">4天前</span>
+                    <span class="date-tag">5天前</span>
                 </div>
                 <h4 class="news-title"><a href="https://health.economictimes.indiatimes.com/future-healthcare-summit-2026" target="_blank">Future Healthcare Summit 2026</a></h4>
                 <div class="news-summary">2026年未来医疗峰会聚焦人工智能如何提升医疗效果、优化运营并强化健康体系。</div>
-            </div>
-
-            <div class="news-item">
-                <div class="news-meta">
-                    <span class="entity-tag sea-tag">政策动态</span>
-                    <span class="date-tag">6天前</span>
-                </div>
-                <h4 class="news-title"><a href="https://scanx.trade/stock-market-news/ipo/abh-healthcare-limited-ipo-check-price-band-timeline-key-details/48580634" target="_blank">ABH Healthcare Limited IPO: Check Price Band, Timeline & Key Details</a></h4>
-                <div class="news-summary">ABH Healthcare Limited计划于2026年8月24日启动SME IPO，公司2026财年营收达5.25亿卢比。</div>
             </div>
         </div>
     </div>
@@ -1266,16 +1288,16 @@
     <script>
         // 时间段统计数据
         const statsData = {
-            today: { label: '今日动态', value: '1 条新闻' },
-            last3days: { label: '近3天动态', value: '11 条新闻' },
+            today: { label: '今日动态', value: '4 条新闻' },
+            last3days: { label: '近3天动态', value: '10 条新闻' },
             lastweek: { label: '近1周动态', value: '34 条新闻' }
         };
         
         // 各时间段的国家新闻数量
         const locationCounts = {
-            today: {"IHH\u96c6\u56e2": 1, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 0, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            last3days: {"IHH\u96c6\u56e2": 3, "\u65b0\u52a0\u5761": 0, "\u9a6c\u6765\u897f\u4e9a": 1, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 7, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
-            lastweek: {"IHH\u96c6\u56e2": 5, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 4, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 20, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
+            today: {"IHH\u96c6\u56e2": 0, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 0, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 1, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            last3days: {"IHH\u96c6\u56e2": 2, "\u65b0\u52a0\u5761": 3, "\u9a6c\u6765\u897f\u4e9a": 1, "\u6cf0\u56fd": 0, "\u5370\u5ea6": 4, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0},
+            lastweek: {"IHH\u96c6\u56e2": 4, "\u65b0\u52a0\u5761": 6, "\u9a6c\u6765\u897f\u4e9a": 4, "\u6cf0\u56fd": 2, "\u5370\u5ea6": 18, "\u571f\u8033\u5176": 0, "\u5176\u4ed6": 0}
         };
         
         let currentView = 'list';
