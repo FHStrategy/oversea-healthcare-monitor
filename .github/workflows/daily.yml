@@ -1,0 +1,62 @@
+name: 每日运行
+
+on:
+  schedule:
+    - cron: '17 3 * * *'      # 北京时间 11:17
+  workflow_dispatch:          # 支持手动触发
+
+concurrency:
+  group: daily-run
+  cancel-in-progress: false
+
+permissions:
+  contents: write             # 需要 commit data/ 回仓
+  pages: write                # 部署 Pages
+  id-token: write
+
+jobs:
+  run:
+    name: 抓取 → 筛选 → 富化 → 网页
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install requests pyyaml
+
+      - name: 运行流水线
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        run: python src/run.py
+
+      # 把 7 天窗口数据 + 审计日志 commit 回仓
+      - name: 提交数据
+        if: success() || failure()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ site/
+          if git diff --staged --quiet; then
+            echo "无数据变更"
+          else
+            git commit -m "data: $(date -u +%Y-%m-%d) 每日更新"
+            git push
+          fi
+
+      # 更新 gh-pages 分支
+      - name: 部署到 gh-pages
+        if: success()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan gh-pages-new
+          git rm -rf .
+          cp site/index.html .
+          git add index.html
+          git commit -m "GitHub Pages 更新 $(date -u +%Y-%m-%d)"
+          git push origin gh-pages-new:gh-pages --force
