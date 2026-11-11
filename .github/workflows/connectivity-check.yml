@@ -1,0 +1,244 @@
+name: 连通性测试
+
+# 只手动触发，不定时跑
+on:
+  workflow_dispatch:
+
+jobs:
+
+  # ========== 灯 1：飞书新应用能不能写表 ==========
+  feishu:
+    name: 飞书 - 认证 + 写表
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install requests
+
+      - name: 换取 token 并写入测试记录
+        env:
+          APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          BASE_TOKEN: ${{ secrets.FEISHU_BASE_TOKEN }}
+          TABLE_ID: ${{ secrets.FEISHU_TABLE_ID }}
+        run: |
+          python - <<'EOF'
+          import os, sys, requests
+
+          for k in ["APP_ID", "APP_SECRET", "BASE_TOKEN", "TABLE_ID"]:
+              if not os.environ.get(k):
+                  sys.exit(f"❌ Secret 缺失或名字拼错: FEISHU_{k}")
+
+          # --- 1. 换 tenant_access_token ---
+          r = requests.post(
+              "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal",
+              json={"app_id": os.environ["APP_ID"], "app_secret": os.environ["APP_SECRET"]},
+              timeout=15,
+          )
+          d = r.json()
+          if d.get("code") != 0:
+              print(f"❌ 换 token 失败: code={d.get('code')} msg={d.get('msg')}")
+              if "ip" in str(d.get("msg", "")).lower():
+                  print("   → 看起来是 IP 白名单挡住了 Actions")
+              sys.exit(1)
+          token = d["tenant_access_token"]
+          print("✅ tenant_access_token 换取成功（说明没开 IP 白名单）")
+
+          H = {"Authorization": f"Bearer {token}"}
+          BASE = os.environ["BASE_TOKEN"]
+          TABLE = os.environ["TABLE_ID"]
+          url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{BASE}/tables/{TABLE}/records"
+
+          # --- 2. 读字段（验证应用是否被授权到这张表）---
+          r = requests.get(
+              f"https://open.feishu.cn/open-apis/bitable/v1/apps/{BASE}/tables/{TABLE}/fields",
+              headers=H, timeout=15,
+          )
+          d = r.json()
+          if d.get("code") != 0:
+              print(f"❌ 读字段失败: code={d.get('code')} msg={d.get('msg')}")
+              print("   → 最可能：应用没被『分享』添加为这张表的协作者")
+              sys.exit(1)
+
+          items = d["data"]["items"]
+          print(f"✅ 读到 {len(items)} 个字段:")
+          for f in items:
+              print(f"     type={f.get('type'):<4} {f['field_name']}")
+
+          # --- 3. 写一条测试记录到「文本」字段，再删掉 ---
+          # 上一版的 bug：用了 fields[0]，正好撞上日期类型的「时间」字段，
+          # 触发 DatetimeFieldConvFail。这里显式挑 type==1（多行文本）。
+          text_fields = [f["field_name"] for f in items if f.get("type") == 1]
+          if not text_fields:
+              sys.exit("❌ 表里没有文本类型字段，无法测试写入")
+          target = text_fields[0]
+          print(f"\n   写入目标字段: 「{target}」(type=1 文本)")
+
+          r = requests.post(url, headers=H, json={"fields": {target: "连通性测试"}}, timeout=15)
+          d2 = r.json()
+          if d2.get("code") != 0:
+              print(f"❌ 写入失败: code={d2.get('code')} msg={d2.get('msg')}")
+              print("   → 若提示权限不足：应用在这张表上需要『可编辑』而非『可阅读』")
+              sys.exit(1)
+          rec_id = d2["data"]["record"]["record_id"]
+          print(f"✅ 写入成功 record_id={rec_id}")
+
+          # --- 4. 清理 ---
+          r = requests.delete(f"{url}/{rec_id}", headers=H, timeout=15)
+          if r.json().get("code") == 0:
+              print("✅ 测试记录已清理，表格干净")
+          else:
+              print(f"⚠️ 清理失败，请手动删掉 record_id={rec_id}")
+          EOF
+
+  # ========== 灯 2：阿里云百炼 ==========
+  bailian:
+    name: 百炼 - qwen-plus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: 调一次翻译
+        env:
+          KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        run: |
+          python - <<'EOF'
+          import os, sys, time, requests
+          if not os.environ.get("KEY"):
+              sys.exit("❌ Secret 缺失或名字拼错: DASHSCOPE_API_KEY")
+
+          t0 = time.time()
+          r = requests.post(
+              "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+              headers={"Authorization": f"Bearer {os.environ['KEY']}"},
+              json={
+                  "model": "qwen-plus",
+                  "messages": [{"role": "user", "content":
+                      "把下面这句翻译成中文，只输出译文：IHH hospitals in India see fewer patients from Middle East due to war"}],
+                  "temperature": 0.1,
+              },
+              timeout=60,
+          )
+          dt = time.time() - t0
+          if r.status_code != 200:
+              sys.exit(f"❌ 百炼返回 {r.status_code}: {r.text[:300]}")
+          out = r.json()["choices"][0]["message"]["content"]
+          print(f"✅ 百炼可用，耗时 {dt:.1f}s")
+          print(f"   译文: {out}")
+          print(f"   token 用量: {r.json().get('usage', {})}")
+          EOF
+
+  # ========== 灯 3：本地 vLLM 在 Actions 里通不通 ==========
+  local-vllm:
+    name: 本地模型 - 47.117.187.203 可达性
+    runs-on: ubuntu-latest
+    steps:
+      - name: 探测
+        run: |
+          echo "Actions 出口 IP:"
+          curl -s --max-time 10 https://api.ipify.org || echo "(取不到)"
+          echo ""
+          echo "探测 47.117.187.203:80 ..."
+          if curl -s -o /dev/null -w "HTTP %{http_code} / 耗时 %{time_total}s\n" \
+                  --max-time 20 http://47.117.187.203/v1/models; then
+            echo "✅ 端口有响应 —— 本地模型可能不用换，下一步补 key 做完整测试"
+          else
+            echo "❌ 连不上（超时或拒绝）"
+            echo "   → 符合预期：GitHub runner 在微软云，到你们这个阿里云 IP 不通"
+            echo "   → 结论：翻译/摘要走百炼"
+            exit 1
+          fi
+
+  # ========== 灯 4：Firecrawl（v2 + sources:news + tbs 对照实验）==========
+  firecrawl:
+    name: Firecrawl - 新闻搜索 + tbs 验证
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: 三组对照探针
+        env:
+          KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: |
+          python - <<'EOF'
+          import os, sys, json, requests
+          if not os.environ.get("KEY"):
+              sys.exit("❌ Secret 缺失或名字拼错: FIRECRAWL_API_KEY")
+
+          H = {"Authorization": f"Bearer {os.environ['KEY']}", "Content-Type": "application/json"}
+          URL = "https://api.firecrawl.dev/v2/search"
+
+          def probe(label, payload):
+              print(f"\n{'='*58}\n### {label}\n{'='*58}")
+              print(f"请求: {json.dumps(payload, ensure_ascii=False)}")
+              try:
+                  r = requests.post(URL, headers=H, json=payload, timeout=90)
+              except Exception as e:
+                  print(f"❌ 请求异常: {e}")
+                  return None
+              print(f"HTTP {r.status_code}")
+              if r.status_code != 200:
+                  print(f"❌ {r.text[:400]}")
+                  return None
+
+              d = r.json()
+              data = d.get("data", {})
+              if isinstance(data, dict):
+                  print(f"data 的 key: {list(data.keys())}")
+                  items = data.get("news") or data.get("web") or []
+              else:
+                  print("⚠️ data 是扁平数组 —— 说明 sources 没生效")
+                  items = data
+
+              print(f"条目数: {len(items)}")
+              for it in items:
+                  print(f"  date={str(it.get('date'))[:22]:<22} | {str(it.get('title'))[:56]}")
+              if items:
+                  print(f"\n--- 单条完整字段（用来钉死 schema）---")
+                  print(json.dumps(items[0], ensure_ascii=False, indent=2)[:1000])
+              return items
+
+          Q = "IHH Healthcare"
+          a = probe("A. v2 + sources:news + tbs:qdr:d", {"query": Q, "sources": ["news"], "limit": 10, "tbs": "qdr:d"})
+          b = probe("B. v2 + sources:news，不带 tbs",    {"query": Q, "sources": ["news"], "limit": 10})
+          c = probe("C. v2 + sources:news + tbs:qdr:d,sbd:1", {"query": Q, "sources": ["news"], "limit": 10, "tbs": "qdr:d,sbd:1"})
+
+          # ---------- 判读 ----------
+          print(f"\n{'='*58}\n### 判读\n{'='*58}")
+          if a is None:
+              print("❌ v2 不通 —— 需要退回 v1，并重新确认 news 结构")
+              sys.exit(1)
+
+          if not a:
+              print("⚠️ A 返回 0 条 —— 可能 qdr:d 过滤太严，或今天确实没新闻")
+          elif all(x.get("date") for x in a):
+              print("✅ news 源带 date 字段，7 天窗口有依据")
+          else:
+              print("⚠️ 部分条目没有 date —— 7天窗口需要另找方案")
+
+          da = [x.get("date") for x in (a or [])]
+          db = [x.get("date") for x in (b or [])]
+          dc = [x.get("date") for x in (c or [])]
+          print(f"\nA(tbs:qdr:d)      共 {len(da)} 条: {da}")
+          print(f"B(无 tbs)         共 {len(db)} 条: {db}")
+          print(f"C(qdr:d + sbd:1)  共 {len(dc)} 条: {dc}")
+
+          print("")
+          if da and db and da == db:
+              print("🔴 关键结论：A == B，tbs 对 news 源【没有生效】")
+              print("   → tbs_map 那个修复语法虽对，但实际没起作用")
+              print("   → 时间过滤必须在下游用 date 字段自己做")
+              if dc and dc != da:
+                  print("   → 但 sbd:1（按日期排序）改变了结果，可以用它保证新鲜度靠前")
+          elif da and db:
+              print("🟢 关键结论：A != B，tbs 对 news 源【生效】")
+              print("   → 你的 tbs_map 修复是有效的，源头过滤可用")
+          else:
+              print("⚠️ 样本不足，无法判定 —— 换个关键词再跑一次")
+          EOF
