@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 UTC = timezone.utc
+CST = timezone(timedelta(hours=8))  # 北京时间
 TPL_DIR = Path(__file__).resolve().parent.parent.parent / "templates"
 
 TABS = [("today", "📅 今天", 1), ("last3days", "📆 近3天", 3), ("lastweek", "📋 近1周", 7)]
@@ -155,9 +156,14 @@ def render(items: List[Dict[str, Any]], sources: Dict[str, Any],
     emap = {e["name"]: e for e in sources["entities"]}
     items = [i for i in items if i.get("published_at")]
 
+    # 用北京时间零点作为分界线，而不是 UTC 滚动 24 小时窗口
+    # "今天" = 北京今天 00:00 起；"近3天" = 北京前天 00:00 起；"近1周" = 北京 6 天前 00:00 起
+    cst_now = now.astimezone(CST)
+    today_midnight = cst_now.replace(hour=0, minute=0, second=0, microsecond=0)
+    cutoffs = {k: today_midnight - timedelta(days=d - 1) for k, _, d in TABS}
     buckets = {k: [i for i in items
-                   if datetime.fromisoformat(i["published_at"]) >= now - timedelta(days=d)]
-               for k, _, d in TABS}
+                   if datetime.fromisoformat(i["published_at"]).astimezone(CST) >= cutoffs[k]]
+               for k, _, _ in TABS}
     for v in buckets.values():
         v.sort(key=lambda i: i["published_at"], reverse=True)
 
