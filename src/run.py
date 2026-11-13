@@ -138,15 +138,19 @@ def main():
     log(f"审计: {len(audit)} 条记录（入库 {kept} / 过滤 {len(audit) - kept}）→ {audit_path.name}")
 
     # ---- 4. 写飞书（全量底稿，只写今天入库的新条目）----
+    # 飞书写入失败不应阻断网页生成
+    fb_err = None
     if os.environ.get("FEISHU_APP_ID") and os.environ.get("FEISHU_APP_SECRET"):
-        fb_ok, fb_skip, fb_err = feishu.write(today_items, S)
-        log(f"飞书: 新增 {fb_ok} 条, 跳过重复 {fb_skip} 条")
-        if fb_err:
-            for e in fb_err[:5]:
-                log(f"  ⚠️ {e}")
+        try:
+            fb_ok, fb_skip, fb_err = feishu.write(today_items, S)
+            log(f"飞书: 新增 {fb_ok} 条, 跳过重复 {fb_skip} 条")
+            if fb_err:
+                for e in fb_err[:5]:
+                    log(f"  ⚠️ {e}")
+        except Exception as e:
+            log(f"⚠️ 飞书写入失败，但不影响网页生成: {e}")
     else:
         log("飞书: 未配置密钥，跳过写入（仅生成网页）")
-        fb_err = None
 
     # ---- 5. 生成网页（7天窗口全量）----
     site_path = ROOT / "site" / "index.html"
