@@ -2,7 +2,8 @@ name: 每日运行
 
 on:
   schedule:
-    - cron: '17 3 * * *'      # 北京时间 11:17
+    - cron: '0 1 * * *'       # 北京时间 09:00（主运行）
+    - cron: '30 5 * * *'      # 北京时间 13:30（备用补运行）
   workflow_dispatch:          # 支持手动触发
 
 concurrency:
@@ -10,8 +11,8 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write             # 需要 commit data/ 回仓
-  pages: write                # 部署 Pages
+  contents: write
+  pages: write
   id-token: write
 
 jobs:
@@ -56,9 +57,7 @@ jobs:
       - name: 部署到 gh-pages
         if: always()
         run: |
-          # 先备份生成的网页
           cp site/index.html /tmp/index.html
-          # 创建干净的 gh-pages 分支
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout --orphan gh-pages-new
