@@ -11,17 +11,17 @@
     "_query": "Aster DM Healthcare",
     "url_normalized": "https://metroindia.net/news/articlenews/aster-dms-new-hospital-47080",
     "is_aggregator": false,
-    "published_at": "2026-11-14T22:27:30.399366+00:00",
+    "published_at": "2026-11-15T03:57:22.561785+00:00",
     "matched_entity": "Aster DM Healthcare",
     "matched_alias": "aster hospital",
     "_core_keyword": "hospital",
-    "_model_reason": "Aster DM宣布新建医院运营",
+    "_model_reason": "Aster DM宣布新建医院投入运营",
     "_model_verdict": {
       "is_news": true,
       "is_subject": true,
       "is_industry": true,
       "event_type": "扩张/新设",
-      "reason": "Aster DM宣布新建医院运营"
+      "reason": "Aster DM宣布新建医院投入运营"
     },
     "_model_event_type": "扩张/新设",
     "event_type": "扩张/新设",
@@ -43,7 +43,7 @@
     "_query": "Aster DM Healthcare",
     "url_normalized": "https://urbanacres.in/hyderabad-gets-%E2%82%B9500-crore-hospital-as-kondapur-capacity-expands",
     "is_aggregator": false,
-    "published_at": "2026-11-14T22:27:30.399366+00:00",
+    "published_at": "2026-11-15T03:57:22.561785+00:00",
     "matched_entity": "Aster DM Healthcare",
     "matched_alias": "aster dm",
     "_core_keyword": "hospital",
@@ -75,17 +75,17 @@
     "_query": "Aster DM Healthcare",
     "url_normalized": "https://timesofindia.indiatimes.com/city/hyderabad/aster-dm-quality-care-to-open-500-crore-300-bed-kondapur-hospital-in-2027/articleshow/135835934.cms",
     "is_aggregator": false,
-    "published_at": "2026-11-14T21:27:30.399366+00:00",
+    "published_at": "2026-11-15T02:57:22.561785+00:00",
     "matched_entity": "Aster DM Healthcare",
     "matched_alias": "aster dm",
     "_core_keyword": "hospital",
-    "_model_reason": "Aster DM新建300床医院",
+    "_model_reason": "Aster新建300床医院",
     "_model_verdict": {
       "is_news": true,
       "is_subject": true,
       "is_industry": true,
       "event_type": "扩张/新设",
-      "reason": "Aster DM新建300床医院"
+      "reason": "Aster新建300床医院"
     },
     "_model_event_type": "扩张/新设",
     "event_type": "扩张/新设",
@@ -93,7 +93,7 @@
     "_event_type_model": "扩张/新设",
     "_event_type_source": "model",
     "title_zh": "Aster DM医疗保健将在海得拉巴孔达普尔开设500亿卢比、300张床位的医院",
-    "summary_zh": "Aster DM医疗保健将于2027年3月在海得拉巴孔达普尔启用500亿卢比、300张床位的多专科医院，使该市床位总数超1700张。"
+    "summary_zh": "Aster DM医疗保健将于2027年3月在海得拉巴孔达普尔启用一座投资500亿卢比、设300张床位的多专科医院，使该市总床位数增至1700张以上。"
   },
   {
     "title": "Apollo emergency medical centre set up for Sabarimala pilgrims",
@@ -107,7 +107,7 @@
     "_query": "Apollo Hospitals India",
     "url_normalized": "https://thehindu.com/news/cities/Tiruchirapalli/apollo-emergency-medical-centre-set-up-for-sabarimala-pilgrims/article71701809.ece",
     "is_aggregator": false,
-    "published_at": "2026-11-14T19:27:30.399366+00:00",
+    "published_at": "2026-11-15T00:57:22.561785+00:00",
     "matched_entity": "Apollo Hospitals",
     "matched_alias": "apollo",
     "_core_keyword": "hospital",
@@ -139,7 +139,7 @@
     "_query": "Fortis Healthcare India",
     "url_normalized": "https://hrtoday.in/apollo-hospitals-appoints-dr-ritu-mittal-garg-as-chief-executive-officer-multi-regions",
     "is_aggregator": false,
-    "published_at": "2026-11-14T18:27:30.399366+00:00",
+    "published_at": "2026-11-14T23:57:22.561785+00:00",
     "matched_entity": "Apollo Hospitals",
     "matched_alias": "apollo hospital",
     "_core_keyword": "hospital",
@@ -157,7 +157,7 @@
     "_event_type_model": "人事变动",
     "_event_type_source": "model",
     "title_zh": "阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官",
-    "summary_zh": "阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官，负责 oversight 四个印度区域及合作医院；此前她曾在Fortis担任高级职务。"
+    "summary_zh": "阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官，负责 oversight 四个印度区域及合作医院；她此前在Fortis担任高级职务。"
   },
   {
     "title": "Aster DM Quality Care Announces ₹500-Crore, 300-Bed Hospital In Hyderabad.",
@@ -171,7 +171,7 @@
     "_query": "Aster DM Healthcare",
     "url_normalized": "https://tripurastarnews.com/aster-dm-quality-care-announces-%E2%82%B9500-crore-300-bed-hospital-in-hyderabad",
     "is_aggregator": false,
-    "published_at": "2026-11-14T17:27:30.399366+00:00",
+    "published_at": "2026-11-14T22:57:22.561785+00:00",
     "matched_entity": "Aster DM Healthcare",
     "matched_alias": "aster dm",
     "_core_keyword": "hospital",
@@ -203,17 +203,17 @@
     "_query": "Bumrungrad Hospital",
     "url_normalized": "https://thethaiger.com/news/bangkok/health-ministry-warns-of-rising-pm2-5-in-bangkok-and-central-thailand",
     "is_aggregator": false,
-    "published_at": "2026-11-14T13:27:30.399366+00:00",
+    "published_at": "2026-11-14T18:57:22.561785+00:00",
     "matched_entity": null,
     "matched_alias": null,
     "_core_keyword": "health ministry",
-    "_model_reason": "泰国卫生部发布PM2.5健康预警",
+    "_model_reason": "卫生部发布PM2.5健康预警",
     "_model_verdict": {
       "is_news": true,
       "is_subject": true,
       "is_industry": true,
       "event_type": "公共卫生",
-      "reason": "泰国卫生部发布PM2.5健康预警"
+      "reason": "卫生部发布PM2.5健康预警"
     },
     "_model_event_type": "公共卫生",
     "event_type": "公共卫生",
@@ -236,22 +236,22 @@
     "_query": "KPJ Healthcare Malaysia",
     "url_normalized": "https://halloriau.com/read-internasional-14622242-2026-11-14-ampang-puteri-specialist-hospital-buka-international-jasmine-ward-ada-fasilitas-khusus-pasien-indonesia.html",
     "is_aggregator": false,
-    "published_at": "2026-11-14T13:27:30.399366+00:00",
+    "published_at": "2026-11-14T18:57:22.561785+00:00",
     "matched_entity": null,
     "matched_alias": null,
     "_core_keyword": "hospital",
-    "_model_reason": "医院新开设国际病区",
+    "_model_reason": "医院开设国际病房服务印尼患者",
     "_model_verdict": {
       "is_news": true,
       "is_subject": true,
       "is_industry": true,
-      "event_type": "扩张/新设",
-      "reason": "医院新开设国际病区"
+      "event_type": "医疗旅游",
+      "reason": "医院开设国际病房服务印尼患者"
     },
-    "_model_event_type": "扩张/新设",
-    "event_type": "扩张/新设",
+    "_model_event_type": "医疗旅游",
+    "event_type": "医疗旅游",
     "_event_type_rule": "行业新闻",
-    "_event_type_model": "扩张/新设",
+    "_event_type_model": "医疗旅游",
     "_event_type_source": "model",
     "board": "行业动态",
     "title_zh": "安邦公主专科医院启用国际茉莉病房",
@@ -269,7 +269,7 @@
     "_query": "Aster DM Healthcare",
     "url_normalized": "https://investmentguruindia.com/newsdetail/buy-aster-dm-quality-care-ltd-for-the-target-rs-875-by-prabhudas-liladhar-ltd497940",
     "is_aggregator": false,
-    "published_at": "2026-11-14T11:27:30.399366+00:00",
+    "published_at": "2026-11-14T16:57:22.561785+00:00",
     "matched_entity": "Aster DM Healthcare",
     "matched_alias": "aster dm",
     "_core_keyword": "healthcare",
@@ -286,8 +286,8 @@
     "_event_type_rule": "资本运作",
     "_event_type_model": "财务业绩",
     "_event_type_source": "model",
-    "title_zh": "买入Aster DM Healthcare公司，目标价875卢比",
-    "summary_zh": "Aster DM Healthcare第二季度合并EBITDA同比增长27%至66亿印度卢比，超出预期5%，主要受益于并购协同效应进展顺利。"
+    "title_zh": "买入Aster DM Quality Care Ltd，目标价875卢比",
+    "summary_zh": "Aster DM Healthcare第二季度合并EBITDA同比增长27%至66亿印度卢比，超出预期5%，主要受益于并购协同效应推进顺利。"
   },
   {
     "title": "Singapore Raises The Stakes For Healthcare Data Security",
