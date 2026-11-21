@@ -1,0 +1,2922 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海外医疗集团动态监测</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #003B83;
+            --primary-light: #0052B8;
+            --primary-lighter: #0066E6;
+            --primary-dark: #002B61;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        h1 { 
+            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
+            color: white;
+            padding: 22px 28px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 25px rgba(0, 59, 131, 0.5);
+            font-size: 26px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .summary { 
+            background: rgba(255,255,255,0.95); 
+            padding: 22px 28px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #003B83;
+        }
+        .summary-title {
+            color: #003B83;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stat-label {
+            color: #0052B8;
+            font-size: 14px;
+        }
+        .stat-value {
+            color: #003B83;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        /* 排行榜样式 */
+        .ranking-section {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #e3f2fd;
+        }
+        .ranking-title {
+            color: #003B83;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ranking-item .rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .ranking-item .entity-name {
+            min-width: 180px;
+            color: #37474f;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 200px;
+        }
+        .bar {
+            height: 100%;
+            background: linear-gradient(90deg, #003B83 0%, #0066E6 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .bar-count {
+            color: #003B83;
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: right;
+        }
+        .ranking-empty {
+            color: #90a4ae;
+            font-size: 14px;
+            padding: 12px 0;
+        }
+        
+        /* 标签页样式 */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .tab-btn:hover {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 59, 131, 0.3);
+        }
+        .tab-btn .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .tab-btn.active .count {
+            background: rgba(255,255,255,0.25);
+        }
+        .tab-btn:not(.active) .count {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #546e7a;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .group-section { margin-bottom: 25px; }
+        .group-header { 
+            background: linear-gradient(135deg, #002B61 0%, #003B83 100%);
+            color: white; 
+            padding: 16px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 43, 97, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .group-header h2 { font-size: 19px; font-weight: 600; }
+        .group-header .count { 
+            background: rgba(255,255,255,0.15); 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .entity-section { margin-left: 15px; margin-bottom: 20px; }
+        .sea-health-section { background: rgba(0, 59, 131, 0.03); border-radius: 8px; padding: 10px; margin-top: 10px; }
+        .sea-tag { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .entity-header { 
+            background: rgba(255,255,255,0.95); 
+            padding: 14px 20px; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            border-left: 5px solid #003B83;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .entity-header h3 { color: #003B83; font-size: 16px; font-weight: 600; }
+        .news-item { 
+            background: rgba(255,255,255,0.98); 
+            padding: 18px 22px; 
+            border-radius: 10px; 
+            margin-bottom: 12px; 
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 59, 131, 0.08);
+            transition: all 0.2s ease;
+        }
+        .news-item:hover { 
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 59, 131, 0.2);
+            border-color: #0066E6;
+        }
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .entity-tag { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white; 
+            padding: 4px 14px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: 500;
+        }
+        .date-tag { color: #90a4ae; font-size: 12px; }
+        .news-title { 
+            font-size: 16px; 
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .news-title a { 
+            color: #003B83; 
+            text-decoration: none; 
+            font-weight: 600;
+        }
+        .news-title a:hover { 
+            color: #0052B8; 
+            text-decoration: underline; 
+        }
+        .news-summary { 
+            color: #546e7a; 
+            line-height: 1.7; 
+            font-size: 14px; 
+            background: #f8fafc; 
+            padding: 12px 16px; 
+            border-radius: 8px;
+            border-left: 3px solid #003B83;
+        }
+        
+        /* 地图视图样式 */
+        .view-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .view-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .view-btn:hover {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        .view-btn.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+        }
+        
+        .map-container {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .map-container.active {
+            display: block;
+        }
+        
+        .map-title {
+            text-align: center;
+            color: #003B83;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .map-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .map-tab {
+            padding: 10px 20px;
+            border: 2px solid #e3f2fd;
+            background: white;
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .map-tab:hover {
+            border-color: #003B83;
+            color: #003B83;
+            background: #f8fafc;
+        }
+        .map-tab.active {
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            border-color: #003B83;
+        }
+        .map-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .map-tab:not(.active) .count {
+            background: #e3f2fd;
+            color: #003B83;
+        }
+        
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .region-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            border: 2px solid #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .region-card:hover {
+            transform: translateY(-5px);
+            border-color: #003B83;
+            box-shadow: 0 8px 25px rgba(0, 59, 131, 0.2);
+        }
+        .region-card.has-news {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .region-card.no-news {
+            opacity: 0.6;
+        }
+        .region-flag {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        .region-name {
+            color: #003B83;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .region-count {
+            color: #546e7a;
+            font-size: 13px;
+        }
+        .region-count span {
+            color: #003B83;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .news-list-container {
+            display: block;
+        }
+        .news-list-container.hidden {
+            display: none;
+        }
+        
+        .country-filter {
+            display: none;
+            background: linear-gradient(135deg, #003B83 0%, #0052B8 100%);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .country-filter.active {
+            display: flex;
+        }
+        .country-filter-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .country-filter-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .country-filter-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #546e7a;
+            font-size: 14px;
+            margin-top: 30px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>🏥 海外医疗集团动态监测</h1>
+    <div class="summary">
+        <div class="summary-title">📊 数据概览</div>
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-label">更新时间</span>
+                <span class="stat-value">2026年11月20日 22:19</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">监测范围</span>
+                <span class="stat-value">26 家机构</span>
+            </div>
+            <div class="stat-item" id="stat-active">
+                <span class="stat-label" id="stat-label">今日动态</span>
+                <span class="stat-value" id="stat-value">29 条新闻</span>
+            </div>
+        </div>
+
+        <div id="ranking-container">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 今日机构动态排行</div>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Sunway Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">7 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">Fortis Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 85%"></div>
+                        </div>
+                        <span class="bar-count">6 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Apollo Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Aster DM Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">6</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">7</span>
+                        <span class="entity-name">MedPark Hospital</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">8</span>
+                        <span class="entity-name">KPJ Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ranking-today-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 今日机构动态排行</div>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Sunway Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">7 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">Fortis Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 85%"></div>
+                        </div>
+                        <span class="bar-count">6 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Apollo Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Aster DM Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">6</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">7</span>
+                        <span class="entity-name">MedPark Hospital</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">8</span>
+                        <span class="entity-name">KPJ Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 14%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ranking-last3days-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 近3天机构动态排行</div>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Fortis Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">8 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">Apollo Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">8 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Sunway Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 87%"></div>
+                        </div>
+                        <span class="bar-count">7 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Aster DM Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">4 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 37%"></div>
+                        </div>
+                        <span class="bar-count">3 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">6</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 37%"></div>
+                        </div>
+                        <span class="bar-count">3 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">7</span>
+                        <span class="entity-name">KPJ Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 25%"></div>
+                        </div>
+                        <span class="bar-count">2 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">8</span>
+                        <span class="entity-name">MedPark Hospital</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 12%"></div>
+                        </div>
+                        <span class="bar-count">1 条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ranking-lastweek-data" style="display:none;">
+            <div class="ranking-section">
+                <div class="ranking-title">📈 近1周机构动态排行</div>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <span class="rank">1</span>
+                        <span class="entity-name">Aster DM Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 100%"></div>
+                        </div>
+                        <span class="bar-count">14 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">2</span>
+                        <span class="entity-name">Apollo Hospitals</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 92%"></div>
+                        </div>
+                        <span class="bar-count">13 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">3</span>
+                        <span class="entity-name">Fortis Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 64%"></div>
+                        </div>
+                        <span class="bar-count">9 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">4</span>
+                        <span class="entity-name">Sunway Medical Centre</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 50%"></div>
+                        </div>
+                        <span class="bar-count">7 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">5</span>
+                        <span class="entity-name">IHH Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 35%"></div>
+                        </div>
+                        <span class="bar-count">5 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">6</span>
+                        <span class="entity-name">KPJ Healthcare</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 28%"></div>
+                        </div>
+                        <span class="bar-count">4 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">7</span>
+                        <span class="entity-name">Bangkok Hospital Group</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 21%"></div>
+                        </div>
+                        <span class="bar-count">3 条</span>
+                    </div>
+                    <div class="ranking-item">
+                        <span class="rank">8</span>
+                        <span class="entity-name">BDMS (Bangkok Dusit Medical Services)</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 21%"></div>
+                        </div>
+                        <span class="bar-count">3 条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="view-toggle">
+        <button class="view-btn active" onclick="switchView('list', this)">📋 列表视图</button>
+        <button class="view-btn" onclick="switchView('map', this)">🗺️ 地图视图</button>
+    </div>
+
+    <div id="map-view" class="map-container">
+        <div class="map-title">🌏 选择国家/地区查看动态</div>
+        <div class="map-tabs">
+            <button class="map-tab active" onclick="selectMapTime('today', this)">
+                📅 今天 <span class="count">29</span>
+            </button>
+            <button class="map-tab" onclick="selectMapTime('last3days', this)">
+                📆 近3天 <span class="count">57</span>
+            </button>
+            <button class="map-tab" onclick="selectMapTime('lastweek', this)">
+                📋 近1周 <span class="count">93</span>
+            </button>
+        </div>
+        <div class="region-grid" id="region-grid">
+            <div class="region-card has-news" data-location="IHH集团" onclick="filterByLocation('IHH集团')">
+                <div class="region-flag">🌐</div>
+                <div class="region-name">IHH集团</div>
+                <div class="region-count"><span class="count-num">7</span> 条动态</div>
+            </div>
+            <div class="region-card no-news" data-location="新加坡" onclick="filterByLocation('新加坡')">
+                <div class="region-flag">🇸🇬</div>
+                <div class="region-name">新加坡</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+            <div class="region-card has-news" data-location="马来西亚" onclick="filterByLocation('马来西亚')">
+                <div class="region-flag">🇲🇾</div>
+                <div class="region-name">马来西亚</div>
+                <div class="region-count"><span class="count-num">8</span> 条动态</div>
+            </div>
+            <div class="region-card has-news" data-location="泰国" onclick="filterByLocation('泰国')">
+                <div class="region-flag">🇹🇭</div>
+                <div class="region-name">泰国</div>
+                <div class="region-count"><span class="count-num">3</span> 条动态</div>
+            </div>
+            <div class="region-card no-news" data-location="印尼" onclick="filterByLocation('印尼')">
+                <div class="region-flag">🇮🇩</div>
+                <div class="region-name">印尼</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+            <div class="region-card no-news" data-location="越南" onclick="filterByLocation('越南')">
+                <div class="region-flag">🇻🇳</div>
+                <div class="region-name">越南</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+            <div class="region-card no-news" data-location="菲律宾" onclick="filterByLocation('菲律宾')">
+                <div class="region-flag">🇵🇭</div>
+                <div class="region-name">菲律宾</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+            <div class="region-card has-news" data-location="印度" onclick="filterByLocation('印度')">
+                <div class="region-flag">🇮🇳</div>
+                <div class="region-name">印度</div>
+                <div class="region-count"><span class="count-num">4</span> 条动态</div>
+            </div>
+            <div class="region-card has-news" data-location="行业动态" onclick="filterByLocation('行业动态')">
+                <div class="region-flag">📊</div>
+                <div class="region-name">行业动态</div>
+                <div class="region-count"><span class="count-num">7</span> 条动态</div>
+            </div>
+            <div class="region-card no-news" data-location="其他" onclick="filterByLocation('其他')">
+                <div class="region-flag">🌏</div>
+                <div class="region-name">其他</div>
+                <div class="region-count"><span class="count-num">0</span> 条动态</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="country-filter" class="country-filter">
+        <span id="filter-name"></span>
+        <button onclick="clearFilter()">✕ 清除筛选</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('today', this)">
+            📅 今天 <span class="count">29</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('last3days', this)">
+            📆 近3天 <span class="count">57</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('lastweek', this)">
+            📋 近1周 <span class="count">93</span>
+        </button>
+    </div>
+
+    <div id="tab-today" class="tab-content active">
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">7 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Fortis Healthcare (6 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://face2news.com/news/fortis-hospital-mohali-partners-with-boston-scientific-india-to-strengthen-training-in-minimally-invasive-urology/" target="_blank">莫哈利福蒂斯医院与波士顿科学印度公司合作加强微创泌尿外科培训</a></h4>
+                <div class="news-summary">莫哈利福蒂斯医院与波士顿科学印度公司合作，强化微创泌尿外科临床培训能力。此举将提升当地泌尿外科医生的微创手术技术水平。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">FORTIS HOSPITAL MOHALI PARTNERS WITH BOSTON SCIENTIFIC INDIA TO STRENGTHEN TRAINING IN MINIMALLY INVASIVE UROL</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theindianpractitioner.com/fortis-hospital-bannerghatta-road-launches-dedicated-clinic-for-interstitial-lung-disease-and-lung-failure/" target="_blank">班加罗尔Bannerghatta路Fortis医院启动间质性肺病与肺衰竭专科门诊</a></h4>
+                <div class="news-summary">Fortis Healthcare在班加罗尔Bannerghatta路院区开设间质性肺病与肺衰竭专科门诊，提升相关疾病诊疗能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Hospital, Bannerghatta Road Launches Dedicated Clinic for Interstitial Lung Disease and Lung Failure</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.kalkine.co.in/article/healthcare/fortis-healthcare-widens-bengaluru-network-nse-fortis-with-people-tree-hospital-deal-and-300-bed-expansion" target="_blank">Fortis Healthcare扩大班加罗尔医院网络</a></h4>
+                <div class="news-summary">Fortis Healthcare扩展其在班加罗尔的医院网络，以增强当地医疗服务覆盖能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare Expands Bengaluru Hospital Network</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://healthcareasiamagazine.com/healthcare/news/fortis-healthcare-unit-expands-in-india-suguna-hospital-buy" target="_blank">Fortis Healthcare子公司收购苏古纳医院拓展印度业务</a></h4>
+                <div class="news-summary">Fortis Healthcare子公司国际医院有限公司以资产整体转让方式收购班加罗尔苏古纳医院，获得其全部业务及土地建筑。此举扩大了Fortis在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare unit expands in India with Suguna Hospital buy</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.impactonnet.com/more-from-impact/ajey-maharaj-appointed-as-brand-custodian-for-fortis-healthcare-17698.html" target="_blank">Ajey Maharaj 被任命为百汇医疗品牌守护官</a></h4>
+                <div class="news-summary">Ajey Maharaj 被任命为百汇医疗（Fortis Healthcare）品牌守护官，负责维护和强化其品牌形象。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Ajey Maharaj appointed as Brand Custodian for Fortis Healthcare</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businessworld.in/article/max-healthcare-fortis-lead-hospital-stock-recovery-after-regulatory-concerns-633854" target="_blank">Max Healthcare与Fortis引领医院股反弹</a></h4>
+                <div class="news-summary">Fortis Healthcare股价上涨5.13%至803卢比，Aster DM Healthcare上涨3.81%至750卢比，医院股在监管担忧缓解后回升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Fortis Lead Hospital Stock Recovery After Regulatory Concerns</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-reports-changes-in-ihh-healthcare-shareholding" target="_blank">EPF报告IHH Healthcare股权变动</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）披露其持有的IHH Healthcare股份发生变化。此举可能影响EPF对IHH Healthcare的持股比例及股东权益。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Reports Changes in IHH Healthcare Shareholding</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">8 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Sunway Medical Centre (7 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://tradersunion.com/news/companies/show/4313506-sunway-healthcare-q3-profit-patient-growth/" target="_blank">Sunway医疗中心第三季度净利润大幅增长</a></h4>
+                <div class="news-summary">Sunway医疗中心因就诊患者数量增加，第三季度净利润显著上升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts third-quarter net profit surge on higher patient volumes</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/11/1581180/sunway-healthcares-q3-net-profit-jumps-59pct-rm952mil-revenue" target="_blank">Sunway Healthcare第三季度净利润增长59%至9520万林吉特，营收达7.374亿林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心所属的Sunway Healthcare公司第三季度净利润同比增长59%至9520万林吉特，营收升至7.374亿林吉特，反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare&#x27;s Q3 net profit jumps 59pct to RM95.2mil, revenue rises to RM737.4mil</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/19/sunway-healthcare-posts-earnings-jump-to-rm9517mil-in-3q-amid-occupancy-expansion" target="_blank">Sunway Healthcare集团第三季度盈利增至9517万林吉特</a></h4>
+                <div class="news-summary">Sunway Healthcare集团因床位扩容及新院（双威医疗中心莎阿南院和怡保院）投入运营，第三季度盈利升至9517万林吉特，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts earnings jump to RM95.17mil in 3Q amid occupancy expansion</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/11/19/sunway-healthcare-saw-its-3q26-net-profit-jump-59-to-rm95-million/" target="_blank">Sunway医疗中心2026年第三季度净利润增长59%至9500万林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心2026年第三季度净利润达9500万林吉特，同比增长59%。该增长反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare Saw Its 3Q26 Net Profit Jump 59% To RM95 Million</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826447" target="_blank">Sunway Healthcare第三季度净利润增长59%</a></h4>
+                <div class="news-summary">Sunway Healthcare第三季度净利润同比增长59%，营收达7.37亿林吉特，主要受益于患者需求持续旺盛、医院使用率提升及怡保、双威再也、Velocity和槟城Sunway医疗中心贡献增加。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare’s 3Q net profit jumps 59% on stronger demand, lower costs</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/business/corporate/2026/11/1581735/hlib-raises-sunway-healthcare-earnings-forecasts-after-strong" target="_blank">HLIB上调阳光医疗中心盈利预测</a></h4>
+                <div class="news-summary">HLIB在阳光医疗中心（Sunway Medical Centre）发布强劲业绩后，上调其盈利预测。此举可能提振市场对其估值和未来增长前景的信心。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">HLIB raises Sunway Healthcare earnings forecasts after strong results</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/20/sunway-healthcare-posts-quarterly-profit-jump" target="_blank">Sunway Healthcare季度利润大幅增长</a></h4>
+                <div class="news-summary">Sunway Healthcare Holdings Bhd因双威医疗中心梳邦再也院区和怡保院区床位扩容及新设施投入，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts quarterly profit jump</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 KPJ Healthcare (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://retailnews.asia/kpj-healthcare-opens-33-bed-international-ward-in-ampang" target="_blank">KPJ医疗集团在安邦开设33张床位国际病房</a></h4>
+                <div class="news-summary">KPJ医疗集团在安邦院区启用33张床位的国际病房，旨在提升对国际患者的医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KPJ Healthcare Opens 33-Bed International Ward in Ampang</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">3 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bangkok Hospital Group (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://technode.global/2026/11/19/kjts-thailand-hospital-cooling-deal/" target="_blank">KJTS 获得曼谷医院集团20年制冷服务合同</a></h4>
+                <div class="news-summary">KJTS 与曼谷医院集团签署为期20年的医院制冷服务协议。该合作将保障曼谷医院集团核心医疗设施的稳定温控运行。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">KJTS secures 20-year cooling deal for Bangkok hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826417" target="_blank">KJTS获得曼谷医院集团20年冷水机组站合同</a></h4>
+                <div class="news-summary">KJTS公司与曼谷医院集团签订为期20年的冷水机组站运营维护合同，将为该集团提供持续稳定的冷源服务。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KJTS bags 20-year chiller plant contract for Bangkok hospital</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 MedPark Hospital (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">MedPark Hospital</span>
+                    <span class="date-tag">5小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/health-wellness/40073732" target="_blank">MedPark医院在曼谷推出12项夜间专科服务</a></h4>
+                <div class="news-summary">MedPark医院在曼谷启动12项夜间专科服务，提升患者非工作时间就医可及性。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">MedPark launches 12 after-hours specialist services in Bangkok</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">4 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Apollo Hospitals (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">3小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://m.dailyhunt.in/news/india/english/upstox-epaper-upstox/max+healthcare+apollo+hospitals+other+healthcare+stocks+surge+over+5+despite+volatile+market+whats+behind+the+surge-newsid-n734398529" target="_blank">Max Healthcare、Apollo Hospitals等医疗股逆势大涨超5%</a></h4>
+                <div class="news-summary">Apollo Hospitals等医疗机构股价单日上涨超5%，在波动市场中表现强势。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Apollo Hospitals, other healthcare stocks surge over 5% despite volatile market; what&#x27;s behind</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2338541" target="_blank">印度联邦部长普拉塔普拉奥·贾达夫向医院和制造商颁发阿育吠陀质量标志证书</a></h4>
+                <div class="news-summary">印度联邦部长普拉塔普拉奥·贾达夫向包括阿波罗阿育尔瓦伊德医院在内的机构颁发‘阿育吠陀质量标志’证书，旨在提升阿育吠陀产品国际认可度。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Union Minister Shri Prataprao Jadhav Distributes ‘Ayush Quality Mark’ Certificates to Hospitals and Manufactur</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Aster DM Healthcare (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/aster-dm-reportedly-eyes-northern-india-hospitals-in-expansion-move-ua98f29cf497f86622/" target="_blank">Aster DM医疗集团 reportedly 拓展北印度医院布局</a></h4>
+                <div class="news-summary">Aster DM医疗集团计划收购或合作北印度多家医院，以扩大其在该地区的医疗服务覆盖。此举将增强其在印度北部的市场影响力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Reportedly Eyes Northern India Hospitals in Expansion Move</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/blackstone-backed-aster-dm-in-talks-to-acquire-hospitals-in-north-india?srnd=live-events-v2" target="_blank">黑石支持的Aster DM医疗公司拟收购印度内陆医院</a></h4>
+                <div class="news-summary">Aster DM医疗公司正就收购印度内陆地区医院展开谈判，以深化其在印度内地的业务布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Blackstone-backed Aster DM in Talks to Acquire Hospitals in Deeper India Push</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>📊 行业动态</h2>
+            <span class="count">7 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 行业/卫生动态 (7 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/bajaj-groups-pune-healthcare-plan-puts-hospital-capacity-in-focus-uab92138e0752f11b1/" target="_blank">巴贾吉集团计划在浦那投资250亿卢比建医院</a></h4>
+                <div class="news-summary">巴贾吉集团计划在印度浦那投资250亿卢比建设一家新医院，旨在扩大其在医疗健康领域的布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Plans Rs 2,500 Crore Pune Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/bajaj-group-enters-healthcare-with-500-bed-hospital-in-pune?srnd=homepage-canada" target="_blank">巴贾集团进军医疗领域，在浦那建设500张床位医院</a></h4>
+                <div class="news-summary">巴贾集团在印度浦那启动500张床位医院项目，标志其正式进入医疗健康行业。此举将增强当地医疗服务供给能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Enters Healthcare With 500-Bed Hospital in Pune</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tribuneindia.com/news/business/sir-ganga-ram-hospital-appoints-padma-shri-dr-b-c-roy-national-awardee-dr-prof-a-k-bhalla-chairman-board-of-management-sir-ganga-ram-hospital/amp/?utm=relatedarticles" target="_blank">希拉甘格拉姆医院任命帕德玛·什里奖及布里吉·钱德拉·罗伊国家奖得主A. K. 巴拉教授为管理委员会主席</a></h4>
+                <div class="news-summary">希拉甘格拉姆医院任命A. K. 巴拉教授为管理委员会主席。巴拉教授是帕德玛·什里奖和布里吉·钱德拉·罗伊国家奖得主。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Sir Ganga Ram Hospital Appoints Padma Shri &amp; Dr. B. C. Roy National Awardee Dr. (Prof.) A. K. Bhalla, Chairman</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/money/mediaoutreach/2026/11/19/columbia-asia-hospital-tebrau-and-columbia-asia-hospital-iskandar-puteri-jointly-achieve-malaysia-book-of-records-recognition-for-their-mega-parenthood-workshop-2026/502133" target="_blank">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院联合获马来西亚纪录大全认证</a></h4>
+                <div class="news-summary">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院共同举办2026巨型亲子工作坊，获马来西亚纪录大全认证。此举提升了两家医院在母婴健康教育领域的行业影响力。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Columbia Asia Hospital Tebrau and Columbia Asia Hospital Iskandar Puteri jointly achieve Malaysia Book of Reco</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://english.dhanamonline.com/news/companies/aster-bets-4000-crore-on-india-expansion-500-crore-hyderabad-hospital-to-open-in-march-9004149" target="_blank">Aster公司投资4000亿卢比拓展印度业务，海得拉巴医院3月开业</a></h4>
+                <div class="news-summary">Aster公司计划投资4000亿卢比扩大印度业务，其中50亿卢比建设的海得拉巴医院将于3月开业，强化其在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster bets ₹4,000 crore on India expansion, ₹500-crore Hyderabad hospital to open in March</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">资本运作</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://panow.com/2026/11/19/rawlinson-family-commits-6-million-to-prince-alberts-victoria-hospital/" target="_blank">罗林森家族向王子阿尔伯特市维多利亚医院捐赠600万美元</a></h4>
+                <div class="news-summary">罗林森家族向加拿大王子阿尔伯特市的维多利亚医院捐赠600万美元，用于支持该医院的医疗设施升级与服务拓展。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">Rawlinson family commits $6 million to Prince Albert’s Victoria Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">16小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://themalaysianreserve.com/2026/11/19/professor-theo-kofidis-awarded-presidency-of-the-world-society-of-cardiovascular-thoracic-surgeons-for-2028-after-securing-landmark-bid/" target="_blank">西奥·科菲迪斯教授当选2028年世界心血管与胸外科医师学会主席</a></h4>
+                <div class="news-summary">西奥·科菲迪斯教授成功竞标并获任2028年世界心血管与胸外科医师学会主席，标志该学会领导层更迭。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Professor Theo Kofidis Awarded Presidency of the World Society of Cardiovascular &amp; Thoracic Surgeons for 2028 </span></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="tab-last3days" class="tab-content">
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">11 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Fortis Healthcare (8 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://face2news.com/news/fortis-hospital-mohali-partners-with-boston-scientific-india-to-strengthen-training-in-minimally-invasive-urology/" target="_blank">莫哈利福蒂斯医院与波士顿科学印度公司合作加强微创泌尿外科培训</a></h4>
+                <div class="news-summary">莫哈利福蒂斯医院与波士顿科学印度公司合作，强化微创泌尿外科临床培训能力。此举将提升当地泌尿外科医生的微创手术技术水平。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">FORTIS HOSPITAL MOHALI PARTNERS WITH BOSTON SCIENTIFIC INDIA TO STRENGTHEN TRAINING IN MINIMALLY INVASIVE UROL</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theindianpractitioner.com/fortis-hospital-bannerghatta-road-launches-dedicated-clinic-for-interstitial-lung-disease-and-lung-failure/" target="_blank">班加罗尔Bannerghatta路Fortis医院启动间质性肺病与肺衰竭专科门诊</a></h4>
+                <div class="news-summary">Fortis Healthcare在班加罗尔Bannerghatta路院区开设间质性肺病与肺衰竭专科门诊，提升相关疾病诊疗能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Hospital, Bannerghatta Road Launches Dedicated Clinic for Interstitial Lung Disease and Lung Failure</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.kalkine.co.in/article/healthcare/fortis-healthcare-widens-bengaluru-network-nse-fortis-with-people-tree-hospital-deal-and-300-bed-expansion" target="_blank">Fortis Healthcare扩大班加罗尔医院网络</a></h4>
+                <div class="news-summary">Fortis Healthcare扩展其在班加罗尔的医院网络，以增强当地医疗服务覆盖能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare Expands Bengaluru Hospital Network</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://healthcareasiamagazine.com/healthcare/news/fortis-healthcare-unit-expands-in-india-suguna-hospital-buy" target="_blank">Fortis Healthcare子公司收购苏古纳医院拓展印度业务</a></h4>
+                <div class="news-summary">Fortis Healthcare子公司国际医院有限公司以资产整体转让方式收购班加罗尔苏古纳医院，获得其全部业务及土地建筑。此举扩大了Fortis在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare unit expands in India with Suguna Hospital buy</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.impactonnet.com/more-from-impact/ajey-maharaj-appointed-as-brand-custodian-for-fortis-healthcare-17698.html" target="_blank">Ajey Maharaj 被任命为百汇医疗品牌守护官</a></h4>
+                <div class="news-summary">Ajey Maharaj 被任命为百汇医疗（Fortis Healthcare）品牌守护官，负责维护和强化其品牌形象。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Ajey Maharaj appointed as Brand Custodian for Fortis Healthcare</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businessworld.in/article/max-healthcare-fortis-lead-hospital-stock-recovery-after-regulatory-concerns-633854" target="_blank">Max Healthcare与Fortis引领医院股反弹</a></h4>
+                <div class="news-summary">Fortis Healthcare股价上涨5.13%至803卢比，Aster DM Healthcare上涨3.81%至750卢比，医院股在监管担忧缓解后回升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Fortis Lead Hospital Stock Recovery After Regulatory Concerns</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://brandequity.economictimes.indiatimes.com/news/the-people-report/fortis-healthcare-elevates-ajey-maharaj-to-brand-custodian/135956151" target="_blank">Fortis Healthcare 任命阿杰伊·马哈拉吉为品牌守护官</a></h4>
+                <div class="news-summary">Fortis Healthcare 提拔阿杰伊·马哈拉吉担任品牌守护官，强化品牌战略管理与形象维护。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Fortis Healthcare elevates Ajey Maharaj to brand custodian</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.adgully.com/post/23997/ajey-maharaj-takes-on-additional-role-of-brand-custodian-at-fortis-healthcare" target="_blank">阿杰伊·马哈拉杰出任Fortis Healthcare品牌守护官</a></h4>
+                <div class="news-summary">阿杰伊·马哈拉杰在Fortis Healthcare新增品牌守护官职责。此举强化了该公司品牌管理职能。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Ajey Maharaj takes on additional role of brand custodian at Fortis Healthcare</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-reports-changes-in-ihh-healthcare-shareholding" target="_blank">EPF报告IHH Healthcare股权变动</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）披露其持有的IHH Healthcare股份发生变化。此举可能影响EPF对IHH Healthcare的持股比例及股东权益。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Reports Changes in IHH Healthcare Shareholding</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-board-acquires-additional-ihh-healthcare-shares" target="_blank">EPF董事会增持IHH Healthcare股份</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）董事会增持IHH Healthcare股份。此举强化了EPF对这家国际医疗集团的持股地位。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Board Acquires Additional IHH Healthcare Shares</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sbr.com.sg/healthcare/exclusive/health-data-law-puts-healthcare-deals-under-scrutiny" target="_blank">健康数据法使医疗交易受审查</a></h4>
+                <div class="news-summary">IHH Healthcare与三井物产达成合作，受新健康数据法影响，此类医疗交易正面临更严格审查。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Health data law puts healthcare deals under scrutiny</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">9 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Sunway Medical Centre (7 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://tradersunion.com/news/companies/show/4313506-sunway-healthcare-q3-profit-patient-growth/" target="_blank">Sunway医疗中心第三季度净利润大幅增长</a></h4>
+                <div class="news-summary">Sunway医疗中心因就诊患者数量增加，第三季度净利润显著上升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts third-quarter net profit surge on higher patient volumes</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/11/1581180/sunway-healthcares-q3-net-profit-jumps-59pct-rm952mil-revenue" target="_blank">Sunway Healthcare第三季度净利润增长59%至9520万林吉特，营收达7.374亿林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心所属的Sunway Healthcare公司第三季度净利润同比增长59%至9520万林吉特，营收升至7.374亿林吉特，反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare&#x27;s Q3 net profit jumps 59pct to RM95.2mil, revenue rises to RM737.4mil</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/19/sunway-healthcare-posts-earnings-jump-to-rm9517mil-in-3q-amid-occupancy-expansion" target="_blank">Sunway Healthcare集团第三季度盈利增至9517万林吉特</a></h4>
+                <div class="news-summary">Sunway Healthcare集团因床位扩容及新院（双威医疗中心莎阿南院和怡保院）投入运营，第三季度盈利升至9517万林吉特，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts earnings jump to RM95.17mil in 3Q amid occupancy expansion</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/11/19/sunway-healthcare-saw-its-3q26-net-profit-jump-59-to-rm95-million/" target="_blank">Sunway医疗中心2026年第三季度净利润增长59%至9500万林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心2026年第三季度净利润达9500万林吉特，同比增长59%。该增长反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare Saw Its 3Q26 Net Profit Jump 59% To RM95 Million</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826447" target="_blank">Sunway Healthcare第三季度净利润增长59%</a></h4>
+                <div class="news-summary">Sunway Healthcare第三季度净利润同比增长59%，营收达7.37亿林吉特，主要受益于患者需求持续旺盛、医院使用率提升及怡保、双威再也、Velocity和槟城Sunway医疗中心贡献增加。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare’s 3Q net profit jumps 59% on stronger demand, lower costs</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/business/corporate/2026/11/1581735/hlib-raises-sunway-healthcare-earnings-forecasts-after-strong" target="_blank">HLIB上调阳光医疗中心盈利预测</a></h4>
+                <div class="news-summary">HLIB在阳光医疗中心（Sunway Medical Centre）发布强劲业绩后，上调其盈利预测。此举可能提振市场对其估值和未来增长前景的信心。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">HLIB raises Sunway Healthcare earnings forecasts after strong results</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/20/sunway-healthcare-posts-quarterly-profit-jump" target="_blank">Sunway Healthcare季度利润大幅增长</a></h4>
+                <div class="news-summary">Sunway Healthcare Holdings Bhd因双威医疗中心梳邦再也院区和怡保院区床位扩容及新设施投入，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts quarterly profit jump</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 KPJ Healthcare (2 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://retailnews.asia/kpj-healthcare-opens-33-bed-international-ward-in-ampang" target="_blank">KPJ医疗集团在安邦开设33张床位国际病房</a></h4>
+                <div class="news-summary">KPJ医疗集团在安邦院区启用33张床位的国际病房，旨在提升对国际患者的医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KPJ Healthcare Opens 33-Bed International Ward in Ampang</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://us.acrofan.com/detail.php?number=1025915" target="_blank">安邦公主专科医院启用KPJ医疗集团首间国际患者专属病区</a></h4>
+                <div class="news-summary">安邦公主专科医院（KPJ医疗集团成员）启用了33张床位的“国际茉莉病区”，系该集团首间国际患者专属病区，旨在提升赴马就医国际患者的诊疗体验。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Ampang Puteri Specialist Hospital Launches KPJ Healthcare&#x27;s First Dedicated International Patient Ward</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">6 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bangkok Hospital Group (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://technode.global/2026/11/19/kjts-thailand-hospital-cooling-deal/" target="_blank">KJTS 获得曼谷医院集团20年制冷服务合同</a></h4>
+                <div class="news-summary">KJTS 与曼谷医院集团签署为期20年的医院制冷服务协议。该合作将保障曼谷医院集团核心医疗设施的稳定温控运行。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">KJTS secures 20-year cooling deal for Bangkok hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826417" target="_blank">KJTS获得曼谷医院集团20年冷水机组站合同</a></h4>
+                <div class="news-summary">KJTS公司与曼谷医院集团签订为期20年的冷水机组站运营维护合同，将为该集团提供持续稳定的冷源服务。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KJTS bags 20-year chiller plant contract for Bangkok hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://app.dealroom.co/news/note/vejthani-raises-26m-green-loan-for-third-bangkok-hospital" target="_blank">Vejthani医院集团获2600万美元绿色贷款建设曼谷第三家医院</a></h4>
+                <div class="news-summary">曼谷医院集团下属Vejthani医院集团获得2600万美元绿色贷款，用于建设其在曼谷的第三家医院。此举将扩大该集团在泰国首都的医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Vejthani raises $26M green loan for third Bangkok hospital</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 MedPark Hospital (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">MedPark Hospital</span>
+                    <span class="date-tag">5小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/health-wellness/40073732" target="_blank">MedPark医院在曼谷推出12项夜间专科服务</a></h4>
+                <div class="news-summary">MedPark医院在曼谷启动12项夜间专科服务，提升患者非工作时间就医可及性。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">MedPark launches 12 after-hours specialist services in Bangkok</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bumrungrad International Hospital (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bumrungrad International Hospital</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tradingview.com/news/urn:live_audio:quartr.com:664803:0-bumrungrad-hospital-q3-2026-earnings-call-is-live/" target="_blank">百汇医院2026年第三季度财报电话会议正在进行</a></h4>
+                <div class="news-summary">百汇国际医院召开2026年第三季度财报电话会议，影响投资者对其财务表现和市场信心的即时判断。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Bumrungrad Hospital Q3 2026 Earnings Call Is Live</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 BDMS (Bangkok Dusit Medical Services) (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/nebenwerte/bangkok-dusit-medical-services-stock-reports-5-q3-profit-gain/70524044" target="_blank">曼谷杜斯特医疗服务公司股价因三季度利润增长5%受关注</a></h4>
+                <div class="news-summary">曼谷杜斯特医疗服务公司（BDMS）因患者需求增强，三季度净利润达45.4亿泰铢，营收增长7%。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Bangkok Dusit Medical Services stock reports 5% Q3 profit gain</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">12 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Apollo Hospitals (8 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">3小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://m.dailyhunt.in/news/india/english/upstox-epaper-upstox/max+healthcare+apollo+hospitals+other+healthcare+stocks+surge+over+5+despite+volatile+market+whats+behind+the+surge-newsid-n734398529" target="_blank">Max Healthcare、Apollo Hospitals等医疗股逆势大涨超5%</a></h4>
+                <div class="news-summary">Apollo Hospitals等医疗机构股价单日上涨超5%，在波动市场中表现强势。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Apollo Hospitals, other healthcare stocks surge over 5% despite volatile market; what&#x27;s behind</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2338541" target="_blank">印度联邦部长普拉塔普拉奥·贾达夫向医院和制造商颁发阿育吠陀质量标志证书</a></h4>
+                <div class="news-summary">印度联邦部长普拉塔普拉奥·贾达夫向包括阿波罗阿育尔瓦伊德医院在内的机构颁发‘阿育吠陀质量标志’证书，旨在提升阿育吠陀产品国际认可度。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Union Minister Shri Prataprao Jadhav Distributes ‘Ayush Quality Mark’ Certificates to Hospitals and Manufactur</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://yourstory.com/2026/11/apollo-microsoft-turn-to-ai-to-help-hospitals-learn-from-medical-errors" target="_blank">阿波罗医院、微软利用AI帮助医院从医疗差错中学习</a></h4>
+                <div class="news-summary">阿波罗医院与微软合作开发AI工具，助力医院分析医疗差错；有望提升患者安全与临床决策质量。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Apollo, Microsoft turn to AI to help hospitals learn from medical errors</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.livemint.com/cio/technology/how-apollo-hospitals-is-bringing-ai-closer-to-the-clinical-frontline-291794997599133.html" target="_blank">阿波罗医院将AI推向临床一线</a></h4>
+                <div class="news-summary">印度阿波罗医院与微软合作，推动人工智能在临床一线的应用。此举为医疗AI落地提供了实践范例。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">How Apollo Hospitals is bringing AI closer to the clinical frontline</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.newsbytesapp.com/news/science/apollo-hospitals-and-microsoft-launch-dth-ai-to-improve-safety/tldr" target="_blank">阿波罗医院与微软推出DTH AI以提升安全性</a></h4>
+                <div class="news-summary">阿波罗医院与微软联合推出DTH AI，旨在提升医疗安全。该工具将辅助临床决策，降低风险。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Apollo Hospitals and Microsoft launch DTH AI to improve safety</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://hrtoday.in/apollo-hospitals-appoints-dr-ritu-mittal-garg-as-chief-executive-officer-multi-regions/" target="_blank">阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官</a></h4>
+                <div class="news-summary">阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官，负责统筹多个地区的运营与战略发展。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Apollo Hospitals Appoints Dr Ritu Mittal Garg as Chief Executive Officer – Multi Regions</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/apollo-homecare-launches-90-minutes-doctor-on-call-service-in-gurugram-633953" target="_blank">阿波罗居家护理在古尔冈推出90分钟医生上门服务</a></h4>
+                <div class="news-summary">阿波罗居家护理在古尔冈推出90分钟内医生上门问诊服务，针对非紧急病症，费用为3500卢比。该服务提升了当地家庭医疗可及性。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Apollo Homecare Launches 90 Minutes Doctor-on-call Service In Gurugram</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://thedailybrief.zerodha.com/p/indian-hotels-name-their-price-and" target="_blank">印度酒店标出高价，且价格不菲</a></h4>
+                <div class="news-summary">阿波罗医院在六个月内新增数百张床位后，住院率仍持续上升。这反映出印度医院正面临成本压力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Indian hotels name their price, and it’s steep</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Aster DM Healthcare (4 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/aster-dm-reportedly-eyes-northern-india-hospitals-in-expansion-move-ua98f29cf497f86622/" target="_blank">Aster DM医疗集团 reportedly 拓展北印度医院布局</a></h4>
+                <div class="news-summary">Aster DM医疗集团计划收购或合作北印度多家医院，以扩大其在该地区的医疗服务覆盖。此举将增强其在印度北部的市场影响力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Reportedly Eyes Northern India Hospitals in Expansion Move</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/blackstone-backed-aster-dm-in-talks-to-acquire-hospitals-in-north-india?srnd=live-events-v2" target="_blank">黑石支持的Aster DM医疗公司拟收购印度内陆医院</a></h4>
+                <div class="news-summary">Aster DM医疗公司正就收购印度内陆地区医院展开谈判，以深化其在印度内地的业务布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Blackstone-backed Aster DM in Talks to Acquire Hospitals in Deeper India Push</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/hyderabad/aster-dm-healthcare-launches-6th-global-nursing-award-winner-to-receive-250000/articleshow/135957207.cms" target="_blank">Aster DM Healthcare启动第六届全球护理奖</a></h4>
+                <div class="news-summary">Aster DM Healthcare启动第六届全球护理奖，获奖者将获得25万美元奖金。该奖项旨在表彰杰出护理人员。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Aster DM Healthcare launches 6th Global Nursing Award; winner to receive $250,000</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/beyond-longevity-brandon-dawsons-mission-to-transform-precision-health/" target="_blank">Aster DM Healthcare将在迪拜工作室城建设3.5亿迪拉姆医院</a></h4>
+                <div class="news-summary">Aster DM Healthcare计划在迪拜工作室城投资3.5亿迪拉姆建设新医院，强化当地高端医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Beyond longevity: Brandon Dawson’s mission to transform precision health</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>📊 行业动态</h2>
+            <span class="count">19 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 行业/卫生动态 (19 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/bajaj-groups-pune-healthcare-plan-puts-hospital-capacity-in-focus-uab92138e0752f11b1/" target="_blank">巴贾吉集团计划在浦那投资250亿卢比建医院</a></h4>
+                <div class="news-summary">巴贾吉集团计划在印度浦那投资250亿卢比建设一家新医院，旨在扩大其在医疗健康领域的布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Plans Rs 2,500 Crore Pune Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/bajaj-group-enters-healthcare-with-500-bed-hospital-in-pune?srnd=homepage-canada" target="_blank">巴贾集团进军医疗领域，在浦那建设500张床位医院</a></h4>
+                <div class="news-summary">巴贾集团在印度浦那启动500张床位医院项目，标志其正式进入医疗健康行业。此举将增强当地医疗服务供给能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Enters Healthcare With 500-Bed Hospital in Pune</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tribuneindia.com/news/business/sir-ganga-ram-hospital-appoints-padma-shri-dr-b-c-roy-national-awardee-dr-prof-a-k-bhalla-chairman-board-of-management-sir-ganga-ram-hospital/amp/?utm=relatedarticles" target="_blank">希拉甘格拉姆医院任命帕德玛·什里奖及布里吉·钱德拉·罗伊国家奖得主A. K. 巴拉教授为管理委员会主席</a></h4>
+                <div class="news-summary">希拉甘格拉姆医院任命A. K. 巴拉教授为管理委员会主席。巴拉教授是帕德玛·什里奖和布里吉·钱德拉·罗伊国家奖得主。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Sir Ganga Ram Hospital Appoints Padma Shri &amp; Dr. B. C. Roy National Awardee Dr. (Prof.) A. K. Bhalla, Chairman</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/money/mediaoutreach/2026/11/19/columbia-asia-hospital-tebrau-and-columbia-asia-hospital-iskandar-puteri-jointly-achieve-malaysia-book-of-records-recognition-for-their-mega-parenthood-workshop-2026/502133" target="_blank">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院联合获马来西亚纪录大全认证</a></h4>
+                <div class="news-summary">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院共同举办2026巨型亲子工作坊，获马来西亚纪录大全认证。此举提升了两家医院在母婴健康教育领域的行业影响力。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Columbia Asia Hospital Tebrau and Columbia Asia Hospital Iskandar Puteri jointly achieve Malaysia Book of Reco</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://english.dhanamonline.com/news/companies/aster-bets-4000-crore-on-india-expansion-500-crore-hyderabad-hospital-to-open-in-march-9004149" target="_blank">Aster公司投资4000亿卢比拓展印度业务，海得拉巴医院3月开业</a></h4>
+                <div class="news-summary">Aster公司计划投资4000亿卢比扩大印度业务，其中50亿卢比建设的海得拉巴医院将于3月开业，强化其在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster bets ₹4,000 crore on India expansion, ₹500-crore Hyderabad hospital to open in March</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">资本运作</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://panow.com/2026/11/19/rawlinson-family-commits-6-million-to-prince-alberts-victoria-hospital/" target="_blank">罗林森家族向王子阿尔伯特市维多利亚医院捐赠600万美元</a></h4>
+                <div class="news-summary">罗林森家族向加拿大王子阿尔伯特市的维多利亚医院捐赠600万美元，用于支持该医院的医疗设施升级与服务拓展。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">Rawlinson family commits $6 million to Prince Albert’s Victoria Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">16小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://themalaysianreserve.com/2026/11/19/professor-theo-kofidis-awarded-presidency-of-the-world-society-of-cardiovascular-thoracic-surgeons-for-2028-after-securing-landmark-bid/" target="_blank">西奥·科菲迪斯教授当选2028年世界心血管与胸外科医师学会主席</a></h4>
+                <div class="news-summary">西奥·科菲迪斯教授成功竞标并获任2028年世界心血管与胸外科医师学会主席，标志该学会领导层更迭。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Professor Theo Kofidis Awarded Presidency of the World Society of Cardiovascular &amp; Thoracic Surgeons for 2028 </span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">公共卫生</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.zaobao.com.sg/en/news/singapore/oral-health-screening-be-part-antenatal-checks-expectant-mums-kkh-sgh" target="_blank">口腔健康筛查将纳入KKH和SGH孕产妇产前检查</a></h4>
+                <div class="news-summary">新加坡KKH和SGH两家医院将把口腔健康筛查纳入孕产妇产前检查常规项目，以提升孕期口腔健康管理。</div>
+                <div class="news-meta"><span class="date-tag">公共卫生</span><span class="date-tag">Oral health screening to be part of antenatal checks for expectant mums at KKH, SGH</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://economictimes.indiatimes.com/industry/healthcare/biotech/healthcare/bajaj-group-launches-ambitious-healthcare-venture-with-rs-2500-crore-investment-in-pune-hospital/articleshow/135992570.cms" target="_blank">巴贾吉集团押注医疗健康，计划在浦那建设500张床位医院</a></h4>
+                <div class="news-summary">巴贾吉集团计划在浦那建设一家500张床位的医院，此举标志着其正式进军医疗健康领域。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group bets on healthcare, plans 500-bed Pune hospital: Report</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">财务业绩</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.financialexpress.com/market/max-healthcare-to-manipal-jefferies-hospital-stock-bets-after-healthy-q2-4387768/" target="_blank">Max Healthcare 向 Manipal 转让：杰富瑞看好医院股，Q2业绩稳健</a></h4>
+                <div class="news-summary">杰富瑞基于Max Healthcare稳健的2024财年第二季度业绩，上调其股票评级，并预计其将向Manipal Health Enterprises转让部分资产。此举可能强化双方在印度私立医院市场的战略布局。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare to Manipal: Jefferies hospital stock bets after healthy Q2</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">行业新闻</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/health/new-name-for-imh-is-the-first-step-towards-fighting-mental-health-stigma" target="_blank">IMH更名是消除精神健康污名化的第一步</a></h4>
+                <div class="news-summary">新加坡心理卫生学院（IMH）启用新名称，此举旨在减少公众对精神健康问题的偏见与歧视。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">New name for IMH is the first step towards fighting mental health stigma</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/11/18/kjts-expands-into-thai-healthcare-with-20-year-cooling-deal-worth-thb22-7-million-investment/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=kjts-expands-into-thai-healthcare-with-20-year-cooling-deal-worth-thb22-7-million-investment" target="_blank">KJTS进军泰国医疗市场，签署20年制冷服务协议，投资2270万泰铢</a></h4>
+                <div class="news-summary">KJTS与泰国医疗机构达成20年冷却服务协议，投资2270万泰铢。此举标志着KJTS正式进入泰国医疗基础设施服务市场。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KJTS Expands Into Thai Healthcare With 20-Year Cooling Deal Worth THB22.7 Million Investment</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">合作/合资</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://theggnews.com/en-us/articles/28500" target="_blank">恩平圣母医院举办脊柱内镜技术交流会</a></h4>
+                <div class="news-summary">恩平圣母医院与日本、新加坡及台湾医生开展脊柱内镜技术交流，促进区域微创脊柱外科经验共享。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Eunpyeong St. Mary&#x27;s Hospital Hosts Spine Endoscopy Exchange with Doctors from Japan, Singapore and Taiwan</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">行业新闻</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://uk.news.yahoo.com/burned-shell-inside-southampton-general-033000164.html" target="_blank">烧成空壳”：南安普顿综合医院火灾九个月后内幕</a></h4>
+                <div class="news-summary">南安普顿综合医院九个月前遭遇火灾，院区严重损毁，医疗服务持续受限。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">‘Burned to a shell’: Inside Southampton General Hospital nine months after fire</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">合作/合资</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/business/corporate/2026/11/1580203/ampang-puteri-hospital-bank-riau-kepri-syariah-forge-partnership?source=widget" target="_blank">安邦公主医院与Bank Riau Kepri Syariah建立合作关系</a></h4>
+                <div class="news-summary">安邦公主医院与Bank Riau Kepri Syariah签署合作协议，旨在提升医疗金融服务可及性。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Ampang Puteri Hospital, Bank Riau Kepri Syariah forge partnership</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">技术/创新</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.biospectrumasia.com/opinion/27/28694/rethinking-stress-urinary-incontinence-treatment-through-patient-centred-device-research.html" target="_blank">通过以患者为中心的器械研究重新思考压力性尿失禁治疗</a></h4>
+                <div class="news-summary">新加坡A*STAR的Maxine Lam博士团队结合患者洞察、MRI及解剖建模，推进压力性尿失禁早期器械研发。该方法有望提升治疗适配性与临床效果。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Rethinking stress urinary incontinence treatment through patient-centred device research</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://medicalbuyer.co.in/kims-hospitals-names-gururagavendran-b-as-coo/" target="_blank">KIMS医院任命古鲁拉加文德兰·B为首席运营官</a></h4>
+                <div class="news-summary">KIMS医院任命古鲁拉加文德兰·B为首席运营官，负责统筹运营管理。此举旨在强化医院日常运营效率与服务质量。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">KIMS Hospitals names Gururagavendran B as COO</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策法规</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://opengovasia.com/singapore-outlines-healthcare-ai-and-digital-inclusion-strategy/" target="_blank">新加坡公布医疗人工智能与数字包容战略</a></h4>
+                <div class="news-summary">新加坡提出多维度策略，通过循证政策和负责任的人工智能强化医疗服务。该战略旨在提升医疗可及性与质量。</div>
+                <div class="news-meta"><span class="date-tag">政策法规</span><span class="date-tag">Singapore Outlines Healthcare AI and Digital Inclusion Strategy</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策法规</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/malaysia/2026/11/17/appeals-court-upholds-dismissal-of-medical-negligence-suit-against-penang-general-hospital/243537" target="_blank">上诉法院维持驳回针对槟城中央医院的医疗过失诉讼</a></h4>
+                <div class="news-summary">马来西亚上诉法院驳回一名宗教教师就医疗过失起诉马来西亚政府的上诉，维持原审驳回决定。</div>
+                <div class="news-meta"><span class="date-tag">政策法规</span><span class="date-tag">Appeals Court upholds dismissal of medical negligence suit against Penang General Hospital</span></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="tab-lastweek" class="tab-content">
+
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🌐 IHH集团</h2>
+            <span class="count">14 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Fortis Healthcare (9 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://face2news.com/news/fortis-hospital-mohali-partners-with-boston-scientific-india-to-strengthen-training-in-minimally-invasive-urology/" target="_blank">莫哈利福蒂斯医院与波士顿科学印度公司合作加强微创泌尿外科培训</a></h4>
+                <div class="news-summary">莫哈利福蒂斯医院与波士顿科学印度公司合作，强化微创泌尿外科临床培训能力。此举将提升当地泌尿外科医生的微创手术技术水平。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">FORTIS HOSPITAL MOHALI PARTNERS WITH BOSTON SCIENTIFIC INDIA TO STRENGTHEN TRAINING IN MINIMALLY INVASIVE UROL</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">1小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theindianpractitioner.com/fortis-hospital-bannerghatta-road-launches-dedicated-clinic-for-interstitial-lung-disease-and-lung-failure/" target="_blank">班加罗尔Bannerghatta路Fortis医院启动间质性肺病与肺衰竭专科门诊</a></h4>
+                <div class="news-summary">Fortis Healthcare在班加罗尔Bannerghatta路院区开设间质性肺病与肺衰竭专科门诊，提升相关疾病诊疗能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Hospital, Bannerghatta Road Launches Dedicated Clinic for Interstitial Lung Disease and Lung Failure</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.kalkine.co.in/article/healthcare/fortis-healthcare-widens-bengaluru-network-nse-fortis-with-people-tree-hospital-deal-and-300-bed-expansion" target="_blank">Fortis Healthcare扩大班加罗尔医院网络</a></h4>
+                <div class="news-summary">Fortis Healthcare扩展其在班加罗尔的医院网络，以增强当地医疗服务覆盖能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare Expands Bengaluru Hospital Network</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://healthcareasiamagazine.com/healthcare/news/fortis-healthcare-unit-expands-in-india-suguna-hospital-buy" target="_blank">Fortis Healthcare子公司收购苏古纳医院拓展印度业务</a></h4>
+                <div class="news-summary">Fortis Healthcare子公司国际医院有限公司以资产整体转让方式收购班加罗尔苏古纳医院，获得其全部业务及土地建筑。此举扩大了Fortis在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Fortis Healthcare unit expands in India with Suguna Hospital buy</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.impactonnet.com/more-from-impact/ajey-maharaj-appointed-as-brand-custodian-for-fortis-healthcare-17698.html" target="_blank">Ajey Maharaj 被任命为百汇医疗品牌守护官</a></h4>
+                <div class="news-summary">Ajey Maharaj 被任命为百汇医疗（Fortis Healthcare）品牌守护官，负责维护和强化其品牌形象。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Ajey Maharaj appointed as Brand Custodian for Fortis Healthcare</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businessworld.in/article/max-healthcare-fortis-lead-hospital-stock-recovery-after-regulatory-concerns-633854" target="_blank">Max Healthcare与Fortis引领医院股反弹</a></h4>
+                <div class="news-summary">Fortis Healthcare股价上涨5.13%至803卢比，Aster DM Healthcare上涨3.81%至750卢比，医院股在监管担忧缓解后回升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Fortis Lead Hospital Stock Recovery After Regulatory Concerns</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://brandequity.economictimes.indiatimes.com/news/the-people-report/fortis-healthcare-elevates-ajey-maharaj-to-brand-custodian/135956151" target="_blank">Fortis Healthcare 任命阿杰伊·马哈拉吉为品牌守护官</a></h4>
+                <div class="news-summary">Fortis Healthcare 提拔阿杰伊·马哈拉吉担任品牌守护官，强化品牌战略管理与形象维护。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Fortis Healthcare elevates Ajey Maharaj to brand custodian</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.adgully.com/post/23997/ajey-maharaj-takes-on-additional-role-of-brand-custodian-at-fortis-healthcare" target="_blank">阿杰伊·马哈拉杰出任Fortis Healthcare品牌守护官</a></h4>
+                <div class="news-summary">阿杰伊·马哈拉杰在Fortis Healthcare新增品牌守护官职责。此举强化了该公司品牌管理职能。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Ajey Maharaj takes on additional role of brand custodian at Fortis Healthcare</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Fortis Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.cnbctv18.com/market/hospital-stocks-max-healthcare-fortis-aster-dm-lead-gains-after-recent-sell-off-20034874.htm" target="_blank">医院股反弹：Max Healthcare、Fortis、Aster DM领涨</a></h4>
+                <div class="news-summary">11月16日，Max Healthcare、Fortis Healthcare和Aster DM等大型医院连锁股大幅上涨，投资者将此前监管引发的抛售视为买入机会。市场预期病床严重短缺和刚性需求可抵消潜在价格管制压力。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">Hospital stocks: Max Healthcare, Fortis, Aster DM lead gains after recent sell-off</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 IHH Healthcare (5 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-reports-changes-in-ihh-healthcare-shareholding" target="_blank">EPF报告IHH Healthcare股权变动</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）披露其持有的IHH Healthcare股份发生变化。此举可能影响EPF对IHH Healthcare的持股比例及股东权益。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Reports Changes in IHH Healthcare Shareholding</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-board-acquires-additional-ihh-healthcare-shares" target="_blank">EPF董事会增持IHH Healthcare股份</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）董事会增持IHH Healthcare股份。此举强化了EPF对这家国际医疗集团的持股地位。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Board Acquires Additional IHH Healthcare Shares</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sbr.com.sg/healthcare/exclusive/health-data-law-puts-healthcare-deals-under-scrutiny" target="_blank">健康数据法使医疗交易受审查</a></h4>
+                <div class="news-summary">IHH Healthcare与三井物产达成合作，受新健康数据法影响，此类医疗交易正面临更严格审查。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Health data law puts healthcare deals under scrutiny</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/nexsen-appoints-gleneagles-ceo-to-chair-advisory-board" target="_blank">Nexsen任命伊丽莎白医院香港港安医院CEO为顾问委员会主席</a></h4>
+                <div class="news-summary">Nexsen任命港安医院香港院长兼IHH Healthcare北亚区域CEO钟国仁博士为顾问委员会主席；何国明教授加入该委员会。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Nexsen appoints Gleneagles CEO to chair Advisory Board</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">IHH Healthcare</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tipranks.com/news/company-announcements/epf-reports-disposal-of-581400-ihh-healthcare-shares" target="_blank">EPF减持581400股IHH Healthcare股份</a></h4>
+                <div class="news-summary">马来西亚雇员公积金局（EPF）减持IHH Healthcare Bhd 581400股股份。此举可能影响IHH Healthcare的股权结构及市场持股稳定性。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">EPF Reports Disposal of 581,400 IHH Healthcare Shares</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇲🇾 马来西亚</h2>
+            <span class="count">11 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Sunway Medical Centre (7 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://tradersunion.com/news/companies/show/4313506-sunway-healthcare-q3-profit-patient-growth/" target="_blank">Sunway医疗中心第三季度净利润大幅增长</a></h4>
+                <div class="news-summary">Sunway医疗中心因就诊患者数量增加，第三季度净利润显著上升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts third-quarter net profit surge on higher patient volumes</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/amp/business/corporate/2026/11/1581180/sunway-healthcares-q3-net-profit-jumps-59pct-rm952mil-revenue" target="_blank">Sunway Healthcare第三季度净利润增长59%至9520万林吉特，营收达7.374亿林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心所属的Sunway Healthcare公司第三季度净利润同比增长59%至9520万林吉特，营收升至7.374亿林吉特，反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare&#x27;s Q3 net profit jumps 59pct to RM95.2mil, revenue rises to RM737.4mil</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/19/sunway-healthcare-posts-earnings-jump-to-rm9517mil-in-3q-amid-occupancy-expansion" target="_blank">Sunway Healthcare集团第三季度盈利增至9517万林吉特</a></h4>
+                <div class="news-summary">Sunway Healthcare集团因床位扩容及新院（双威医疗中心莎阿南院和怡保院）投入运营，第三季度盈利升至9517万林吉特，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts earnings jump to RM95.17mil in 3Q amid occupancy expansion</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/11/19/sunway-healthcare-saw-its-3q26-net-profit-jump-59-to-rm95-million/" target="_blank">Sunway医疗中心2026年第三季度净利润增长59%至9500万林吉特</a></h4>
+                <div class="news-summary">Sunway医疗中心2026年第三季度净利润达9500万林吉特，同比增长59%。该增长反映其经营业绩显著提升。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare Saw Its 3Q26 Net Profit Jump 59% To RM95 Million</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826447" target="_blank">Sunway Healthcare第三季度净利润增长59%</a></h4>
+                <div class="news-summary">Sunway Healthcare第三季度净利润同比增长59%，营收达7.37亿林吉特，主要受益于患者需求持续旺盛、医院使用率提升及怡保、双威再也、Velocity和槟城Sunway医疗中心贡献增加。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare’s 3Q net profit jumps 59% on stronger demand, lower costs</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/business/corporate/2026/11/1581735/hlib-raises-sunway-healthcare-earnings-forecasts-after-strong" target="_blank">HLIB上调阳光医疗中心盈利预测</a></h4>
+                <div class="news-summary">HLIB在阳光医疗中心（Sunway Medical Centre）发布强劲业绩后，上调其盈利预测。此举可能提振市场对其估值和未来增长前景的信心。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">HLIB raises Sunway Healthcare earnings forecasts after strong results</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Sunway Medical Centre</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thestar.com.my/business/business-news/2026/11/20/sunway-healthcare-posts-quarterly-profit-jump" target="_blank">Sunway Healthcare季度利润大幅增长</a></h4>
+                <div class="news-summary">Sunway Healthcare Holdings Bhd因双威医疗中心梳邦再也院区和怡保院区床位扩容及新设施投入，盈利能力与运营杠杆增强。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Sunway Healthcare posts quarterly profit jump</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 KPJ Healthcare (4 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">8小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://retailnews.asia/kpj-healthcare-opens-33-bed-international-ward-in-ampang" target="_blank">KPJ医疗集团在安邦开设33张床位国际病房</a></h4>
+                <div class="news-summary">KPJ医疗集团在安邦院区启用33张床位的国际病房，旨在提升对国际患者的医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KPJ Healthcare Opens 33-Bed International Ward in Ampang</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://us.acrofan.com/detail.php?number=1025915" target="_blank">安邦公主专科医院启用KPJ医疗集团首间国际患者专属病区</a></h4>
+                <div class="news-summary">安邦公主专科医院（KPJ医疗集团成员）启用了33张床位的“国际茉莉病区”，系该集团首间国际患者专属病区，旨在提升赴马就医国际患者的诊疗体验。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Ampang Puteri Specialist Hospital Launches KPJ Healthcare&#x27;s First Dedicated International Patient Ward</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thevibes.com/articles/lifestyles/129648/kpj-healthcare-opens-first-dedicated-international-patient-ward" target="_blank">KPJ医疗集团启用首个国际患者专用病房</a></h4>
+                <div class="news-summary">KPJ医疗集团启用了首个国际患者专用病房，以更好满足国际患者的医疗需求。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KPJ Healthcare opens first dedicated international patient ward</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">KPJ Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://en.antaranews.com/news/442939/kpj-healthcare-leads-asean-in-healthcare-brand-strength-ranks-second-in-brand-value" target="_blank">KPJ Healthcare领跑东盟医疗品牌实力，品牌价值排名第二</a></h4>
+                <div class="news-summary">马来西亚首家私立学术医疗体系KPJ Healthcare在东盟医疗品牌实力中居首，品牌价值位列第二。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">KPJ Healthcare Leads ASEAN in Healthcare Brand Strength, Ranks Second in Brand Value</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇹🇭 泰国</h2>
+            <span class="count">8 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bangkok Hospital Group (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://technode.global/2026/11/19/kjts-thailand-hospital-cooling-deal/" target="_blank">KJTS 获得曼谷医院集团20年制冷服务合同</a></h4>
+                <div class="news-summary">KJTS 与曼谷医院集团签署为期20年的医院制冷服务协议。该合作将保障曼谷医院集团核心医疗设施的稳定温控运行。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">KJTS secures 20-year cooling deal for Bangkok hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://theedgemalaysia.com/node/826417" target="_blank">KJTS获得曼谷医院集团20年冷水机组站合同</a></h4>
+                <div class="news-summary">KJTS公司与曼谷医院集团签订为期20年的冷水机组站运营维护合同，将为该集团提供持续稳定的冷源服务。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KJTS bags 20-year chiller plant contract for Bangkok hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bangkok Hospital Group</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://app.dealroom.co/news/note/vejthani-raises-26m-green-loan-for-third-bangkok-hospital" target="_blank">Vejthani医院集团获2600万美元绿色贷款建设曼谷第三家医院</a></h4>
+                <div class="news-summary">曼谷医院集团下属Vejthani医院集团获得2600万美元绿色贷款，用于建设其在曼谷的第三家医院。此举将扩大该集团在泰国首都的医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Vejthani raises $26M green loan for third Bangkok hospital</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 BDMS (Bangkok Dusit Medical Services) (3 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ad-hoc-news.de/boerse/news/nebenwerte/bangkok-dusit-medical-services-stock-reports-5-q3-profit-gain/70524044" target="_blank">曼谷杜斯特医疗服务公司股价因三季度利润增长5%受关注</a></h4>
+                <div class="news-summary">曼谷杜斯特医疗服务公司（BDMS）因患者需求增强，三季度净利润达45.4亿泰铢，营收增长7%。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Bangkok Dusit Medical Services stock reports 5% Q3 profit gain</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/health-wellness/40073479" target="_blank">BDMS扩大泰国CAR-T疗法合作以拓展癌症治疗可及性</a></h4>
+                <div class="news-summary">曼谷杜斯特医疗服务集团（BDMS）整合泰国本土研发、生产和医院诊疗资源，推进CAR-T癌症疗法，提升该疗法在泰国的可及性。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">BDMS expands Thai CAR-T partnerships to widen cancer care access</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">BDMS (Bangkok Dusit Medical Services)</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://vir.com.vn/wellera-and-capella-partner-on-thailand-capella-branded-residences-164941.html" target="_blank">WellEra与Capella合作开发泰国曼谷Capella品牌住宅</a></h4>
+                <div class="news-summary">BDMS旗下WellEra与Capella酒店集团合作推出曼谷WellEra内的Capella品牌住宅，为泰国首个Capella住宅项目。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">WellEra and Capella Partner on Thailand Capella-Branded Residences</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 MedPark Hospital (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">MedPark Hospital</span>
+                    <span class="date-tag">5小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nationthailand.com/health-wellness/40073732" target="_blank">MedPark医院在曼谷推出12项夜间专科服务</a></h4>
+                <div class="news-summary">MedPark医院在曼谷启动12项夜间专科服务，提升患者非工作时间就医可及性。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">MedPark launches 12 after-hours specialist services in Bangkok</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Bumrungrad International Hospital (1 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Bumrungrad International Hospital</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tradingview.com/news/urn:live_audio:quartr.com:664803:0-bumrungrad-hospital-q3-2026-earnings-call-is-live/" target="_blank">百汇医院2026年第三季度财报电话会议正在进行</a></h4>
+                <div class="news-summary">百汇国际医院召开2026年第三季度财报电话会议，影响投资者对其财务表现和市场信心的即时判断。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Bumrungrad Hospital Q3 2026 Earnings Call Is Live</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>🇮🇳 印度</h2>
+            <span class="count">27 条动态</span>
+        </div>
+
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Aster DM Healthcare (14 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/aster-dm-reportedly-eyes-northern-india-hospitals-in-expansion-move-ua98f29cf497f86622/" target="_blank">Aster DM医疗集团 reportedly 拓展北印度医院布局</a></h4>
+                <div class="news-summary">Aster DM医疗集团计划收购或合作北印度多家医院，以扩大其在该地区的医疗服务覆盖。此举将增强其在印度北部的市场影响力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Reportedly Eyes Northern India Hospitals in Expansion Move</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/blackstone-backed-aster-dm-in-talks-to-acquire-hospitals-in-north-india?srnd=live-events-v2" target="_blank">黑石支持的Aster DM医疗公司拟收购印度内陆医院</a></h4>
+                <div class="news-summary">Aster DM医疗公司正就收购印度内陆地区医院展开谈判，以深化其在印度内地的业务布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Blackstone-backed Aster DM in Talks to Acquire Hospitals in Deeper India Push</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/hyderabad/aster-dm-healthcare-launches-6th-global-nursing-award-winner-to-receive-250000/articleshow/135957207.cms" target="_blank">Aster DM Healthcare启动第六届全球护理奖</a></h4>
+                <div class="news-summary">Aster DM Healthcare启动第六届全球护理奖，获奖者将获得25万美元奖金。该奖项旨在表彰杰出护理人员。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Aster DM Healthcare launches 6th Global Nursing Award; winner to receive $250,000</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://gulfbusiness.com/en/2026/health-care/beyond-longevity-brandon-dawsons-mission-to-transform-precision-health/" target="_blank">Aster DM Healthcare将在迪拜工作室城建设3.5亿迪拉姆医院</a></h4>
+                <div class="news-summary">Aster DM Healthcare计划在迪拜工作室城投资3.5亿迪拉姆建设新医院，强化当地高端医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Beyond longevity: Brandon Dawson’s mission to transform precision health</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bignewsnetwork.com/news/279436253/aster-dm-quality-care-inr-500-crore-300-bed-hyderabad-hospital-to-commence-operations-in-march-2027" target="_blank">Aster DM医疗保健公司500亿卢比、300床位海得拉巴医院将于2027年3月启用</a></h4>
+                <div class="news-summary">印度领先综合医疗服务提供商Aster DM医疗保健公司宣布，其投资500亿卢比、设300张床位的海得拉巴多专科医院将于2027年3月投入运营。此举将显著提升当地优质医疗资源供给能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Quality Care&#x27;s inr 500-Crore, 300-Bed Hyderabad Hospital to Commence Operations in March 2027</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.ocacademy.in/blogs/aster-dm-hyderabad-hospital-kondapur" target="_blank">Aster DM医疗集团在海得拉巴孔达普尔启用300张床位新院区</a></h4>
+                <div class="news-summary">Aster DM医疗集团在海得拉巴孔达普尔启用300张床位医院，投资500亿印度卢比，新增重症监护和高级三级医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Expands in Hyderabad with 300-Bed Kondapur Unit</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://health.economictimes.indiatimes.com/amp/news/hospitals/aster-dm-quality-care-to-open-300-bed-hospital-in-hyderabad/135869845" target="_blank">Aster DM医疗保健公司将在海得拉巴开设300张床位的医院</a></h4>
+                <div class="news-summary">Aster DM医疗保健公司将于2027年3月前在海得拉巴启用一家300张床位的多专科医院，提升当地医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Quality Care to open 300-bed hospital in Hyderabad</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/kondapur-hospital-to-add-300-beds-as-aster-expands-hyderabad-network/" target="_blank">康达普尔医院：Aster计划建设海得拉巴300床综合医院</a></h4>
+                <div class="news-summary">Aster DM Healthcare计划于2027年3月在海得拉巴康达普尔开设300床多专科医院，将增强该市私立医疗资源。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Kondapur Hospital: Aster Plans 300-Bed Hyderabad Facility</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thehindubusinessline.com/companies/aster-dm-quality-care-to-open-new-multispeciality-hospital-in-hyderabads-kondapur/article71704953.ece" target="_blank">Aster DM医疗保健将在海得拉巴孔达普尔开设新多专科医院</a></h4>
+                <div class="news-summary">Aster DM医疗保健将在海得拉巴孔达普尔开设一家300张床位的多专科医院，提升当地床位供给并推动区域扩张。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Quality Care to open new multispeciality hospital in Hyderabad’s Kondapur</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.metroindia.net/news/articlenews/aster-dms-new-hospital-47080" target="_blank">Aster DM医疗新医院将于2027年3月投入运营</a></h4>
+                <div class="news-summary">Aster DM医疗宣布其位于孔达普尔的300床多专科Aster医院将于2027年3月开始运营，将提升海得拉巴地区综合医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM’s new hospital to begin operations in March 2027</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/hyderabad-gets-%E2%82%B9500-crore-hospital-as-kondapur-capacity-expands/" target="_blank">孔达普尔医院：Aster计划投资500亿卢比建设海得拉巴新院区</a></h4>
+                <div class="news-summary">Aster DM Healthcare将在2027年3月前于海得拉巴孔达普尔医院新增300张床位，使其在该市总床位数超1700张。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Kondapur Hospital: Aster Plans ₹500-Crore Hyderabad Facility</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://timesofindia.indiatimes.com/city/hyderabad/aster-dm-quality-care-to-open-500-crore-300-bed-kondapur-hospital-in-2027/articleshow/135835934.cms" target="_blank">Aster DM医疗保健将在海得拉巴孔达普尔开设500亿卢比、300张床位的医院</a></h4>
+                <div class="news-summary">Aster DM医疗保健将于2027年3月在海得拉巴孔达普尔启用500亿卢比、300张床位的多专科医院，使该市床位总数超1700张。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Quality Care to open ₹500-crore, 300-bed Kondapur hospital in 2027</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tripurastarnews.com/aster-dm-quality-care-announces-%E2%82%B9500-crore-300-bed-hospital-in-hyderabad/" target="_blank">Aster DM医疗保健公司宣布在海得拉巴建设500亿卢比、300张床位的医院</a></h4>
+                <div class="news-summary">印度领先综合医疗服务商Aster DM医疗保健公司宣布在特伦甘纳邦海得拉巴投资500亿卢比建设300张床位医院，将提升当地优质医疗服务供给能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster DM Quality Care Announces ₹500-Crore, 300-Bed Hospital In Hyderabad.</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Aster DM Healthcare</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://investmentguruindia.com/newsdetail/buy-aster-dm-quality-care-ltd-for-the-target-rs-875-by-prabhudas-liladhar-ltd497940" target="_blank">买入Aster DM Quality Care Ltd，目标价875卢比</a></h4>
+                <div class="news-summary">Aster DM Healthcare第二季度合并EBITDA同比增长27%至66亿印度卢比，超出预期5%，主要受益于并购协同效应推进顺利。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Buy Aster DM Quality Care Ltd for the Target Rs 875 by Prabhudas Liladhar Ltd</span></div>
+            </div>
+        </div>
+        <div class="entity-section">
+            <div class="entity-header">
+                <h3>📍 Apollo Hospitals (13 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">3小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://m.dailyhunt.in/news/india/english/upstox-epaper-upstox/max+healthcare+apollo+hospitals+other+healthcare+stocks+surge+over+5+despite+volatile+market+whats+behind+the+surge-newsid-n734398529" target="_blank">Max Healthcare、Apollo Hospitals等医疗股逆势大涨超5%</a></h4>
+                <div class="news-summary">Apollo Hospitals等医疗机构股价单日上涨超5%，在波动市场中表现强势。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare, Apollo Hospitals, other healthcare stocks surge over 5% despite volatile market; what&#x27;s behind</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2338541" target="_blank">印度联邦部长普拉塔普拉奥·贾达夫向医院和制造商颁发阿育吠陀质量标志证书</a></h4>
+                <div class="news-summary">印度联邦部长普拉塔普拉奥·贾达夫向包括阿波罗阿育尔瓦伊德医院在内的机构颁发‘阿育吠陀质量标志’证书，旨在提升阿育吠陀产品国际认可度。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Union Minister Shri Prataprao Jadhav Distributes ‘Ayush Quality Mark’ Certificates to Hospitals and Manufactur</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://yourstory.com/2026/11/apollo-microsoft-turn-to-ai-to-help-hospitals-learn-from-medical-errors" target="_blank">阿波罗医院、微软利用AI帮助医院从医疗差错中学习</a></h4>
+                <div class="news-summary">阿波罗医院与微软合作开发AI工具，助力医院分析医疗差错；有望提升患者安全与临床决策质量。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Apollo, Microsoft turn to AI to help hospitals learn from medical errors</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.livemint.com/cio/technology/how-apollo-hospitals-is-bringing-ai-closer-to-the-clinical-frontline-291794997599133.html" target="_blank">阿波罗医院将AI推向临床一线</a></h4>
+                <div class="news-summary">印度阿波罗医院与微软合作，推动人工智能在临床一线的应用。此举为医疗AI落地提供了实践范例。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">How Apollo Hospitals is bringing AI closer to the clinical frontline</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.newsbytesapp.com/news/science/apollo-hospitals-and-microsoft-launch-dth-ai-to-improve-safety/tldr" target="_blank">阿波罗医院与微软推出DTH AI以提升安全性</a></h4>
+                <div class="news-summary">阿波罗医院与微软联合推出DTH AI，旨在提升医疗安全。该工具将辅助临床决策，降低风险。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Apollo Hospitals and Microsoft launch DTH AI to improve safety</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://hrtoday.in/apollo-hospitals-appoints-dr-ritu-mittal-garg-as-chief-executive-officer-multi-regions/" target="_blank">阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官</a></h4>
+                <div class="news-summary">阿波罗医院任命丽图·米塔尔·加尔格博士为多区域首席执行官，负责统筹多个地区的运营与战略发展。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Apollo Hospitals Appoints Dr Ritu Mittal Garg as Chief Executive Officer – Multi Regions</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bwhealthcareworld.com/article/apollo-homecare-launches-90-minutes-doctor-on-call-service-in-gurugram-633953" target="_blank">阿波罗居家护理在古尔冈推出90分钟医生上门服务</a></h4>
+                <div class="news-summary">阿波罗居家护理在古尔冈推出90分钟内医生上门问诊服务，针对非紧急病症，费用为3500卢比。该服务提升了当地家庭医疗可及性。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Apollo Homecare Launches 90 Minutes Doctor-on-call Service In Gurugram</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://thedailybrief.zerodha.com/p/indian-hotels-name-their-price-and" target="_blank">印度酒店标出高价，且价格不菲</a></h4>
+                <div class="news-summary">阿波罗医院在六个月内新增数百张床位后，住院率仍持续上升。这反映出印度医院正面临成本压力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Indian hotels name their price, and it’s steep</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://m.dailyhunt.in/news/india/english/loktej+english-epaper-loktejen/apollo+health+strengthens+its+expansion+in+north+india+with+new+clinic+and+national+reference+laboratory+in+gurugram-newsid-n733987049" target="_blank">阿波罗健康加强北印度扩张，在古尔冈设立新诊所及国家参考实验室</a></h4>
+                <div class="news-summary">阿波罗诊所与阿波罗诊断国家参考实验室合作，在古尔冈建立综合性医疗设施。此举提升了北印度地区的诊疗与检测服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Apollo Health strengthens its expansion in North India with New Clinic and National Reference Laboratory in Gu</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.pinkcitypost.com/apollo-spectra-hospital-jaipur-introduces-meril-misso-robotic-assisted-knee-replacement-system/" target="_blank">阿波罗光谱医院斋浦尔院区引入Meril MISSO机器人辅助膝关节置换系统</a></h4>
+                <div class="news-summary">印度斋浦尔阿波罗光谱医院引入Meril公司MISSO机器人辅助膝关节置换系统，提升膝关节置换手术精准度与微创水平。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Apollo Spectra Hospital Jaipur introduces Meril MISSO robotic-assisted knee replacement system</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thehindu.com/news/cities/Tiruchirapalli/apollo-emergency-medical-centre-set-up-for-sabarimala-pilgrims/article71701809.ece" target="_blank">阿波罗紧急医疗中心为沙巴里马拉朝圣者设立</a></h4>
+                <div class="news-summary">阿波罗基金会与阿波罗专科医院蒂鲁奇分院联合在沙巴里马拉设立先进紧急医疗中心，并配备5G技术。此举提升了朝圣期间的应急医疗保障能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Apollo emergency medical centre set up for Sabarimala pilgrims</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://english.pravda.ru/news/world/172755-guyana-children-cardiac-surgery-india/" target="_blank">四名圭亚那儿童在印度阿波罗医院成功接受心脏手术</a></h4>
+                <div class="news-summary">四名圭亚那儿童在印度阿波罗医院成功接受心脏手术，医疗专家据此评估了相关病情。</div>
+                <div class="news-meta"><span class="date-tag">医疗旅游</span><span class="date-tag">Four Guyanese children undergo successful cardiac surgery in India</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag">Apollo Hospitals</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.digitalhealthnews.com/apollo-diagnostics-national-reference-laboratory-and-apollo-clinic-inaugurated-in-gurugram-s-sector-52" target="_blank">阿波罗诊断国家参考实验室与阿波罗诊所入驻古尔冈第52区</a></h4>
+                <div class="news-summary">阿波罗医院在古尔冈第52区启用国家参考实验室和诊所，提升区域高端诊断与门诊服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Apollo Diagnostics National Reference Laboratory and Apollo Clinic Inaugurated In Gurugram&#x27;s Sector 52</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="group-section">
+        <div class="group-header">
+            <h2>📊 行业动态</h2>
+            <span class="count">33 条动态</span>
+        </div>
+
+        <div class="entity-section sea-health-section">
+            <div class="entity-header">
+                <h3>🌏 行业/卫生动态 (33 条)</h3>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">6小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://urbanacres.in/bajaj-groups-pune-healthcare-plan-puts-hospital-capacity-in-focus-uab92138e0752f11b1/" target="_blank">巴贾吉集团计划在浦那投资250亿卢比建医院</a></h4>
+                <div class="news-summary">巴贾吉集团计划在印度浦那投资250亿卢比建设一家新医院，旨在扩大其在医疗健康领域的布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Plans Rs 2,500 Crore Pune Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">9小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.bloomberg.com/news/articles/2026-11-19/bajaj-group-enters-healthcare-with-500-bed-hospital-in-pune?srnd=homepage-canada" target="_blank">巴贾集团进军医疗领域，在浦那建设500张床位医院</a></h4>
+                <div class="news-summary">巴贾集团在印度浦那启动500张床位医院项目，标志其正式进入医疗健康行业。此举将增强当地医疗服务供给能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group Enters Healthcare With 500-Bed Hospital in Pune</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">11小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.tribuneindia.com/news/business/sir-ganga-ram-hospital-appoints-padma-shri-dr-b-c-roy-national-awardee-dr-prof-a-k-bhalla-chairman-board-of-management-sir-ganga-ram-hospital/amp/?utm=relatedarticles" target="_blank">希拉甘格拉姆医院任命帕德玛·什里奖及布里吉·钱德拉·罗伊国家奖得主A. K. 巴拉教授为管理委员会主席</a></h4>
+                <div class="news-summary">希拉甘格拉姆医院任命A. K. 巴拉教授为管理委员会主席。巴拉教授是帕德玛·什里奖和布里吉·钱德拉·罗伊国家奖得主。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Sir Ganga Ram Hospital Appoints Padma Shri &amp; Dr. B. C. Roy National Awardee Dr. (Prof.) A. K. Bhalla, Chairman</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">12小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/money/mediaoutreach/2026/11/19/columbia-asia-hospital-tebrau-and-columbia-asia-hospital-iskandar-puteri-jointly-achieve-malaysia-book-of-records-recognition-for-their-mega-parenthood-workshop-2026/502133" target="_blank">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院联合获马来西亚纪录大全认证</a></h4>
+                <div class="news-summary">哥伦比亚亚洲士乃医院与哥伦比亚亚洲依斯干达公主城医院共同举办2026巨型亲子工作坊，获马来西亚纪录大全认证。此举提升了两家医院在母婴健康教育领域的行业影响力。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Columbia Asia Hospital Tebrau and Columbia Asia Hospital Iskandar Puteri jointly achieve Malaysia Book of Reco</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">14小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://english.dhanamonline.com/news/companies/aster-bets-4000-crore-on-india-expansion-500-crore-hyderabad-hospital-to-open-in-march-9004149" target="_blank">Aster公司投资4000亿卢比拓展印度业务，海得拉巴医院3月开业</a></h4>
+                <div class="news-summary">Aster公司计划投资4000亿卢比扩大印度业务，其中50亿卢比建设的海得拉巴医院将于3月开业，强化其在印度的医疗网络布局。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Aster bets ₹4,000 crore on India expansion, ₹500-crore Hyderabad hospital to open in March</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">资本运作</span>
+                    <span class="date-tag">15小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://panow.com/2026/11/19/rawlinson-family-commits-6-million-to-prince-alberts-victoria-hospital/" target="_blank">罗林森家族向王子阿尔伯特市维多利亚医院捐赠600万美元</a></h4>
+                <div class="news-summary">罗林森家族向加拿大王子阿尔伯特市的维多利亚医院捐赠600万美元，用于支持该医院的医疗设施升级与服务拓展。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">Rawlinson family commits $6 million to Prince Albert’s Victoria Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">16小时前</span>
+                </div>
+                <h4 class="news-title"><a href="https://themalaysianreserve.com/2026/11/19/professor-theo-kofidis-awarded-presidency-of-the-world-society-of-cardiovascular-thoracic-surgeons-for-2028-after-securing-landmark-bid/" target="_blank">西奥·科菲迪斯教授当选2028年世界心血管与胸外科医师学会主席</a></h4>
+                <div class="news-summary">西奥·科菲迪斯教授成功竞标并获任2028年世界心血管与胸外科医师学会主席，标志该学会领导层更迭。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Professor Theo Kofidis Awarded Presidency of the World Society of Cardiovascular &amp; Thoracic Surgeons for 2028 </span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">公共卫生</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.zaobao.com.sg/en/news/singapore/oral-health-screening-be-part-antenatal-checks-expectant-mums-kkh-sgh" target="_blank">口腔健康筛查将纳入KKH和SGH孕产妇产前检查</a></h4>
+                <div class="news-summary">新加坡KKH和SGH两家医院将把口腔健康筛查纳入孕产妇产前检查常规项目，以提升孕期口腔健康管理。</div>
+                <div class="news-meta"><span class="date-tag">公共卫生</span><span class="date-tag">Oral health screening to be part of antenatal checks for expectant mums at KKH, SGH</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://economictimes.indiatimes.com/industry/healthcare/biotech/healthcare/bajaj-group-launches-ambitious-healthcare-venture-with-rs-2500-crore-investment-in-pune-hospital/articleshow/135992570.cms" target="_blank">巴贾吉集团押注医疗健康，计划在浦那建设500张床位医院</a></h4>
+                <div class="news-summary">巴贾吉集团计划在浦那建设一家500张床位的医院，此举标志着其正式进军医疗健康领域。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Bajaj Group bets on healthcare, plans 500-bed Pune hospital: Report</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">财务业绩</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.financialexpress.com/market/max-healthcare-to-manipal-jefferies-hospital-stock-bets-after-healthy-q2-4387768/" target="_blank">Max Healthcare 向 Manipal 转让：杰富瑞看好医院股，Q2业绩稳健</a></h4>
+                <div class="news-summary">杰富瑞基于Max Healthcare稳健的2024财年第二季度业绩，上调其股票评级，并预计其将向Manipal Health Enterprises转让部分资产。此举可能强化双方在印度私立医院市场的战略布局。</div>
+                <div class="news-meta"><span class="date-tag">财务业绩</span><span class="date-tag">Max Healthcare to Manipal: Jefferies hospital stock bets after healthy Q2</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">行业新闻</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.straitstimes.com/singapore/health/new-name-for-imh-is-the-first-step-towards-fighting-mental-health-stigma" target="_blank">IMH更名是消除精神健康污名化的第一步</a></h4>
+                <div class="news-summary">新加坡心理卫生学院（IMH）启用新名称，此举旨在减少公众对精神健康问题的偏见与歧视。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">New name for IMH is the first step towards fighting mental health stigma</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.businesstoday.com.my/2026/11/18/kjts-expands-into-thai-healthcare-with-20-year-cooling-deal-worth-thb22-7-million-investment/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=kjts-expands-into-thai-healthcare-with-20-year-cooling-deal-worth-thb22-7-million-investment" target="_blank">KJTS进军泰国医疗市场，签署20年制冷服务协议，投资2270万泰铢</a></h4>
+                <div class="news-summary">KJTS与泰国医疗机构达成20年冷却服务协议，投资2270万泰铢。此举标志着KJTS正式进入泰国医疗基础设施服务市场。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">KJTS Expands Into Thai Healthcare With 20-Year Cooling Deal Worth THB22.7 Million Investment</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">合作/合资</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://theggnews.com/en-us/articles/28500" target="_blank">恩平圣母医院举办脊柱内镜技术交流会</a></h4>
+                <div class="news-summary">恩平圣母医院与日本、新加坡及台湾医生开展脊柱内镜技术交流，促进区域微创脊柱外科经验共享。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Eunpyeong St. Mary&#x27;s Hospital Hosts Spine Endoscopy Exchange with Doctors from Japan, Singapore and Taiwan</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">行业新闻</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://uk.news.yahoo.com/burned-shell-inside-southampton-general-033000164.html" target="_blank">烧成空壳”：南安普顿综合医院火灾九个月后内幕</a></h4>
+                <div class="news-summary">南安普顿综合医院九个月前遭遇火灾，院区严重损毁，医疗服务持续受限。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">‘Burned to a shell’: Inside Southampton General Hospital nine months after fire</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">合作/合资</span>
+                    <span class="date-tag">昨天</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.nst.com.my/business/corporate/2026/11/1580203/ampang-puteri-hospital-bank-riau-kepri-syariah-forge-partnership?source=widget" target="_blank">安邦公主医院与Bank Riau Kepri Syariah建立合作关系</a></h4>
+                <div class="news-summary">安邦公主医院与Bank Riau Kepri Syariah签署合作协议，旨在提升医疗金融服务可及性。</div>
+                <div class="news-meta"><span class="date-tag">合作/合资</span><span class="date-tag">Ampang Puteri Hospital, Bank Riau Kepri Syariah forge partnership</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">技术/创新</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.biospectrumasia.com/opinion/27/28694/rethinking-stress-urinary-incontinence-treatment-through-patient-centred-device-research.html" target="_blank">通过以患者为中心的器械研究重新思考压力性尿失禁治疗</a></h4>
+                <div class="news-summary">新加坡A*STAR的Maxine Lam博士团队结合患者洞察、MRI及解剖建模，推进压力性尿失禁早期器械研发。该方法有望提升治疗适配性与临床效果。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Rethinking stress urinary incontinence treatment through patient-centred device research</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://medicalbuyer.co.in/kims-hospitals-names-gururagavendran-b-as-coo/" target="_blank">KIMS医院任命古鲁拉加文德兰·B为首席运营官</a></h4>
+                <div class="news-summary">KIMS医院任命古鲁拉加文德兰·B为首席运营官，负责统筹运营管理。此举旨在强化医院日常运营效率与服务质量。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">KIMS Hospitals names Gururagavendran B as COO</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策法规</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://opengovasia.com/singapore-outlines-healthcare-ai-and-digital-inclusion-strategy/" target="_blank">新加坡公布医疗人工智能与数字包容战略</a></h4>
+                <div class="news-summary">新加坡提出多维度策略，通过循证政策和负责任的人工智能强化医疗服务。该战略旨在提升医疗可及性与质量。</div>
+                <div class="news-meta"><span class="date-tag">政策法规</span><span class="date-tag">Singapore Outlines Healthcare AI and Digital Inclusion Strategy</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策法规</span>
+                    <span class="date-tag">2天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.malaymail.com/amp/news/malaysia/2026/11/17/appeals-court-upholds-dismissal-of-medical-negligence-suit-against-penang-general-hospital/243537" target="_blank">上诉法院维持驳回针对槟城中央医院的医疗过失诉讼</a></h4>
+                <div class="news-summary">马来西亚上诉法院驳回一名宗教教师就医疗过失起诉马来西亚政府的上诉，维持原审驳回决定。</div>
+                <div class="news-meta"><span class="date-tag">政策法规</span><span class="date-tag">Appeals Court upholds dismissal of medical negligence suit against Penang General Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.expresshealthcare.in/amp/news/torrent-hospitals-appoints-saurabh-gupta-as-ceo-west/455858/" target="_blank">Torrent 医院任命苏拉布·古普塔为西区首席执行官</a></h4>
+                <div class="news-summary">Torrent 医院任命苏拉布·古普塔为西区首席执行官，负责领导 Torrent 集团西区业务的发展与增长。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Torrent Hospitals appoints Saurabh Gupta as CEO – West</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">技术/创新</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.sarawaktribune.com/md2030-ai-assisted-healthcare-could-generate-up-to-rm20-mln-in-savings-through-early-eye-screening/" target="_blank">MD2030：AI辅助医疗可通过早期眼病筛查节省高达2000万林吉特</a></h4>
+                <div class="news-summary">马来西亚利用人工智能开展糖尿病眼病筛查，可节省1000万至2000万林吉特医疗支出。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">MD2030: AI-assisted healthcare could generate up to RM20 mln in savings through early eye screening</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.healthcareexecutive.in/blog/global-nursing-award-2027" target="_blank">Aster Guardians全球护理奖2027年第六届提名启动，奖金25万美元</a></h4>
+                <div class="news-summary">全球护士可于2026年12月31日前以首选语言提交申请；一名获奖护士将获得奖杯及25万美元奖金。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">Nominations open for sixth edition of Aster Guardians Global Nursing Award 2027 worth USD 250,000 prize</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">行业新闻</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.thedailystar.net/news/crime-justice/news/seven-alleged-brokers-arrested-brahmanbaria-general-hospital-4321946" target="_blank">七名涉嫌中介在布拉曼巴里亚综合医院被捕</a></h4>
+                <div class="news-summary">特别反应营（SRB）逮捕七名涉嫌将患者诱骗至私立医疗机构的中介，事件发生于布拉曼巴里亚综合医院。此举旨在遏制患者被非法转介行为。</div>
+                <div class="news-meta"><span class="date-tag">行业新闻</span><span class="date-tag">Seven alleged brokers arrested at Brahmanbaria General Hospital</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">公共卫生</span>
+                    <span class="date-tag">3天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.chiangraitimes.com/health/thailands-dengue-cases-rise/" target="_blank">泰国登革热病例与死亡人数引发防控关注</a></h4>
+                <div class="news-summary">泰国疾病控制厅截至11月7日报告全国登革热感染34875例、死亡47例，已启动紧急防控措施。</div>
+                <div class="news-meta"><span class="date-tag">公共卫生</span><span class="date-tag">Thailand’s Dengue Cases and Deaths Put Prevention in Focus</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">公共卫生</span>
+                    <span class="date-tag">4天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://sg.news.yahoo.com/africa-cdc-says-ebola-outbreak-161450385.html" target="_blank">非洲疾控中心称刚果埃博拉疫情爆发六个月后仍失控</a></h4>
+                <div class="news-summary">非洲疾控中心表示，刚果埃博拉疫情爆发六个月后仍未得到控制，疫情形势依然严峻。</div>
+                <div class="news-meta"><span class="date-tag">公共卫生</span><span class="date-tag">Africa CDC says Ebola outbreak still out of control six months since it was declared</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">公共卫生</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://thethaiger.com/news/bangkok/health-ministry-warns-of-rising-pm2-5-in-bangkok-and-central-thailand" target="_blank">泰国卫生部警告曼谷及中部地区PM2.5浓度将上升</a></h4>
+                <div class="news-summary">泰国卫生部警告，自11月起曼谷、周边府及中部地区PM2.5颗粒物浓度可能升高，敦促民众佩戴N95口罩。</div>
+                <div class="news-meta"><span class="date-tag">公共卫生</span><span class="date-tag">Health Ministry warns of rising PM2.5 in Bangkok and central Thailand</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">医疗旅游</span>
+                    <span class="date-tag">5天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://halloriau.com/read-internasional-14622242-2026-11-14-ampang-puteri-specialist-hospital-buka-international-jasmine-ward-ada-fasilitas-khusus-pasien-indonesia.html" target="_blank">安邦公主专科医院启用国际茉莉病房</a></h4>
+                <div class="news-summary">安邦公主专科医院开设专为国际患者服务的国际茉莉病房，其中设有针对印尼患者的专门设施。</div>
+                <div class="news-meta"><span class="date-tag">医疗旅游</span><span class="date-tag">Ampang Puteri Specialist Hospital Buka International Jasmine Ward, Ada Fasilitas Khusus Pasien Indonesia</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">政策法规</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.distilledpost.com/post/singapore-raises-the-stakes-for-healthcare-data-security" target="_blank">新加坡提高医疗数据安全要求</a></h4>
+                <div class="news-summary">新加坡依据《健康信息法》实施更严格的数据安全规则，正改变医疗交易估值方式。</div>
+                <div class="news-meta"><span class="date-tag">政策法规</span><span class="date-tag">Singapore Raises The Stakes For Healthcare Data Security</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">人事变动</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://www.digitalhealthnews.com/saurabh-gupta-appointed-as-chief-executive-officer-west-at-torrent-hospitals" target="_blank">索拉布·古普塔出任Torrent医院西区首席执行官</a></h4>
+                <div class="news-summary">索拉布·古普塔被任命为Torrent医院西区首席执行官，将负责医院运营并推动战略举措及新院建设。</div>
+                <div class="news-meta"><span class="date-tag">人事变动</span><span class="date-tag">Saurabh Gupta Appointed as Chief Executive Officer(West) at Torrent Hospitals</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">资本运作</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://medicalbuyer.co.in/kerala-private-health-sector-booms-as-investors-pump-huge-money/" target="_blank">喀拉拉邦私营医疗行业蓬勃发展，投资者涌入巨额资金</a></h4>
+                <div class="news-summary">喀拉拉邦公立医疗部门持续受挫，而私营医疗部门在大量投资推动下迅速扩张。这加剧了公私医疗资源发展的不平衡。</div>
+                <div class="news-meta"><span class="date-tag">资本运作</span><span class="date-tag">Kerala private health sector booms as investors pump huge money</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">认证/荣誉</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://macaubusiness.com/mackay-and-tri-service-general-hospitals-name-first-winners-of-taiwans-t-medic-medical-innovation-accelerator/" target="_blank">麦凯和三军总医院公布台湾T+ MedIC医疗创新加速器首批获奖者</a></h4>
+                <div class="news-summary">麦凯医院与三军总医院宣布台湾T+ MedIC医疗创新加速器首批获奖项目，包括AI辅助心电图解读和多模态预防技术。</div>
+                <div class="news-meta"><span class="date-tag">认证/荣誉</span><span class="date-tag">MacKay and Tri-Service General Hospitals Name First Winners of Taiwan&#x27;s T+ MedIC Medical Innovation Accelerato</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">技术/创新</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://thebetterindia.com/health-care/sunfox-spandan-portable-ecg-device-rural-india-12804214" target="_blank">Sunfox公司Spandan便携式心电图设备覆盖2万个村庄</a></h4>
+                <div class="news-summary">Sunfox公司推出便携式心电图设备Spandan，使偏远村庄居民无需长途跋涉即可获取心电图检查，提升基层心脏急症响应能力。</div>
+                <div class="news-meta"><span class="date-tag">技术/创新</span><span class="date-tag">Sunfox&#x27;s Spandan: Portable ECG Device Reaches 20,000 Villages</span></div>
+            </div>
+            <div class="news-item">
+                <div class="news-meta">
+                    <span class="entity-tag sea-tag">扩张/新设</span>
+                    <span class="date-tag">6天前</span>
+                </div>
+                <h4 class="news-title"><a href="https://ca.news.yahoo.com/officials-pull-back-curtain-whitehorse-022157620.html" target="_blank">官员公布怀特霍斯综合医院11亿美元扩建计划</a></h4>
+                <div class="news-summary">育空医院公司公布了怀特霍斯综合医院扩建计划，总成本预计达11亿美元，将提升当地医疗服务能力。</div>
+                <div class="news-meta"><span class="date-tag">扩张/新设</span><span class="date-tag">Officials pull back curtain on Whitehorse General Hospitals $1.1B expansion plans</span></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        const statsData = {
+            today: { label: '今日动态', value: '29 条新闻' },
+            last3days: { label: '近3天动态', value: '57 条新闻' },
+            lastweek: { label: '近1周动态', value: '93 条新闻' }
+        };
+        const locationCounts = {
+            today: {"IHH集团": 7, "新加坡": 0, "马来西亚": 8, "泰国": 3, "印尼": 0, "越南": 0, "菲律宾": 0, "印度": 4, "行业动态": 7, "其他": 0},
+            last3days: {"IHH集团": 11, "新加坡": 0, "马来西亚": 9, "泰国": 6, "印尼": 0, "越南": 0, "菲律宾": 0, "印度": 12, "行业动态": 19, "其他": 0},
+            lastweek: {"IHH集团": 14, "新加坡": 0, "马来西亚": 11, "泰国": 8, "印尼": 0, "越南": 0, "菲律宾": 0, "印度": 27, "行业动态": 33, "其他": 0}
+        };
+let currentView = 'list';
+        let currentFilter = null;
+        let currentTab = 'today';
+        
+        // 切换视图
+        function switchView(view, btn) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (view === 'map') {
+                document.getElementById('map-view').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+                document.querySelector('.tabs').style.display = 'none';
+                // 同步地图内的时间选择
+                document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+                document.querySelector('.map-tab[onclick*="' + currentTab + '"]').classList.add('active');
+                updateMapData(currentTab);
+            } else {
+                document.getElementById('map-view').classList.remove('active');
+                document.querySelectorAll('.tab-content').forEach(el => {
+                    el.style.display = el.classList.contains('active') ? 'block' : 'none';
+                });
+                document.querySelector('.tabs').style.display = 'flex';
+            }
+        }
+        
+        // 更新地图数据
+        function updateMapData(tabName) {
+            const counts = locationCounts[tabName];
+            document.querySelectorAll('.region-card').forEach(card => {
+                const location = card.getAttribute('data-location');
+                const count = counts[location] || 0;
+                card.querySelector('.count-num').textContent = count;
+                card.classList.remove('has-news', 'no-news');
+                card.classList.add(count > 0 ? 'has-news' : 'no-news');
+            });
+        }
+        
+        // 地图内时间选择
+        function selectMapTime(tabName, btn) {
+            currentTab = tabName;
+            document.querySelectorAll('.map-tab').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            updateMapData(tabName);
+        }
+        
+        // 按国家筛选
+        function filterByLocation(location) {
+            currentFilter = location;
+            
+            // 切换到列表视图
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            document.querySelector('.view-btn').classList.add('active');
+            document.getElementById('map-view').classList.remove('active');
+            document.querySelector('.tabs').style.display = 'flex';
+            
+            // 同步时间选择到列表视图
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // 激活当前时间对应的标签页
+            const activeTab = document.getElementById('tab-' + currentTab);
+            activeTab.classList.add('active');
+            activeTab.style.display = 'block';
+            document.querySelector('.tab-btn[onclick*="' + currentTab + '"]').classList.add('active');
+            
+            // 更新统计和排行榜
+            document.getElementById('stat-label').textContent = statsData[currentTab].label;
+            document.getElementById('stat-value').textContent = statsData[currentTab].value;
+            const rankingHtml = document.getElementById('ranking-' + currentTab + '-data').innerHTML;
+            document.getElementById('ranking-container').innerHTML = rankingHtml;
+            
+            // 显示国家筛选提示
+            document.getElementById('country-filter').classList.add('active');
+            document.getElementById('filter-name').textContent = location + ' 动态';
+            
+            // 筛选对应国家的新闻
+            document.querySelectorAll('.group-section').forEach(el => {
+                const headerText = el.querySelector('.group-header h2').textContent;
+                if (headerText.includes(location)) {
+                    el.style.display = 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+        
+        // 清除筛选
+        function clearFilter() {
+            currentFilter = null;
+            document.getElementById('country-filter').classList.remove('active');
+            document.querySelectorAll('.group-section').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+        
+        function showTab(tabName, btn) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+            const activeContent = document.getElementById('tab-' + tabName);
+            activeContent.classList.add('active');
+            activeContent.style.display = 'block';
+            btn.classList.add('active');
+            
+            document.getElementById('stat-label').textContent = statsData[tabName].label;
+            document.getElementById('stat-value').textContent = statsData[tabName].value;
+            
+            const rankingHtml = document.getElementById('ranking-' + tabName + '-data').innerHTML;
+            document.getElementById('ranking-container').innerHTML = rankingHtml;
+            
+            if (currentFilter) clearFilter();
+        }
+
+    </script>
+</body>
+</html>
