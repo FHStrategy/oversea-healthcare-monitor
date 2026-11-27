@@ -50,10 +50,22 @@ jobs:
             echo "无数据变更"
           else
             git commit -m "data: $(date -u +%Y-%m-%d) 每日更新"
-            git push
+            for i in 1 2 3; do
+              if git push; then
+                echo "数据推送成功"
+                break
+              else
+                echo "数据推送失败，第 $i 次重试（等待 ${i}0s）..."
+                sleep ${i}0
+              fi
+              if [ $i -eq 3 ]; then
+                echo "⚠️ 数据推送 3 次重试均失败"
+                exit 1
+              fi
+            done
           fi
 
-      # 更新 gh-pages 分支
+      # 更新 gh-pages 分支（带重试，防止 Pages 构建锁导致 force push 被拒）
       - name: 部署到 gh-pages
         if: always()
         run: |
@@ -65,4 +77,15 @@ jobs:
           cp /tmp/index.html .
           git add index.html
           git commit -m "GitHub Pages 更新 $(date -u +%Y-%m-%d)"
-          git push origin gh-pages-new:gh-pages --force
+          for i in 1 2 3 4 5; do
+            if git push origin gh-pages-new:gh-pages --force; then
+              echo "gh-pages 推送成功"
+              break
+            else
+              echo "gh-pages 推送被拒，第 $i 次重试（等待 ${i}0s）..."
+              sleep ${i}0
+            fi
+            if [ $i -eq 5 ]; then
+              echo "⚠️ gh-pages 推送 5 次重试均失败，但流水线数据已提交"
+            fi
+          done
